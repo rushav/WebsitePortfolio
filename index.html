@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rushav Dash — Robotics Engineer, ML Engineer, and Builder. MS Technology Innovation at University of Washington." />
+  <meta name="author" content="Rushav Dash" />
+  <title>Rushav Dash</title>
+
+  <!-- Preconnect for font performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Space Grotesk (display/headings) + IBM Plex Mono (labels/code) + IBM Plex Sans (body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">RD</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about"      class="nav-link">About</a></li>
+        <li><a href="#projects"   class="nav-link">Projects</a></li>
+        <li><a href="#experience"       class="nav-link">Experience</a></li>
+        <li><a href="case-studies.html" class="nav-link">Case Studies</a></li>
+        <li><a href="#contact"          class="nav-link">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <!-- Mobile nav overlay -->
+  <div class="nav-overlay" id="nav-overlay"></div>
+
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section id="hero" class="hero">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-glow"></div>
+
+    <div class="hero-content">
+
+      <div class="hero-eyebrow hero-stagger hero-stagger-1">
+        <span class="eyebrow-dot"></span>
+        <span>Seattle, WA &nbsp;·&nbsp; Open to Summer 2026 Internships</span>
+      </div>
+
+      <!-- Mask-reveal for the name -->
+      <div class="hero-name-mask hero-stagger hero-stagger-2">
+        <h1 class="hero-name">Rushav Dash</h1>
+      </div>
+
+      <div class="hero-role-mask hero-stagger hero-stagger-3">
+        <p class="hero-role">Robotics Engineer &nbsp;·&nbsp; ML Engineer &nbsp;·&nbsp; Builder</p>
+      </div>
+
+      <p class="hero-tagline hero-stagger hero-stagger-4">
+        From fusion reactor components<br>
+        to deployed ROS2 autonomy stacks.
+      </p>
+
+      <div class="hero-actions hero-stagger hero-stagger-5">
+        <a href="#projects" class="btn-primary">See My Work</a>
+        <a href="#contact"  class="btn-ghost">Get In Touch</a>
+      </div>
+
+      <div class="hero-socials hero-stagger hero-stagger-6">
+        <a href="https://github.com/rushav?tab=repositories" target="_blank" rel="noopener noreferrer"
+           class="social-link" aria-label="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://www.linkedin.com/in/rushav-dash/" target="_blank" rel="noopener noreferrer"
+           class="social-link" aria-label="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+        <a href="mailto:rushav@uw.edu" class="social-link" aria-label="Email">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <span>Email</span>
+        </a>
+      </div>
+
+    </div><!-- /hero-content -->
+
+    <div class="hero-scroll-indicator">
+      <span class="scroll-label">Scroll</span>
+      <div class="scroll-line-track"><div class="scroll-line-fill"></div></div>
+    </div>
+
+  </section><!-- /hero -->
+
+
+  <!-- ════════════════════════════════════════
+       ABOUT / SKILLS
+  ════════════════════════════════════════ -->
+  <section id="about" class="about">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="section-label">01 / About</span>
+        <h2 class="section-title">Building at the intersection<br>of robotics and intelligence.</h2>
+      </div>
+
+      <div class="about-grid">
+
+        <!-- Left: Bio -->
+        <div class="about-bio reveal">
+          <p class="bio-lead">
+            MS Technology Innovation (Robotics Focus) at UW — 4.0 GPA, expected March 2027.
+            BS Mechanical Engineering at UW — 3.7 GPA, June 2025.
+          </p>
+          <p>
+            Currently Prototype Lab Assistant &amp; Robotics Lab Developer at <strong>UW GIX Labs</strong>,
+            beta-testing a full ROS2 autonomy curriculum deployed to 70+ students. Research Assistant at the
+            <strong>Integrated Fabrication Lab</strong>, building automated MATLAB/Python pipelines to
+            characterize 3D-printed lithium-ion batteries and cutting optimization time by 30%.
+            Previously R&amp;D Engineering Intern at <strong>Zap Energy</strong>, machining fusion reactor
+            components to ±10-micron tolerances. Undergraduate Researcher at the
+            <strong>Posner Research Group</strong> on biomimetic robotic tactile sensing.
+          </p>
+          <p>
+            My work lives at the edge of physical and software systems — designing precision hardware,
+            writing autonomy stacks, and training ML models, often within the same project.
+          </p>
+
+        </div>
+
+        <!-- Right: Skills -->
+        <div class="about-skills reveal">
+
+          <div class="skill-group">
+            <h4 class="skill-group-label">Robotics &amp; Autonomy</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">ROS2</span>
+              <span class="skill-tag">SLAM</span>
+              <span class="skill-tag">Nav2</span>
+              <span class="skill-tag">AMCL</span>
+              <span class="skill-tag">Cartographer</span>
+              <span class="skill-tag">Sensor Fusion</span>
+              <span class="skill-tag">LiDAR</span>
+              <span class="skill-tag">Depth Cameras</span>
+              <span class="skill-tag">YOLO</span>
+              <span class="skill-tag">OpenCV</span>
+              <span class="skill-tag">Computer Vision</span>
+              <span class="skill-tag">Path Planning</span>
+              <span class="skill-tag">PID Control</span>
+              <span class="skill-tag">Gazebo</span>
+              <span class="skill-tag">tf2</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <h4 class="skill-group-label">ML &amp; AI</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">PyTorch</span>
+              <span class="skill-tag">TensorFlow</span>
+              <span class="skill-tag">CNNs</span>
+              <span class="skill-tag">Transformers</span>
+              <span class="skill-tag">BERT</span>
+              <span class="skill-tag">Sentence-BERT</span>
+              <span class="skill-tag">BART</span>
+              <span class="skill-tag">NLP</span>
+              <span class="skill-tag">Random Forest</span>
+              <span class="skill-tag">Feature Engineering</span>
+              <span class="skill-tag">Signal Processing</span>
+              <span class="skill-tag">FFT</span>
+              <span class="skill-tag">Butterworth Filters</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <h4 class="skill-group-label">Mechanical &amp; Manufacturing</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">SolidWorks</span>
+              <span class="skill-tag">Fusion 360</span>
+              <span class="skill-tag">GD&amp;T</span>
+              <span class="skill-tag">FEA</span>
+              <span class="skill-tag">DFM</span>
+              <span class="skill-tag">Tolerance Analysis</span>
+              <span class="skill-tag">CNC Machining</span>
+              <span class="skill-tag">3D Printing</span>
+              <span class="skill-tag">Laser Cutting</span>
+              <span class="skill-tag">PCB Design</span>
+              <span class="skill-tag">Cleanroom</span>
+              <span class="skill-tag">Silicone Molding</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <h4 class="skill-group-label">Electronics &amp; Systems</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Arduino</span>
+              <span class="skill-tag">Raspberry Pi</span>
+              <span class="skill-tag">DAQ Systems</span>
+              <span class="skill-tag">LabVIEW</span>
+              <span class="skill-tag">Servo/Stepper Motors</span>
+              <span class="skill-tag">Sensor Integration</span>
+              <span class="skill-tag">Signal Conditioning</span>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <h4 class="skill-group-label">Programming</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">C++</span>
+              <span class="skill-tag">MATLAB</span>
+              <span class="skill-tag">Linux</span>
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">FastAPI</span>
+              <span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">NumPy</span>
+              <span class="skill-tag">Pandas</span>
+              <span class="skill-tag">SciPy</span>
+              <span class="skill-tag">scikit-learn</span>
+              <span class="skill-tag">React</span>
+            </div>
+          </div>
+
+        </div><!-- /about-skills -->
+      </div><!-- /about-grid -->
+    </div><!-- /container -->
+  </section><!-- /about -->
+
+
+  <!-- ════════════════════════════════════════
+       PROJECTS
+  ════════════════════════════════════════ -->
+  <section id="projects" class="projects">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="section-label">02 / Projects</span>
+        <h2 class="section-title">Selected Work</h2>
+      </div>
+
+      <!-- Status legend -->
+      <div class="status-legend">
+        <span class="legend-label">Status</span>
+        <span class="legend-item legend-item--green"><span class="legend-dot legend-dot--green"></span>Live Page</span>
+        <span class="legend-item legend-item--white"><span class="legend-dot legend-dot--white"></span>GitHub</span>
+        <span class="legend-item legend-item--amber"><span class="legend-dot legend-dot--amber"></span>In Progress</span>
+        <span class="legend-item legend-item--gray"><span class="legend-dot legend-dot--gray"></span>No Page</span>
+      </div>
+
+      <!-- Layout: [wide] → [pair pair] → [wide] → [trio trio trio] -->
+      <div class="projects-grid">
+
+        <!-- ── 01 VitreaClear (WIDE) ──────────────────────────── -->
+        <article class="project-card card-wide card-featured reveal" style="--card-delay: 0ms">
+          <div class="status-badge status-live"><span class="status-dot"></span>Live Page</div>
+          <a href="projects/vitriaclear/index.html" class="card-inner card-inner-wide">
+            <div class="card-left">
+              <div class="card-top">
+                <span class="card-num">01</span>
+                <div class="card-chips">
+                  <span class="chip chip-accent">Patent Pending</span>
+                  <span class="chip chip-accent">$10K Funded</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">VitreaClear</h3>
+                <p class="card-subtitle">Ultrasound Eye Floater Treatment</p>
+                <div class="card-desc-wrap">
+                  <p class="card-desc">
+                    Ultrasound acoustic repositioning system for non-invasive vitreous floater
+                    treatment. Water-based testing demonstrated particle manipulation at 1 MHz.
+                    Force outputs 0.010g–0.043g at 1.43W–4.04W. Secured $10K seed funding,
+                    filed provisional patent, conducted FDA De Novo pathway research.
+                    Addresses $500M+ market. Led team of 5.
+                  </p>
+                </div>
+              </div>
+              <div class="card-foot">
+                <span class="card-stack">SolidWorks · Piezoelectric · Signal Processing</span>
+                <span class="card-arrow">View Project →</span>
+              </div>
+            </div>
+            <div class="card-right card-visual--vitrea"></div>
+          </a>
+        </article>
+
+        <!-- ── 02 DiagnoSys (PAIR left) ──────────────────────── -->
+        <article class="project-card card-pair reveal" style="--card-delay: 0ms">
+          <div class="status-badge status-live"><span class="status-dot"></span>Live Page</div>
+          <div class="card-inner">
+            <div class="card-top">
+              <span class="card-num">02</span>
+              <div class="card-chips">
+                <span class="chip">Python</span>
+                <span class="chip">PyTorch</span>
+                <span class="chip">BERT</span>
+                <span class="chip">FastAPI</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">DiagnoSys</h3>
+              <p class="card-subtitle">Engineering Problem Discovery Platform</p>
+              <div class="card-desc-wrap">
+                <p class="card-desc">
+                  Transformer-based NLP platform using BERT/Sentence-BERT embeddings for semantic
+                  search and BART for abstractive summarization. ETL pipeline scraping Reddit API,
+                  Stack Exchange dumps, and NTSB databases. FastAPI backend with PostgreSQL + pgvector
+                  indexing 10K+ engineering failure modes. 90%+ retrieval accuracy. Led team of 5.
+                </p>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span class="card-stack">Sentence-BERT · BART · pgvector · React</span>
+              <a href="https://github.com/rushav/DiagnoSys" target="_blank" rel="noopener noreferrer" class="card-link-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── 03 Turtlebot3 (PAIR right) ─────────────────────── -->
+        <article class="project-card card-pair reveal" style="--card-delay: 100ms">
+          <div class="status-badge status-progress"><span class="status-dot"></span>In Progress</div>
+          <a href="projects/turtlebot3/index.html" class="card-inner">
+            <div class="card-top">
+              <span class="card-num">03</span>
+              <div class="card-chips">
+                <span class="chip">ROS2</span>
+                <span class="chip">YOLO</span>
+                <span class="chip">OpenCV</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Turtlebot3 Human Interaction</h3>
+              <p class="card-subtitle">Real-Time Person Detection &amp; Tag Game</p>
+              <div class="card-desc-wrap">
+                <p class="card-desc">
+                  Custom Turtlebot3 application for human-following and interactive tag game using
+                  YOLO-based real-time person detection and tracking. Designed and fabricated custom
+                  shell enclosure with integrated camera mount and ventilation. State machine for tag
+                  game logic, LiDAR-based collision avoidance, RViz simulation for validation.
+                </p>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span class="card-stack">Python · SolidWorks · Fabrication · LiDAR</span>
+              <span class="card-arrow">View Project →</span>
+            </div>
+          </a>
+        </article>
+
+        <!-- ── 04 Fusion Reactor (WIDE) ───────────────────────── -->
+        <article class="project-card card-wide reveal" style="--card-delay: 0ms">
+          <div class="status-badge status-live"><span class="status-dot"></span>Live Page</div>
+          <a href="projects/fusion-reactor/index.html" class="card-inner card-inner-wide">
+            <div class="card-left">
+              <div class="card-top">
+                <span class="card-num">04</span>
+                <div class="card-chips">
+                  <span class="chip chip-accent">Industry</span>
+                  <span class="chip">Zap Energy</span>
+                  <span class="chip">Fusion</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Fusion Reactor Precision Systems</h3>
+                <p class="card-subtitle">Zap Energy · R&amp;D Engineering Intern · Everett, WA</p>
+                <div class="card-desc-wrap">
+                  <p class="card-desc">
+                    Precision fuel injection system for fusion reactor prototypes with ±10-micron
+                    tolerances. SolidWorks CAD with GD&amp;T specs, thermal FEA at 200°C, iterative
+                    design reviews for 5-axis CNC machining optimization. 26 kN force testing rig with
+                    custom DAQ, signal conditioning, K-type thermocouples, and LabVIEW control.
+                    Arduino thermal cycling at ±0.5°C precision at 250°C with PID control and custom
+                    PCB safety interlocks. Python analysis pipelines reduced evaluation time 40%.
+                  </p>
+                </div>
+              </div>
+              <div class="card-foot">
+                <span class="card-stack">SolidWorks · GD&amp;T · FEA · 5-axis CNC · LabVIEW · DAQ · Python · Arduino</span>
+                <span class="card-arrow">View Project →</span>
+              </div>
+            </div>
+            <div class="card-right card-visual--fusion"></div>
+          </a>
+        </article>
+
+        <!-- ── 05 Biomimetic Tactile Finger (TRIO) ────────────── -->
+        <article class="project-card card-trio reveal" style="--card-delay: 0ms">
+          <div class="status-badge status-none"><span class="status-dot"></span>No Page</div>
+          <div class="card-inner">
+            <div class="card-top">
+              <span class="card-num">05</span>
+              <div class="card-chips">
+                <span class="chip">Research</span>
+                <span class="chip">Posner Lab</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Biomimetic Tactile Finger</h3>
+              <p class="card-subtitle">Posner Research Group · UW</p>
+              <div class="card-desc-wrap">
+                <p class="card-desc">
+                  Biomimetic artificial finger with integrated strain gauge arrays for robotic tactile
+                  sensing. Multi-layer Dragon Skin silicone molding with 6-micron layer precision,
+                  cleanroom casting procedures. 2-micron mechanical repeatability, 0.1N force
+                  resolution. Signal processing for strain-to-force conversion with temperature
+                  compensation and multi-point calibration.
+                </p>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span class="card-stack">Dragon Skin · Strain Gauges · SolidWorks · MATLAB</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── 06 Synthetic Sleep Dataset (TRIO) ──────────────── -->
+        <article class="project-card card-trio reveal" style="--card-delay: 100ms">
+          <div class="status-badge status-github"><span class="status-dot"></span>GitHub</div>
+          <div class="card-inner">
+            <div class="card-top">
+              <span class="card-num">06</span>
+              <div class="card-chips">
+                <span class="chip">Python</span>
+                <span class="chip">Signal Processing</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Synthetic Sleep Dataset</h3>
+              <p class="card-subtitle">5,000-Session Validated Generator</p>
+              <div class="card-desc-wrap">
+                <p class="card-desc">
+                  Realistic 5,000-session dataset (17MB) linking environmental sensors to sleep
+                  quality outcomes. FFT-based feature extraction from 96-point time-series at
+                  5-minute intervals, 4th-order Butterworth filtering, Poisson-process disturbance
+                  modeling, AR(1) autocorrelation. 29+ features per session. Random Forest at 71%
+                  validation pass rate.
+                </p>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span class="card-stack">NumPy · Pandas · scikit-learn · SciPy</span>
+              <a href="https://github.com/rushav/Synthetic-Sleep-Dataset" target="_blank" rel="noopener noreferrer" class="card-link-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── 07 Portable Video Game (TRIO) ──────────────────── -->
+        <article class="project-card card-trio reveal" style="--card-delay: 200ms">
+          <div class="status-badge status-live"><span class="status-dot"></span>Live Page</div>
+          <a href="projects/portable-video-game/index.html" class="card-inner">
+            <div class="card-top">
+              <span class="card-num">07</span>
+              <div class="card-chips">
+                <span class="chip">ESP32-C3</span>
+                <span class="chip">CircuitPython</span>
+                <span class="chip">Hardware</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Mini Desktop Arcade Game</h3>
+              <p class="card-subtitle">ESP32-C3 Space Shooter — Custom Enclosure</p>
+              <div class="card-desc-wrap">
+                <p class="card-desc">
+                  Vertical scrolling space shooter for the ESP32-C3 with 128x64 OLED display,
+                  accelerometer tap controls, and rotary encoder navigation. Custom desktop PC
+                  enclosure with OLED as monitor and keyboard-inspired button layout. Persistent
+                  high score storage, three difficulty levels, and progressive level system.
+                </p>
+              </div>
+            </div>
+            <div class="card-foot">
+              <span class="card-stack">ESP32-C3 · CircuitPython · MPU-6050 · OLED</span>
+              <a href="https://github.com/rushav/Mini-Desktop-Arcade-Game" target="_blank" rel="noopener noreferrer" class="card-link-btn" onclick="event.stopPropagation()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                GitHub
+              </a>
+            </div>
+          </a>
+        </article>
+
+      </div><!-- /projects-grid -->
+    </div><!-- /container -->
+  </section><!-- /projects -->
+
+
+  <!-- ════════════════════════════════════════
+       EXPERIENCE / EDUCATION TIMELINE
+  ════════════════════════════════════════ -->
+  <section id="experience" class="experience">
+    <div class="container">
+
+      <div class="section-header reveal">
+        <span class="section-label">03 / Experience</span>
+        <h2 class="section-title">Background</h2>
+      </div>
+
+      <div class="timeline" id="timeline">
+
+        <!-- Center track -->
+        <div class="tl-track">
+          <div class="tl-track-fill" id="tl-fill"></div>
+        </div>
+
+        <!-- Order: most recent end date first. Education → LEFT. Work/Research → RIGHT.
+             Present positions at top, sorted by start date descending. -->
+
+        <!-- ── 1. GIX Labs (Dec 2025–Present) ──── RIGHT / Current -->
+        <div class="tl-item reveal" data-side="right">
+          <div class="tl-dot tl-dot--accent"></div>
+          <div class="tl-card tl-card--accent">
+            <div class="tl-meta">
+              <span class="tl-date">Dec 2025 – Present</span>
+              <span class="tl-badge tl-badge--current">Current</span>
+            </div>
+            <h3 class="tl-title">Prototype Lab Assistant &amp; Robotics Lab Developer</h3>
+            <div class="tl-org">UW GIX Labs</div>
+            <div class="tl-location">Seattle, WA</div>
+            <p class="tl-body">
+              Beta-tested full ROS2 autonomy curriculum (SLAM, Nav2, YOLO, sensor fusion,
+              waypoint navigation) before deployment to 70+ students. Debugged tf2 transformations,
+              tuned PID controllers, optimized costmaps. 3D printing and PCB workflows.
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 2. MS Degree (Sep 2024–Present) ─── LEFT / Current -->
+        <div class="tl-item reveal" data-side="left">
+          <div class="tl-dot tl-dot--accent"></div>
+          <div class="tl-card tl-card--accent">
+            <div class="tl-meta">
+              <span class="tl-date">Sep 2024 – Present</span>
+              <span class="tl-badge tl-badge--edu">Education</span>
+            </div>
+            <h3 class="tl-title">MS · Technology Innovation (Robotics Focus)</h3>
+            <div class="tl-org">University of Washington</div>
+            <div class="tl-location">Seattle, WA</div>
+            <p class="tl-body">
+              <strong>GPA: 4.0</strong> · Expected Mar 2027 · Autonomous Robotics Studio,
+              Computer Vision, Signal Processing, Machine Learning, Sensors &amp; Circuits,
+              Strategic Communications, Building Effective Teams
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 3. Integrated Fabrication Lab (Feb 2023–Jun 2025) ── RIGHT -->
+        <div class="tl-item reveal" data-side="right">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-meta">
+              <span class="tl-date">Feb 2023 – Jun 2025</span>
+              <span class="tl-badge tl-badge--research">Research</span>
+            </div>
+            <h3 class="tl-title">Research Assistant</h3>
+            <div class="tl-org">Integrated Fabrication Laboratory · University of Washington</div>
+            <div class="tl-location">Seattle, WA · Part-time</div>
+            <p class="tl-body">
+              Built automated MATLAB/Python pipeline to characterize 3D-printed lithium-ion
+              batteries, reducing print condition optimization time by 30%. Applied statistical
+              modeling and data visualization to identify performance trends across novel electrode
+              materials. Presented battery printing research at the Mary Gates Symposium to 100+
+              faculty and students.
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 4. BS Degree (Sep 2021–Jun 2025) ──── LEFT -->
+        <div class="tl-item reveal" data-side="left">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-meta">
+              <span class="tl-date">Sep 2021 – Jun 2025</span>
+              <span class="tl-badge tl-badge--edu">Education</span>
+            </div>
+            <h3 class="tl-title">BS · Mechanical Engineering</h3>
+            <div class="tl-org">University of Washington</div>
+            <div class="tl-location">Seattle, WA</div>
+            <p class="tl-body">
+              <strong>GPA: 3.7</strong> · Fabrication &amp; Prototyping, Sensors &amp; Circuits,
+              Signal Processing, Design Thinking
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 5. Zap Energy 2nd term (Jun 2024–Sep 2024) ── RIGHT -->
+        <div class="tl-item reveal" data-side="right">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-meta">
+              <span class="tl-date">Jun 2024 – Sep 2024</span>
+              <span class="tl-badge tl-badge--work">Industry</span>
+            </div>
+            <h3 class="tl-title">R&amp;D Engineering Intern</h3>
+            <div class="tl-org">Zap Energy</div>
+            <div class="tl-location">Everett, WA</div>
+            <p class="tl-body">
+              26 kN force testing rig with custom DAQ + LabVIEW. Arduino thermal cycling at
+              ±0.5°C precision at 250°C. Python pipelines reducing evaluation time 40%.
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 6. Posner Research Group (Apr 2024–Aug 2024) ── RIGHT -->
+        <div class="tl-item reveal" data-side="right">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-meta">
+              <span class="tl-date">Apr 2024 – Aug 2024</span>
+              <span class="tl-badge tl-badge--research">Research</span>
+            </div>
+            <h3 class="tl-title">Research Assistant</h3>
+            <div class="tl-org">Posner Research Group · University of Washington</div>
+            <div class="tl-location">Seattle, WA</div>
+            <p class="tl-body">
+              Biomimetic artificial finger for robotic tactile sensing. Dragon Skin silicone molding,
+              2-micron mechanical repeatability, 0.1N force resolution.
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 7. Zap Energy 1st term (Jun 2023–Sep 2023) ── RIGHT -->
+        <div class="tl-item reveal" data-side="right">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div class="tl-meta">
+              <span class="tl-date">Jun 2023 – Sep 2023</span>
+              <span class="tl-badge tl-badge--work">Industry</span>
+            </div>
+            <h3 class="tl-title">R&amp;D Engineering Intern</h3>
+            <div class="tl-org">Zap Energy</div>
+            <div class="tl-location">Everett, WA</div>
+            <p class="tl-body">
+              Precision fuel injection system for fusion reactor prototypes. ±10-micron tolerances,
+              SolidWorks + GD&amp;T, thermal FEA, 5-axis CNC machining coordination.
+            </p>
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+    </div><!-- /container -->
+  </section><!-- /experience -->
+
+
+  <!-- ════════════════════════════════════════
+       CONTACT
+  ════════════════════════════════════════ -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="contact-inner reveal">
+
+        <span class="section-label">04 / Contact</span>
+
+        <h2 class="contact-heading">Let's Build<br>Something</h2>
+
+        <p class="contact-sub">
+          Open to Summer 2026 internships in Robotics, ML Engineering,
+          Mechatronics, and Product Management.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:rushav@uw.edu" class="contact-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            rushav@uw.edu
+          </a>
+          <a href="https://www.linkedin.com/in/rushav-dash/" target="_blank" rel="noopener noreferrer" class="contact-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/rushav?tab=repositories" target="_blank" rel="noopener noreferrer" class="contact-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+
+        <div class="contact-meta">
+          <span>(425) 236-5706</span>
+          <span class="dot-sep">·</span>
+          <span>Seattle, WA</span>
+        </div>
+
+      </div>
+    </div>
+  </section><!-- /contact -->
+
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <span>© 2025 Rushav Dash</span>
+      <span>Designed &amp; built with craft</span>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VitreaClear — Ultrasound acoustic repositioning system for non-invasive vitreous floater treatment. Patent pending. $10K funded." />
+  <title>VitreaClear · Rushav Dash</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+
+  <style>
+    /* ── Page-specific overrides ── */
+    .proj-hero {
+      padding: 9rem 0 5rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .proj-hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .proj-hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .proj-hero-title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      line-height: 1.05;
+    }
+    .proj-hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--text-2);
+      max-width: 680px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .proj-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .proj-chip {
+      padding: 0.3rem 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--text-2);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-2);
+      border-radius: 4px;
+    }
+    .proj-chip-accent {
+      color: var(--accent);
+      border-color: rgba(0,212,255,0.3);
+      background: var(--accent-dim);
+    }
+
+    /* ── Content layout ── */
+    .proj-content {
+      padding: 5rem 0 6rem;
+    }
+    .proj-section {
+      margin-bottom: 5rem;
+    }
+    .proj-section-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .proj-section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .proj-body {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-2);
+      max-width: 800px;
+    }
+    .proj-body p + p {
+      margin-top: 1rem;
+    }
+    .proj-body strong {
+      color: var(--text-1);
+      font-weight: 600;
+    }
+    .proj-body ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      margin-top: 0.75rem;
+    }
+    .proj-body ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Stat grid ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    /* ── Two-column layout for technical content ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+    .info-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .info-block-title {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-block p {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--text-2);
+    }
+    .info-block ul {
+      list-style: none;
+      padding: 0;
+    }
+    .info-block ul li {
+      font-size: 0.875rem;
+      color: var(--text-2);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .info-block ul li:last-child { border-bottom: none; }
+    .info-block ul li::before {
+      content: '—';
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* ── Image gallery ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .gallery-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s var(--ease-out), opacity 0.3s;
+    }
+    .gallery-img:hover {
+      transform: scale(1.03);
+      opacity: 0.9;
+    }
+    .gallery-caption {
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: var(--text-3);
+      line-height: 1.5;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── PDF embed ── */
+    .pdf-embed-wrap {
+      width: 100%;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      background: var(--bg-card);
+    }
+    .pdf-embed-wrap embed {
+      display: block;
+      width: 100%;
+      height: 640px;
+    }
+    .pdf-fallback {
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-2);
+      font-size: 0.9rem;
+    }
+
+    /* ── Download button ── */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(0,212,255,0.4);
+      border-radius: 6px;
+      background: var(--accent-dim);
+      text-decoration: none;
+      transition: background var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-fast);
+    }
+    .btn-download:hover {
+      background: rgba(0,212,255,0.15);
+      border-color: rgba(0,212,255,0.6);
+      box-shadow: 0 0 20px rgba(0,212,255,0.15);
+    }
+
+    /* ── Back button ── */
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--text-2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color var(--dur-fast);
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox.is-open { opacity: 1; }
+    .lb-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+    }
+    .lb-img {
+      position: relative;
+      z-index: 1;
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      transform: scale(0.95);
+      transition: transform 0.3s var(--ease-out);
+    }
+    .lightbox.is-open .lb-img { transform: scale(1); }
+    .lb-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      z-index: 2;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--text-1);
+      font-size: 1.4rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── Business table ── */
+    .biz-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    .biz-table th {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-align: left;
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border-2);
+    }
+    .biz-table td {
+      padding: 0.75rem 1rem;
+      color: var(--text-2);
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .biz-table tr:last-child td { border-bottom: none; }
+    .biz-table strong { color: var(--text-1); }
+
+    /* ── Footer ── */
+    .proj-footer {
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .proj-footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .proj-footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../../index.html#projects" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Back to Portfolio
+      </a>
+      <a href="../../index.html" class="nav-logo">RD</a>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="proj-hero">
+    <div class="container">
+      <div class="proj-hero-eyebrow">VitreaClear · Medical Device · UW Engineering Innovation in Health</div>
+      <h1 class="proj-hero-title">VitreaClear</h1>
+      <p class="proj-hero-tagline">
+        Non-invasive ultrasound acoustic repositioning of vitreous floaters —
+        a patent-pending, $10K-funded alternative to invasive eye surgery.
+      </p>
+      <div class="proj-chips">
+        <span class="proj-chip proj-chip-accent">Patent Pending</span>
+        <span class="proj-chip proj-chip-accent">$10K Funded</span>
+        <span class="proj-chip">Piezoelectric Transducers</span>
+        <span class="proj-chip">Acoustic Tweezers</span>
+        <span class="proj-chip">SolidWorks</span>
+        <span class="proj-chip">Signal Processing</span>
+        <span class="proj-chip">FDA De Novo Pathway</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Main Content ── -->
+  <main class="proj-content">
+    <div class="container">
+
+      <!-- Stats -->
+      <div class="stat-grid reveal">
+        <div class="stat-card">
+          <div class="stat-value">0.043g</div>
+          <div class="stat-label">Peak Acoustic Force</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">1–3 MHz</div>
+          <div class="stat-label">Operating Frequency Range</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$10K</div>
+          <div class="stat-label">Seed Funding Secured</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">60%</div>
+          <div class="stat-label">of 60+ yr olds affected</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$77B</div>
+          <div class="stat-label">Ophthalmology Market (2024)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Team Members</div>
+        </div>
+      </div>
+
+      <!-- Overview -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">01 / Overview</div>
+        <h2 class="proj-section-title">The Problem: Vitreous Floaters</h2>
+        <div class="proj-body">
+          <p>
+            Eye floaters are small shadows or specks that drift across the visual field, caused by clumps of
+            collagen fibers within the vitreous humor — the gel-like substance filling the eye. The phenomenon
+            occurs when collagen fibers detach due to natural gel liquefaction, Posterior Vitreous Detachment
+            (PVD), or trauma, casting shadows on the retina. These disturbances are far more than a minor
+            inconvenience: they affect approximately <strong>60% of individuals over age 60</strong> and are
+            notably more common in patients with myopia.
+          </p>
+          <p>
+            Floaters interfere with essential daily activities including reading, driving, and recognizing faces.
+            A survey of 311 patients found they would accept an <strong>11% chance of death</strong> or a
+            <strong>7% chance of permanent blindness</strong> in exchange for relief — risk thresholds comparable
+            to macular degeneration and diabetic retinopathy. This underscores the severity of the unmet need.
+          </p>
+          <p>
+            The current standard of care is deeply inadequate. <strong>Pars plana vitrectomy (PPV)</strong> is
+            highly effective but carries serious risks: retinal detachment, cataract formation, endophthalmitis,
+            and extended recovery. <strong>YAG laser vitreolysis</strong> is less invasive but inconsistent,
+            with some studies showing only 2.5% of patients seeing significant improvement.
+            <strong>Observation</strong> — the most common recommendation — provides no symptom relief.
+            Pharmacological approaches remain experimental with no proven efficacy.
+          </p>
+          <p>
+            A safe, non-invasive, precisely controllable method to reposition visually disruptive vitreous
+            floaters for myodesopsia patients — without surgery or retinal risk — is urgently needed.
+          </p>
+        </div>
+      </section>
+
+      <!-- Our Approach -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">02 / Approach</div>
+        <h2 class="proj-section-title">Acoustic Repositioning: How VitreaClear Works</h2>
+        <div class="proj-body">
+          <p>
+            VitreaClear uses <strong>ultrasound-based acoustic tweezers</strong> — precisely arranged
+            piezoelectric transducers — to generate controlled acoustic wave fields. These fields create
+            pressure nodes capable of displacing microparticles in a low-impedance medium such as vitreous
+            humor. By steering the pressure nodes, floaters can be repositioned to visually non-disruptive
+            regions of the eye without any incisions or ablation.
+          </p>
+          <p>
+            Three design concepts were evaluated against a Quality Function Deployment (QFD) matrix:
+          </p>
+          <ul>
+            <li><strong>Automated YAG Laser Vitreolysis</strong> — computer vision assisted targeting of existing laser treatment</li>
+            <li><strong>VR Therapy</strong> — games to accelerate brain adaptation to floaters</li>
+            <li><strong>Acoustic Repositioning (selected)</strong> — piezoelectric array generating controlled pressure nodes</li>
+          </ul>
+          <p>
+            Acoustic repositioning scored highest across Critical-to-Customer (CTC) metrics: non-invasiveness,
+            minimal side effects, real-time feedback potential, minimal setup, and patient comfort.
+            Current prototype development follows a medium-escalating approach — beginning with air-based
+            setups, progressing to water-based systems, and targeting cadaver eye validation.
+          </p>
+        </div>
+      </section>
+
+      <!-- Technical Design -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">03 / Technical Design</div>
+        <h2 class="proj-section-title">Transducer Selection, Frequency, &amp; Impedance Characterization</h2>
+
+        <div class="two-col">
+          <div class="info-block">
+            <div class="info-block-title">Transducer &amp; Frequency Selection</div>
+            <ul>
+              <li>Single-element piezoelectric transducers operating at approximately 1 MHz (validated range: 1–3 MHz)</li>
+              <li>Focal length confirmed at approximately 2 cm — matched to vitreous cavity geometry</li>
+              <li>Epoxy matching layers demonstrated optimal energy transmission with minimal reflected power</li>
+              <li>Reflected power target: ≤6% at the matching layer (per CIMU lab standards)</li>
+              <li>Current work transitioning from single-element to phased array configurations</li>
+            </ul>
+          </div>
+          <div class="info-block">
+            <div class="info-block-title">Impedance Characterization (OSL Calibration)</div>
+            <ul>
+              <li>Vector Network Analyzer: AIM 4170D (Array Solutions) at the Center for Industrial and Medical Ultrasound</li>
+              <li>Open-Short-Load (OSL) calibration corrects systematic measurement errors and establishes accurate reference planes</li>
+              <li>BNC terminal wiring with coaxial cable proved superior to taped connectors — reduced reflection, improved signal clarity</li>
+              <li>Four device configurations tested; coaxial configurations showed best energy transfer</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="proj-body">
+          <p>
+            The design adheres to the FDA limit of <strong>50 W/cm² maximum power output</strong> for ultrasound
+            technologies. The non-invasive, precisely targeted nature of acoustic manipulation avoids the thermal
+            and mechanical risks of both surgery and laser treatment, satisfying the core design requirements for
+            minimal side effects.
+          </p>
+          <p>
+            CAD design (SolidWorks) includes the transducer and device assembly, with a future phased array
+            configuration for steering control. The device is designed for minimal patient preparation and
+            straightforward clinical integration.
+          </p>
+        </div>
+      </section>
+
+      <!-- Testing & Results -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">04 / Testing &amp; Results</div>
+        <h2 class="proj-section-title">Water Bath Testing &amp; Force Measurements</h2>
+        <div class="proj-body">
+          <p>
+            Initial prototypes used single-element transducers operating at approximately 1 MHz to demonstrate
+            acoustic particle manipulation in air. Water-based testing — conducted in a 5.5-gallon acrylic tank
+            with degassed, deionized water — more accurately simulates the vitreous environment.
+          </p>
+          <p>
+            Neutrally buoyant fluorescent polyethylene microspheres (425–500 μm diameter, density matched to
+            water) served as floater surrogates. The test bench consisted of the transducer and 3D-printed lens
+            assembly above the tank, with a rubber absorber covering the tank bottom to minimize reflections.
+          </p>
+          <p><strong>Key Results:</strong></p>
+          <ul>
+            <li>Force outputs ranging from <strong>0.010g to 0.043g</strong> at power levels between <strong>1.43W and 4.04W</strong></li>
+            <li>Consistent particle manipulation observed at <strong>3.7W</strong></li>
+            <li>Reflected power remained within the ≤6% target across tested configurations</li>
+            <li>Tests run at 1, 2, and 3 MHz — demonstrating manipulation across the operating range</li>
+            <li>Water temperature maintained at 20–25°C throughout testing</li>
+          </ul>
+          <p>
+            These results validate the core acoustic manipulation concept and provide baseline performance
+            metrics. The success of epoxy matching layers in reducing energy reflection establishes
+            design parameters for testing in more complex viscous media simulating vitreous conditions.
+          </p>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="gallery-grid">
+          <div class="gallery-item reveal">
+            <img class="gallery-img" src="../../assets/images/IMG_1766.JPG" alt="Vector network analyzer setup for transducer impedance characterization" loading="lazy" />
+            <div class="gallery-caption">Vector network analyzer setup for transducer impedance characterization using OSL calibration</div>
+          </div>
+          <div class="gallery-item reveal">
+            <img class="gallery-img" src="../../assets/images/IMG_1770.JPG" alt="Acoustic force measurement results across frequency sweep" loading="lazy" />
+            <div class="gallery-caption">Acoustic force measurement results across frequency sweep</div>
+          </div>
+          <div class="gallery-item reveal">
+            <img class="gallery-img" src="../../assets/images/IMG_1772.JPG" alt="Comparative results between transducer configurations" loading="lazy" />
+            <div class="gallery-caption">Comparative results between transducer configurations</div>
+          </div>
+          <div class="gallery-item reveal">
+            <img class="gallery-img" src="../../assets/images/IMG_1775.JPG" alt="Two piezoelectric transducer prototypes" loading="lazy" />
+            <div class="gallery-caption">Two piezoelectric transducer prototypes — different form factors tested</div>
+          </div>
+          <div class="gallery-item reveal">
+            <img class="gallery-img" src="../../assets/images/IMG_1776.JPG" alt="Oscilloscope measurement of transducer drive signal" loading="lazy" />
+            <div class="gallery-caption">Oscilloscope measurement of transducer drive signal</div>
+          </div>
+          <div class="gallery-item reveal">
+            <img class="gallery-img" src="../../assets/images/IMG_1777.JPG" alt="Water bath test setup with transducer submerged" loading="lazy" />
+            <div class="gallery-caption">Water bath test setup with transducer submerged for acoustic force testing</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Business Case -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">05 / Business Case</div>
+        <h2 class="proj-section-title">FDA Pathway, Market Size &amp; Funding</h2>
+
+        <div class="proj-body">
+          <p>
+            The global ophthalmology market is valued at <strong>$77.10 billion in 2024</strong> and projected
+            to grow at a CAGR of 6.4%, reaching $144.04 billion by 2034. VitreaClear targets a subset
+            of this market — the estimated <strong>60% of individuals over 60</strong> affected by symptomatic
+            floaters, with particular prevalence in myopic patients.
+          </p>
+        </div>
+
+        <table class="biz-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Regulatory Pathway</strong></td>
+              <td>FDA De Novo pathway — for novel, low-to-moderate risk devices without a predicate. Aligns with VitreaClear's non-invasive classification.</td>
+            </tr>
+            <tr>
+              <td><strong>IP Status</strong></td>
+              <td>Provisional patent filed June 2, 2025, under reference 3915-P1409US.PRO.UW: "Manipulation of Eye Floaters Through Utilization of Acoustic Tweezers"</td>
+            </tr>
+            <tr>
+              <td><strong>Funding</strong></td>
+              <td>$10,000 seed funding secured through UW Engineering Innovation in Health program</td>
+            </tr>
+            <tr>
+              <td><strong>University Support</strong></td>
+              <td>Developed under UW advisorship (Mechanical Engineering + Industrial &amp; Systems Engineering); credibility and IP foundation for market entry</td>
+            </tr>
+            <tr>
+              <td><strong>Target Users</strong></td>
+              <td>Ophthalmologists and optometrists treating symptomatic myodesopsia; potential for in-clinic and future home-use devices</td>
+            </tr>
+            <tr>
+              <td><strong>Next Milestones</strong></td>
+              <td>Viscous fluid testing (simulating vitreous), porcine eye validation, phased array prototype, comprehensive safety parameter monitoring</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Research Poster -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">06 / Research Poster</div>
+        <h2 class="proj-section-title">HIC Poster</h2>
+        <div class="pdf-embed-wrap">
+          <embed
+            src="../../HIC%20Poster%20-%20FINAL.pdf"
+            type="application/pdf"
+            width="100%"
+            height="640"
+          />
+          <div class="pdf-fallback">
+            <p>PDF preview not available in your browser.</p>
+            <a href="../../HIC%20Poster%20-%20FINAL.pdf" target="_blank" class="btn-download" style="margin-top:1rem;display:inline-flex;">Open Poster PDF</a>
+          </div>
+        </div>
+        <a href="../../HIC%20Poster%20-%20FINAL.pdf" target="_blank" rel="noopener noreferrer" class="btn-download">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download Research Poster (PDF)
+        </a>
+      </section>
+
+      <!-- Full Report Download -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">07 / Full Report</div>
+        <h2 class="proj-section-title">Spring Final Report</h2>
+        <div class="proj-body">
+          <p>
+            The full 43-page Spring Final Report covers the complete significance analysis, innovation framework,
+            QFD matrix, business model canvas, prototype evaluation, regulatory strategy, IP application,
+            and test procedures.
+          </p>
+        </div>
+        <br />
+        <a href="../../Spring%20Final%20Report.pdf" target="_blank" rel="noopener noreferrer" class="btn-download">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download Spring Final Report (PDF)
+        </a>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="proj-footer">
+    <div class="container">
+      <div class="proj-footer-inner">
+        <span class="proj-footer-copy">© 2025 Rushav Dash</span>
+        <a href="../../index.html#projects" class="nav-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Back to Portfolio
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/projects.js"></script>
+</body>
+</html>

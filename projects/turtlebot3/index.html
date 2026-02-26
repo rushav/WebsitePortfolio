@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Turtlebot3 Human Interaction — Custom ROS2 app with YOLO person detection, human-following, and interactive tag game. In Progress." />
+  <title>Turtlebot3 Human Interaction · Rushav Dash</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../../css/style.css" />
+
+  <style>
+    /* ── In-Progress Banner ── */
+    .in-progress-banner {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.06) 100%);
+      border-bottom: 2px solid rgba(245,158,11,0.5);
+      padding: 1.1rem 0;
+    }
+    .in-progress-banner .container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .in-progress-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #F59E0B;
+      box-shadow: 0 0 12px rgba(245,158,11,0.6);
+      flex-shrink: 0;
+      animation: amber-pulse 2s ease-in-out infinite;
+    }
+    @keyframes amber-pulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(245,158,11,0.5); }
+      50%       { box-shadow: 0 0 20px rgba(245,158,11,0.8), 0 0 40px rgba(245,158,11,0.3); }
+    }
+    .in-progress-text {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #F59E0B;
+      font-weight: 500;
+    }
+    .in-progress-sub {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: rgba(245,158,11,0.6);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Page hero ── */
+    .proj-hero {
+      padding: 7rem 0 5rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .proj-hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .proj-hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .proj-hero-title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      line-height: 1.05;
+    }
+    .proj-hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--text-2);
+      max-width: 680px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .proj-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .proj-chip {
+      padding: 0.3rem 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--text-2);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-2);
+      border-radius: 4px;
+    }
+    .proj-chip-amber {
+      color: #F59E0B;
+      border-color: rgba(245,158,11,0.4);
+      background: rgba(245,158,11,0.08);
+    }
+
+    /* ── Content ── */
+    .proj-content {
+      padding: 5rem 0 6rem;
+    }
+    .proj-section {
+      margin-bottom: 5rem;
+    }
+    .proj-section-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .proj-section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .proj-body {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-2);
+      max-width: 800px;
+    }
+    .proj-body p + p {
+      margin-top: 1rem;
+    }
+    .proj-body strong {
+      color: var(--text-1);
+      font-weight: 600;
+    }
+    .proj-body ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      margin-top: 0.75rem;
+    }
+    .proj-body ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Feature grid ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color var(--dur-fast);
+    }
+    .feature-card:hover {
+      border-color: rgba(0,212,255,0.2);
+    }
+    .feature-icon {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: 0.5rem;
+    }
+    .feature-desc {
+      font-size: 0.85rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    /* ── Coming soon block ── */
+    .coming-soon-block {
+      background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, var(--bg-card) 60%);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-top: 1.5rem;
+    }
+    .coming-soon-block h4 {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #F59E0B;
+      margin-bottom: 1rem;
+    }
+    .coming-soon-list {
+      list-style: none;
+      padding: 0;
+    }
+    .coming-soon-list li {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+    .coming-soon-list li:last-child { border-bottom: none; }
+    .coming-soon-list li::before {
+      content: '○';
+      color: rgba(245,158,11,0.5);
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Nav back ── */
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--text-2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color var(--dur-fast);
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    .proj-footer {
+      padding: 2.5rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .proj-footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .proj-footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../../index.html#projects" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Back to Portfolio
+      </a>
+      <a href="../../index.html" class="nav-logo">RD</a>
+    </div>
+  </nav>
+
+  <!-- ── In-Progress Banner ── -->
+  <div class="in-progress-banner">
+    <div class="container">
+      <div class="in-progress-dot"></div>
+      <div>
+        <div class="in-progress-text">IN PROGRESS</div>
+        <div class="in-progress-sub">Active development — last updated Feb 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Hero ── -->
+  <section class="proj-hero">
+    <div class="container">
+      <div class="proj-hero-eyebrow">Turtlebot3 · Robotics · ROS2 · UW GIX Labs</div>
+      <h1 class="proj-hero-title">Turtlebot3 Human Interaction</h1>
+      <p class="proj-hero-tagline">
+        A custom ROS2 application for real-time person detection, autonomous human-following,
+        and an interactive tag game — built on Turtlebot3 with YOLO and a custom fabricated enclosure.
+      </p>
+      <div class="proj-chips">
+        <span class="proj-chip proj-chip-amber">In Progress</span>
+        <span class="proj-chip">ROS2</span>
+        <span class="proj-chip">YOLO</span>
+        <span class="proj-chip">OpenCV</span>
+        <span class="proj-chip">Python</span>
+        <span class="proj-chip">LiDAR</span>
+        <span class="proj-chip">SolidWorks</span>
+        <span class="proj-chip">Fabrication</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Main Content ── -->
+  <main class="proj-content">
+    <div class="container">
+
+      <!-- Overview -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">01 / Overview</div>
+        <h2 class="proj-section-title">What It Is</h2>
+        <div class="proj-body">
+          <p>
+            This project extends the Turtlebot3 platform with a custom ROS2 application combining
+            <strong>real-time computer vision, state machine control, and interactive game logic</strong>.
+            The robot can detect and follow a specific person through a crowd using YOLO-based detection,
+            then transition into an interactive <strong>tag game</strong> where the robot attempts to "tag"
+            participants by approaching them.
+          </p>
+          <p>
+            The project is being developed in the context of the UW GIX Labs Autonomous Robotics Studio
+            curriculum. Beyond the software stack, a <strong>custom shell enclosure</strong> was designed
+            in SolidWorks and fabricated — providing integrated mounting for the RGB-D camera, improved
+            cable routing, and ventilation for the onboard compute.
+          </p>
+          <p>
+            The tag game logic uses a finite state machine with four states: idle/waiting, searching for target,
+            following a detected person, and executing a "tag" approach. LiDAR-based collision avoidance
+            runs in parallel to prevent obstacles from interfering with gameplay.
+          </p>
+        </div>
+      </section>
+
+      <!-- What's Been Built -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">02 / What's Been Built</div>
+        <h2 class="proj-section-title">Completed Components</h2>
+
+        <div class="feature-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon">&#9633;</div>
+            <div class="feature-title">YOLO Person Detection</div>
+            <div class="feature-desc">
+              Real-time YOLOv8 person detection pipeline running on onboard compute. Publishes bounding
+              box centroids to ROS2 topics for the control node to consume. Tested on live camera feed
+              with sub-200ms detection latency.
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">&#9644;</div>
+            <div class="feature-title">State Machine Controller</div>
+            <div class="feature-desc">
+              ROS2 node implementing a finite state machine with well-defined transitions:
+              idle → searching → following → tagging. State transitions triggered by detection
+              confidence, distance thresholds, and game events.
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">&#9632;</div>
+            <div class="feature-title">Custom Shell Enclosure</div>
+            <div class="feature-desc">
+              SolidWorks-designed enclosure fabricated via 3D printing. Integrates a camera mount at
+              optimal detection height, ventilation slots for the Raspberry Pi compute, and cable
+              management channels. Mounts directly to the Turtlebot3 base.
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">&#9645;</div>
+            <div class="feature-title">LiDAR Collision Avoidance</div>
+            <div class="feature-desc">
+              360° LiDAR scan processed in real time to maintain a minimum safe distance from obstacles.
+              Runs as a parallel ROS2 node and publishes safety override commands that supersede game
+              state navigation commands when an obstruction is detected.
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">&#9643;</div>
+            <div class="feature-title">RViz Simulation</div>
+            <div class="feature-desc">
+              Full RViz visualization stack for validating the perception and navigation pipeline before
+              physical deployment. Costmap layers, detection overlays, and state indicators visible in
+              real time for debugging and tuning.
+            </div>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">&#9641;</div>
+            <div class="feature-title">Human Following</div>
+            <div class="feature-desc">
+              Proportional controller on detected bounding box horizontal offset and area for smooth
+              human-following behavior. Maintains a target following distance and adjusts heading
+              to keep the person centered in frame.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- What's Coming -->
+      <section class="proj-section reveal">
+        <div class="proj-section-label">03 / What's Coming</div>
+        <h2 class="proj-section-title">Upcoming Work</h2>
+        <div class="proj-body">
+          <p>
+            Development is ongoing. The following areas are planned for the next phases of this project:
+          </p>
+        </div>
+        <div class="coming-soon-block">
+          <h4>Planned Additions</h4>
+          <ul class="coming-soon-list">
+            <li><strong>Sensor Refinement</strong> — Improved depth fusion between LiDAR and RGB-D camera for more robust 3D person localization and distance estimation in cluttered environments</li>
+            <li><strong>Person Re-identification</strong> — Track a specific target across occlusions and crowd scenarios; explore appearance-based re-id to maintain target lock when the person temporarily leaves frame</li>
+            <li><strong>Additional Game Modes</strong> — Expand beyond single-target tag to multiplayer scenarios, freeze-tag variants, and timed challenge modes with scoring</li>
+            <li><strong>Field Testing</strong> — Move from corridor/lab testing to open-area field trials with multiple participants to stress-test detection, following, and collision avoidance under real conditions</li>
+            <li><strong>Sound &amp; LED Feedback</strong> — Integrate onboard buzzer and RGB LED ring to signal game states (searching, following, tagged) for a more engaging user experience</li>
+            <li><strong>Enclosure Revision</strong> — Second-iteration enclosure based on field testing feedback — addressing thermal management, cable routing improvements, and aesthetic refinement</li>
+          </ul>
+        </div>
+      </section>
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="proj-footer">
+    <div class="container">
+      <div class="proj-footer-inner">
+        <span class="proj-footer-copy">© 2025 Rushav Dash</span>
+        <a href="../../index.html#projects" class="nav-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Back to Portfolio
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/projects.js"></script>
+</body>
+</html>
