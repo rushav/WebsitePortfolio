@@ -99,41 +99,41 @@ const PROJECTS = [
     },
     images: [
       {
-        src: '/assets/images/shoehugger/render-front.jpg',
+        src: 'assets/images/shoehugger/render-front.jpg',
         alt: 'ShoeHugger front render with wings deployed',
         caption: 'Front render — wings in Attack position.',
       },
       {
-        src: '/assets/images/shoehugger/render-orthographic.jpg',
+        src: 'assets/images/shoehugger/render-orthographic.jpg',
         alt: 'ShoeHugger orthographic CAD render',
         caption: 'Orthographic CAD.',
       },
       {
-        src: '/assets/images/shoehugger/real-orthographic.jpg',
+        src: 'assets/images/shoehugger/real-orthographic.jpg',
         alt: 'ShoeHugger physical build, orthographic view',
         caption: 'As-built hardware.',
       },
       {
-        src: '/assets/images/shoehugger/inner-structure.jpg',
+        src: 'assets/images/shoehugger/inner-structure.jpg',
         alt: 'ShoeHugger internal CAD showing wing actuation',
         caption: 'Internal structure — third Dynamixel driving the wing linkage.',
         diagram: true,
       },
       {
-        src: '/assets/images/shoehugger/build-02.jpg',
+        src: 'assets/images/shoehugger/build-02.jpg',
         alt: 'ShoeHugger during integration testing',
         caption: 'Integration testing.',
       },
       {
-        src: '/assets/images/shoehugger/build-03.jpg',
+        src: 'assets/images/shoehugger/build-03.jpg',
         alt: 'ShoeHugger tracking a subject during live demo',
       },
       {
-        src: '/assets/images/shoehugger/build-04.jpg',
+        src: 'assets/images/shoehugger/build-04.jpg',
         alt: 'ShoeHugger wing mechanism close-up',
       },
       {
-        src: '/assets/images/shoehugger/build-05.jpg',
+        src: 'assets/images/shoehugger/build-05.jpg',
         alt: 'ShoeHugger multi-robot demo setup',
       },
     ],
@@ -224,7 +224,7 @@ const PROJECTS = [
     links: {},
     images: [
       {
-        src: '/assets/images/vitreaclear/rod-assembly.jpg',
+        src: 'assets/images/vitreaclear/rod-assembly.jpg',
         alt: 'VitreaClear prototype rod assembly during bench testing',
         caption: 'Rod-assembly prototype during June 2025 bench validation.',
       },
@@ -262,22 +262,22 @@ const PROJECTS = [
     },
     images: [
       {
-        src: '/assets/images/mini-desktop/rendered-desktop.png',
+        src: 'assets/images/mini-desktop/rendered-desktop.png',
         alt: 'CAD render of the mini desktop arcade enclosure',
         caption: 'Fusion 360 render — tower, monitor, keyboard deck, base.',
       },
       {
-        src: '/assets/images/mini-desktop/desktop-01.png',
+        src: 'assets/images/mini-desktop/desktop-01.png',
         alt: 'Fabricated mini desktop arcade viewed from the front',
         caption: 'Fabricated enclosure — OLED monitor and keyboard-style input deck.',
       },
       {
-        src: '/assets/images/mini-desktop/desktop-02.jpg',
+        src: 'assets/images/mini-desktop/desktop-02.jpg',
         alt: 'Mini desktop arcade during gameplay',
         caption: 'In play.',
       },
       {
-        src: '/assets/images/mini-desktop/system-diagram.png',
+        src: 'assets/images/mini-desktop/system-diagram.png',
         alt: 'System diagram showing ESP32-C3 wiring to peripherals',
         caption: 'System wiring — ESP32-C3 to OLED, MPU, encoder, buttons, buzzer, NeoPixel.',
         diagram: true,
@@ -316,33 +316,33 @@ const PROJECTS = [
     },
     images: [
       {
-        src: '/assets/images/synthetic-data/example-session.png',
+        src: 'assets/images/synthetic-data/example-session.png',
         alt: 'Example synthetic PSG session showing EEG EOG and EMG channels',
         caption: 'Synthetic PSG session — EEG, EOG, EMG channels over one sleep window.',
         diagram: true,
       },
       {
-        src: '/assets/images/synthetic-data/signals-by-class.png',
+        src: 'assets/images/synthetic-data/signals-by-class.png',
         alt: 'Signal distributions grouped by sleep-stage class',
         caption: 'Channel signatures by sleep stage.',
       },
       {
-        src: '/assets/images/synthetic-data/label-distributions.png',
+        src: 'assets/images/synthetic-data/label-distributions.png',
         alt: 'Sleep stage label distribution across synthetic dataset',
         caption: 'Stage-label distribution across the synthetic corpus.',
       },
       {
-        src: '/assets/images/synthetic-data/ks-test-comparison.png',
+        src: 'assets/images/synthetic-data/ks-test-comparison.png',
         alt: 'KS-test comparison of synthetic vs real signal distributions',
         caption: 'KS-test validation against real PSG distributions.',
       },
       {
-        src: '/assets/images/synthetic-data/confusion-matrix.png',
+        src: 'assets/images/synthetic-data/confusion-matrix.png',
         alt: 'Confusion matrix for sleep-staging classifier augmented with synthetic data',
         caption: 'Classifier confusion matrix post-augmentation.',
       },
       {
-        src: '/assets/images/synthetic-data/model-performance.png',
+        src: 'assets/images/synthetic-data/model-performance.png',
         alt: 'Model performance comparison baseline vs augmented',
         caption: 'F1 lift vs the synthetic-free baseline.',
         diagram: true,
@@ -381,25 +381,25 @@ const PROJECTS = [
     },
     images: [
       {
-        src: '/assets/images/skinsafe/screen-01.png',
+        src: 'assets/images/skinsafe/screen-01.png',
         alt: 'SkinSafe app main screen',
         caption: 'SkinSafe iOS capture view.',
       },
       {
-        src: '/assets/images/skinsafe/screen-02.png',
+        src: 'assets/images/skinsafe/screen-02.png',
         alt: 'SkinSafe classification result screen',
         caption: 'Classification result.',
       },
       {
-        src: '/assets/images/skinsafe/screen-03.png',
+        src: 'assets/images/skinsafe/screen-03.png',
         alt: 'SkinSafe result detail view',
       },
       {
-        src: '/assets/images/skinsafe/screen-04.png',
+        src: 'assets/images/skinsafe/screen-04.png',
         alt: 'SkinSafe secondary classification result',
       },
       {
-        src: '/assets/images/skinsafe/screen-05.png',
+        src: 'assets/images/skinsafe/screen-05.png',
         alt: 'SkinSafe onboarding screen',
       },
     ],

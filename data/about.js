@@ -5,7 +5,7 @@ const ABOUT = {
   github: 'https://github.com/rushav',
   githubLabel: '/rushav',
   edu: 'MSc Technology Innovation, University of Washington',
-  resumeHref: '/assets/resume/Rushav-Dash-Resume.pdf',
+  resumeHref: 'assets/resume/Rushav-Dash-Resume.pdf',
   // Three-paragraph hero body. Each paragraph renders with optional <mark> highlights;
   // marks are wrapped with **...** here so the renderer can split without HTML in data.
   paragraphs: [
