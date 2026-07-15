@@ -3,6 +3,23 @@
 
 const EXPERIENCE = [
   {
+    role: 'Production Tech Intern',
+    org: 'OneCourt',
+    location: 'Seattle, WA',
+    start: 2026.42,
+    end: 2026.5,
+    current: true,
+    kind: 'work',
+    bullets: [
+      'Building battery and charger spec sheets for manufacturing partner Metaline — EV1 prototype battery sourcing.',
+      'Refurbished 8 retired units into a demo fleet; onboarded all devices to the latest software architecture.',
+      'Soldering 128-motor arrays onto D2C builds for initial testing.',
+      'Creating PCB packaging procedures, build schedules, and device validation documentation.',
+      'Setting up a vibration test bench and pursuing ESD safety certification for production devices.',
+      'Flashing and configuring Raspberry Pis for device firmware deployment.',
+    ],
+  },
+  {
     role: 'Prototype Lab Assistant',
     org: 'Global Innovation Exchange, UW',
     location: 'Bellevue, WA',
