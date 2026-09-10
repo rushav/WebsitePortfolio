@@ -60,7 +60,7 @@ export const site = {
   email: 'rushavsd@gmail.com',
   linkedin: 'https://www.linkedin.com/in/rushav-dash/',
   github: 'https://github.com/rushav',
-  resume: 'resume.pdf', // public/resume.pdf — [TODO: replace with the current PDF]
+  resume: 'resume.pdf', // public/resume.pdf
   profileImage: 'images/profile.jpg',
 
   hero: {
