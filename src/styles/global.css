@@ -8,7 +8,7 @@
   --fg: #f4f1ea;
   --body: #c9c4b8;
   --mono: #9a9385;
-  --muted: #7d776c;
+  --muted: #8a8477; /* export: #7D776C — lightened one step to pass 4.5:1 contrast on --bg */
   --accent: #d9a441;
 
   --line: rgba(255, 255, 255, 0.10);
@@ -39,6 +39,25 @@
 }
 
 /* ---------------------------------------------------------------
+   Fonts — self-hosted variable woff2 (latin subset) from Google Fonts.
+   Manrope covers 500–800, JetBrains Mono covers 400–500.
+   --------------------------------------------------------------- */
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500 800;
+  font-display: swap;
+  src: url('/fonts/Manrope.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono.woff2') format('woff2');
+}
+
+/* ---------------------------------------------------------------
    Base
    --------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -47,6 +66,8 @@ html {
   background: var(--bg);
   color: var(--body);
   font-family: var(--font-sans);
+  /* The export loads Manrope 500–800 only, so its "normal" body text renders at 500. Match that. */
+  font-weight: 500;
   font-size: 16px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;

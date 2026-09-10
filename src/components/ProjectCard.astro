@@ -15,12 +15,19 @@ const chips = [
   ['Video', p.links.video],
   ['Report', p.links.report],
 ].filter((c): c is [string, string] => typeof c[1] === 'string');
+
+// Real heroes ship a 640w variant next to the 1280w file (see IMAGES_NEEDED.md).
+const src = withBase(p.image.src);
+const srcset = p.image.placeholder ? undefined : `${src.replace(/\.webp$/, '-640.webp')} 640w, ${src} 1280w`;
+const sizes = p.image.placeholder ? undefined : '(max-width: 720px) calc(100vw - 72px), 376px';
 ---
 
 <article class="card" id={p.slug} data-status={p.status}>
   <div class="media">
     <img
-      src={withBase(p.image.src)}
+      src={src}
+      srcset={srcset}
+      sizes={sizes}
       alt={p.image.alt}
       width="1280"
       height="720"
@@ -181,14 +188,22 @@ const chips = [
   .more[open] .when-open { display: inline; }
   .more[open] .when-closed { display: none; }
 
+  /* Spacing is all padding + a ::before rule (no margins) so nothing collapses
+     through the ::details-content box and gets clipped by overflow: clip. */
   .expanded {
-    border-top: 1px solid var(--line);
     padding-top: 24px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 28px 48px;
     font-size: 15px;
     line-height: 1.6;
+  }
+  .expanded::before {
+    content: '';
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--line);
+    margin-bottom: -4px; /* row gap is 28px; rule-to-content should be 24px */
   }
   .meta {
     grid-column: 1 / -1;
@@ -230,7 +245,6 @@ const chips = [
     height: auto;
     opacity: 1;
   }
-  .more[open] .expanded { margin-top: 24px; }
 
   @media (max-width: 720px) {
     .card {
@@ -255,8 +269,8 @@ const chips = [
       padding-top: 16px;
       font-size: 14px;
     }
+    .expanded::before { margin-bottom: 0; }
     .meta { flex-direction: column; gap: 0; font-size: 12px; line-height: 1.8; }
     .label { font-size: 10px; margin-bottom: 6px; }
-    .more[open] .expanded { margin-top: 12px; }
   }
 </style>

@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { withBase } from '../lib/url';
 
 interface Props {
   title: string;
@@ -23,13 +24,9 @@ const canonical = new URL(import.meta.env.BASE_URL.replace(/\/?$/, '/'), Astro.s
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace('//', '/')} type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-    />
+    <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
+    <link rel="preload" href={withBase('fonts/Manrope.woff2')} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase('fonts/JetBrainsMono.woff2')} as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <slot />
