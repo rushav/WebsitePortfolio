@@ -1,2 +1,9 @@
+# build
+dist/
+.astro/
+node_modules/
+
+# local-only
 _salvage/
 _screenshots/
+.DS_Store
