@@ -1,0 +1,36 @@
+---
+import { site } from '../content/site';
+import { withBase } from '../lib/url';
+---
+
+<p class="lead">
+  {site.contact.lead} — <span class="avail">{site.availability}</span>
+</p>
+<div class="links">
+  <a class="ulink" href={`mailto:${site.email}`}>Email</a>
+  <a class="ulink" href={site.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+  <a class="ulink" href={site.github} rel="me noopener" target="_blank">GitHub</a>
+  <a class="ulink" href={withBase(site.resume)} download="Rushav-Dash-Resume.pdf">Resume</a>
+</div>
+
+<style>
+  .lead {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--fg);
+    margin-bottom: 24px;
+  }
+  .avail { color: var(--mono); }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+  }
+  .links .ulink { font-size: 14px; }
+
+  @media (max-width: 720px) {
+    .lead { font-size: 17px; margin-bottom: 20px; }
+    .links { gap: 14px 20px; }
+    .links .ulink { font-size: 13px; }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Experience from '../components/Experience.astro';
+import Contact from '../components/Contact.astro';
+import { site, projects } from '../content/site';
+---
+
+<Base title={site.title} description={site.metaDescription}>
+  <Nav />
+  <main class="container">
+    <Hero />
+
+    <section id="projects" aria-labelledby="projects-heading">
+      <SectionHead num="01" title="Projects" id="projects-heading" />
+      {projects.map((p, i) => <ProjectCard project={p} open={i === 0} eager={i === 0} />)}
+    </section>
+
+    <section id="experience" aria-labelledby="experience-heading">
+      <SectionHead num="02" title="Experience" id="experience-heading" />
+      <Experience />
+    </section>
+
+    <section id="contact" aria-labelledby="contact-heading">
+      <SectionHead num="03" title="Contact" id="contact-heading" />
+      <Contact />
+    </section>
+
+    <footer class="mono">{site.name} · {site.year}</footer>
+  </main>
+</Base>
+
+<style>
+  main { padding-bottom: 80px; }
+  section + section { margin-top: var(--section-gap); }
+  footer {
+    margin-top: var(--section-gap);
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  @media (max-width: 720px) {
+    main { padding-bottom: 48px; }
+  }
+</style>
