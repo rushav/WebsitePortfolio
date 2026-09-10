@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-label="Project Roost — image placeholder">
+  <rect width="1280" height="720" fill="#161511"/>
+  <rect x="0.5" y="0.5" width="1279" height="719" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+  <g stroke="#ffffff" stroke-opacity="0.06">
+    <line x1="0" y1="360" x2="1280" y2="360"/><line x1="640" y1="0" x2="640" y2="720"/>
+  </g>
+  <text x="640" y="350" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="34" fill="#9a9385">Project Roost</text>
+  <text x="640" y="400" text-anchor="middle" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="18" fill="#7d776c">[ image / video · 16:9 ]</text>
+</svg>
