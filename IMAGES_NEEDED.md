@@ -5,12 +5,12 @@ Paths are relative to `public/`. Change a path in `src/content/site.ts` if you r
 
 | # | Slot | Path | Recommended | Status |
 |---|------|------|-------------|--------|
-| 1 | Hero profile photo (circular, 140 px desktop / 96 px mobile) | `images/profile.jpg` | Square, ≥ 400×400, face centered; JPG or WebP | **Placeholder** — dark disc with "RD" initials |
+| 1 | Hero profile photo (circular, 140 px desktop / 96 px mobile) | `images/profile.jpg` | Square, ≥ 400×400, face centered; JPG or WebP | **Supplied** — 400×400 JPG, face-centered crop of the studio portrait |
 | 2 | Project Roost card hero | `images/projects/roost/placeholder.svg` | 16:9, ≥ 1280×720 WebP (or MP4/WebM if you want video) | **Placeholder** SVG |
 | 3 | Intrinsic AI Challenge card hero | `images/projects/intrinsic/hero.webp` | 16:9, 1280×720 | **Salvaged** — cover-cropped from `port-labeled.png` (wrist-camera view, red crosshair on target port) |
-| 4 | Project Thoth card hero | `images/projects/thoth/placeholder.svg` | 16:9, ≥ 1280×720; a UI screenshot would fit | **Placeholder** SVG — the repo contains no images |
+| 4 | Project Thoth card hero | `images/projects/thoth/hero.webp` | 16:9, 1280×720 | **Supplied** — cover-cropped from the Thoth title card (1690×952) |
 | 5 | Drunky card hero | `images/projects/drunky/hero.webp` | 16:9, 1280×720 | **Salvaged** from `tonyechen/drunky_ros` `dataset/raw/group/group_000.jpg` (overhead RealSense view of the shelf and both arms); original kept as `overhead-shelf.jpg` |
-| 6 | ShoeHugger card hero | `images/projects/shoehugger/hero.webp` | 16:9, 1280×720 | **Salvaged** — cover-cropped from `real-orthographic.jpg` (as-built photo) |
+| 6 | ShoeHugger card hero | `images/projects/shoehugger/hero.webp` | 16:9, 1280×720 | **Supplied** — cover-cropped from the shell render (1440×906, kept as `render-shell.jpg`); the earlier as-built photo is still there as `real-orthographic.jpg` |
 | 7 | VitreaClear card hero | `images/projects/vitreaclear/hero.webp` | 16:9, 1280×720 | **Salvaged but weak** — `rod-assembly.jpg` is a portrait CAD render, so it is letterboxed on white. A 16:9 bench or prototype photo would look much better. |
 | 8 | Favicon | `favicon.svg` | Any square SVG | Generated — amber "RD" on warm black |
 

@@ -59,7 +59,7 @@ export const site = {
   linkedin: 'https://www.linkedin.com/in/rushav-dash/',
   github: 'https://github.com/rushav',
   resume: 'resume.pdf', // public/resume.pdf — [TODO: replace with the current PDF]
-  profileImage: 'images/profile.jpg', // [TODO: replace placeholder with a real photo]
+  profileImage: 'images/profile.jpg',
 
   hero: {
     education: [
@@ -155,9 +155,9 @@ export const projects: Project[] = [
     name: 'Project Thoth',
     status: 'completed',
     image: {
-      src: 'images/projects/thoth/placeholder.svg',
-      alt: 'Project Thoth — image placeholder',
-      placeholder: true, // [TODO: add a 16:9 screenshot of the Thoth UI — the repo has no images]
+      src: 'images/projects/thoth/hero.webp',
+      alt: 'Thoth title card: enterprise AI knowledge platform, with the chat UI answering a T-Mobile 5G network question',
+      placeholder: false,
     },
     // DRAFT — from github.com/rushav/T-Mobile-Thoth README
     description:
@@ -234,7 +234,7 @@ export const projects: Project[] = [
     status: 'completed',
     image: {
       src: 'images/projects/shoehugger/hero.webp',
-      alt: 'ShoeHugger as-built: a white-shelled TurtleBot3 with a front webcam, top LiDAR, and folding wings',
+      alt: 'Render of the ShoeHugger shell: a translucent grey body with amber spine LEDs, a long snout, and folding wings',
       placeholder: false,
     },
     // DRAFT — ported from the old site

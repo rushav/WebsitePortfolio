@@ -6,7 +6,7 @@ Single-page personal portfolio, live at **https://rushav.github.io/WebsitePortfo
 
 - [Astro](https://astro.build) (static output, no client framework)
 - Plain CSS with custom properties for the design tokens (`src/styles/global.css`)
-- Fonts: Manrope + JetBrains Mono via one Google Fonts request
+- Fonts: Manrope + JetBrains Mono, self-hosted from `public/fonts/`
 - Deployed to GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`
 
 ## Run it
