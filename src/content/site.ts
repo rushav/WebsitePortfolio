@@ -4,6 +4,7 @@
  * Conventions
  *  - `[TODO: …]`  → something only Rushav can fill in (metric, link, confirmation).
  *  - `// DRAFT`   → prose written by Claude from repo READMEs / the old site; review before publishing.
+ *  - `// REVIEW`  → a specific, opinionated line drafted from the repo; check it reads as your own view.
  *  - Links set to `null` are not rendered.
  *  - Image paths are relative to `public/` (the `base` prefix is added at build time).
  */
@@ -35,7 +36,8 @@ export interface Project {
   teamRole: string;
   longDescription: string;
   contribution: [string, string, string];
-  differently: string;
+  /** Optional; the block is not rendered when absent. */
+  differently?: string;
 }
 
 export interface ExperienceEntry {
@@ -54,7 +56,7 @@ export const site = {
     'Rushav Dash — robotics engineer (MS Technology Innovation, BS Mechanical Engineering, University of Washington). Projects in autonomy, machine vision, and biomimetic hardware.',
   year: 2026,
   location: 'Seattle, WA', // [TODO: confirm]
-  availability: '[availability]', // [TODO: e.g. "available from June 2027" or "open now"]
+  availability: 'available April 2027',
   email: 'rushavsd@gmail.com',
   linkedin: 'https://www.linkedin.com/in/rushav-dash/',
   github: 'https://github.com/rushav',
@@ -100,16 +102,20 @@ export const projects: Project[] = [
     // DRAFT
     description:
       'Bio-inspired quadcopter that perches autonomously using on-board machine vision.',
-    tags: ['Quadcopter', 'On-board Vision', 'Autonomous Landing', 'Biomimicry', '[TODO: stack]'],
-    result: '[TODO: metric]',
+    tags: ['TBD'],
+    result: 'TBD',
     links: { github: null, cad: null, video: null, report: null }, // [TODO: add links when public]
-    sponsor: '[TODO]',
-    teamRole: '[TODO]',
+    sponsor: 'None (student-led)',
+    teamRole: 'Project lead / captain · Mechanical lead · Motion capture lead',
     // DRAFT — expanded from the one-liner in the brief; nothing here is verified against a repo.
     longDescription:
       'Capstone project: a bio-inspired quadcopter that lands and perches on its own. Instead of relying on an off-board system or a pre-surveyed target, the drone finds and evaluates a landing site with machine vision running on its own compute, then executes the approach and landing autonomously. [TODO: confirm scope — target type, platform, and what "perching" means mechanically.]',
-    contribution: ['[TODO: contribution]', '[TODO: contribution]', '[TODO: contribution]'],
-    differently: '[TODO: 1–2 lines — fill in once the project has progressed]',
+    contribution: [
+      'Pitched the project and got it approved as a student-led capstone.',
+      'Assembled the team.',
+      'Began initial design and research with the team.',
+    ],
+    // No "What I'd do differently" yet — the field is optional and omitted while the project is in progress.
   },
 
   // 2 ─────────────────────────────────────────────────────────────────────
@@ -126,8 +132,8 @@ export const projects: Project[] = [
     description:
       'Solo entry to Intrinsic’s AI for Industry Challenge: teaching a UR5e to insert fiber-optic connectors using only wrist cameras and a force/torque sensor.',
     tags: ['ROS 2', 'PyTorch', 'ResNet-18', 'ACT / LeRobot', 'Docker'],
-    // Numbers from README.md in aic-workspace: ranking 14th; portal 123/300; best local run 160.9/300 with partial insertion.
-    result: '14th place overall · 123/300 on the competition portal · best local run 160.9/300 with two partial insertions',
+    // Scores from the README results table in aic-workspace (best portal score, best local run). Ranking claim removed.
+    result: '123/300 on the competition portal · best local run 160.9/300 with two partial insertions',
     links: {
       github: 'https://github.com/rushav/aic-workspace',
       cad: null,
@@ -144,9 +150,9 @@ export const projects: Project[] = [
       'Wrote 20+ versions of the classical policy on top of the Cartesian impedance controller, including the force-modulated descent (full step below 5 N, half step 5–10 N, halt above 12 N) and the SFP descent-depth fix that removed a 24-point contact penalty per trial.',
       'Built the data-collection recorder, the LeRobot/ACT training track, and a multi-config docker-compose benchmark that exposed detector overfitting; shipped 46+ Docker images to the competition portal under the sensor whitelist.',
     ],
-    // DRAFT — condensed from the README "What I Would Do Differently" section
+    // REVIEW — condensed from the README "What I Would Do Differently" section
     differently:
-      'Build the multi-config benchmark on day one instead of tuning against a single sample config, and use the wrist camera for closed-loop visual servoing during the approach rather than a single snapshot from survey height.',
+      'Build the multi-config benchmark on day one instead of tuning against the single sample config my detector had memorized, and use the wrist camera for closed-loop visual servoing during the approach rather than one snapshot from survey height.',
   },
 
   // 3 ─────────────────────────────────────────────────────────────────────
@@ -163,8 +169,7 @@ export const projects: Project[] = [
     description:
       'Orchestrator-agent platform for T-Mobile that captures expert knowledge through AI-led interviews and answers only from approved, subject-scoped sources with citations.',
     tags: ['FastAPI', 'ChromaDB', 'Claude API', 'React', 'RAG'],
-    result:
-      'End-to-end proof of concept delivered in a two-week hackathon: three agent roles, closed-book refusal, two-stage approval, and a /api/v1 benchmark surface · [TODO: placement or judging outcome, if any]',
+    result: 'Selected as the team to present to T-Mobile leadership.',
     links: {
       github: 'https://github.com/rushav/T-Mobile-Thoth',
       cad: null,
@@ -182,9 +187,9 @@ export const projects: Project[] = [
       'Built the /api/v1 benchmark surface for the evaluation harness (query, knowledge, health, system endpoints), per-call token telemetry, session handling, and the benchmark test script.',
       'Owned the subject classifier and confidence routing, tightened the SME answering prompts, and wrote the README, architecture, demo, and production-recommendations docs.',
     ],
-    // DRAFT — derived from PRODUCTION_RECOMMENDATIONS.md in the repo
+    // REVIEW — from PRODUCTION_RECOMMENDATIONS.md and services/sessions.py in the repo
     differently:
-      'Put real authentication and a persistent session store in from the start; the PoC picks a profile with no auth and keeps sessions in a process-local dict, which is the first thing that has to change before anyone outside the demo can use it.',
+      'Put real auth and a persistent session store in from the start: the PoC lets you pick any profile with no login and keeps sessions in a process-local dict, so it cannot run on more than one worker or be shown to anyone outside the demo without a rewrite.',
   },
 
   // 4 ─────────────────────────────────────────────────────────────────────
@@ -209,20 +214,20 @@ export const projects: Project[] = [
       video: 'https://drive.google.com/file/d/1KCtPUdbRQUp0AxLsTXaB8Tctw3aSBFr7/view?usp=sharing',
       report: null,
     },
-    sponsor: 'University of Washington GIX — [TODO: confirm course, e.g. TECHIN 517]',
-    // No commits under your name exist in the public repo; the role below is what the README's Contributors section credits you with.
-    teamRole: 'Contributor — team of three (Rushav Dash, Tony Chen, Joyce Zhou) · [TODO: confirm]',
+    sponsor: 'TECHIN 517 (UW GIX course project)',
+    // Role and contribution from the README "Contributors" section of tonyechen/drunky_ros.
+    teamRole: 'System orchestration, wrist-camera detection, and visual-servo alignment — team of three',
     // DRAFT
     longDescription:
       'Pick a drink from the menu and two SO-101 arms make it: the right arm handles alcohols, the left handles mixers, and each runs six phases (find, go, align, grab, pour, toss) in sequence so they never share the workspace. An overhead RealSense D435 plus an eight-bottle YOLO model gives a coarse 3D bottle pose from the nearest 10% of depth pixels; at standoff a wrist-camera YOLO drives a proportional visual-servo loop to center the bottle before a TF-computed grasp, and MoveIt 2 plans the collision-aware motion. The team first trained an end-to-end ACT/LeRobot policy, which learned to grab and pour but failed unpredictably with no way to inspect a bad rollout, and pivoted to this explicit per-stage pipeline.',
-    // [TODO: confirm] — `git log --author=rushav` on tonyechen/drunky_ros returns nothing (all 13 commits and the one PR are Tony Chen's,
-    // and the pinned ros2_ws submodule commit is not reachable publicly). The bullets below repeat the README "Contributors" credit verbatim.
+    // DRAFT — expanded from the README Contributors credit ("system orchestration, wrist-camera COCO YOLO, visual-servo alignment,
+    // and end-to-end tuning of the full pipeline") using the README's own description of those parts.
     contribution: [
-      'System orchestration of the full find → go → align → grab → pour → toss pipeline across both arms (per README credit; [TODO: confirm]).',
-      'Wrist-camera COCO-YOLO detector and the proportional visual-servo alignment loop that centers the bottle before the grasp (per README credit; [TODO: confirm]).',
-      'End-to-end tuning of the pipeline through the 480-trial evaluation (per README credit; [TODO: confirm]).',
+      'System orchestration: sequenced the six phases (find, go, align, grab, pour, toss) per arm and the right-then-left hand-off between arms, with a stop-after-stage switch for step-by-step bring-up.',
+      'Wrist-camera detection and visual-servo alignment: a stock COCO YOLO on each wrist camera that accepts bottle or vase and locks onto the largest box, driving a proportional loop on shoulder pan until the bottle is centered before the grasp.',
+      'End-to-end tuning of the full pipeline through the 480-trial evaluation: standoff distance, per-shelf grasp offsets, gripper-axis approach, gravity-sag compensation, and retry-then-continue on the pour and toss.',
     ],
-    // DRAFT — from the README "Challenges & improvements" section
+    // REVIEW — from the README failure-mode analysis and "Challenges & improvements"
     differently:
       'Fix the occluded bottom-shelf case, which drags success from 71.7% to 53.8%: about 45% of failures are detection or alignment loss, so a second overhead vantage or a shelf redesign would pay off more than further controller tuning.',
   },
@@ -258,7 +263,9 @@ export const projects: Project[] = [
       'Integrated SLAM, Nav2, and a custom TF tree, and wrote the three-zone LiDAR obstacle logic that governs stop, slow-down, and nominal following.',
       'Designed the Attack/Stalk state machine, the Tkinter control UI over ROS topics, and the single-command launch orchestration for the whole stack.',
     ],
-    differently: '[TODO: 1–2 lines]',
+    // REVIEW — from the repo: slam_toolbox only feeds RViz; person_follower.py is reactive on LiDAR and spins in place when the target is lost
+    differently:
+      'Actually use the map. SLAM only draws the RViz view; following and avoidance are purely reactive on the LiDAR, so a lost person means spinning in place to search. Planning on the live map would let it re-acquire someone around a corner instead of guessing.',
   },
 
   // 6 ─────────────────────────────────────────────────────────────────────
@@ -277,8 +284,8 @@ export const projects: Project[] = [
     tags: ['SolidWorks', 'Transducer Design', 'Closed-loop Control', 'MATLAB', 'Python'],
     result: 'Patent pending · externally funded · finalist, UW Hollomon Health Innovation Challenge',
     links: { github: null, cad: null, video: null, report: null }, // [TODO: add report / CAD links if shareable]
-    sponsor: '[TODO: sponsor name] — externally funded UW mechanical engineering capstone',
-    teamRole: 'Transducer system and closed-loop power control lead — team of four',
+    sponsor: 'Scott Lipsky, Seattle entrepreneur',
+    teamRole: 'Project lead',
     // DRAFT — ported from the old site
     longDescription:
       'Eye floaters affect millions of people, and the only current treatment, vitrectomy, is invasive surgery that risks retinal detachment and cataract progression. VitreaClear applies focused ultrasound from outside the eye so that acoustic radiation force displaces floaters out of the visual axis. We characterized transducer beam profiles to set a focal geometry that targets the vitreous chamber without crossing the retinal plane, validated therapeutic parameters (geometry, drive amplitude, pulse duration) over dozens of water-bath runs, and built a real-time closed-loop power controller to hold acoustic output steady across trials.',
@@ -287,7 +294,9 @@ export const projects: Project[] = [
       'Developed the real-time closed-loop power controller and the Python/MATLAB signal-processing layer that closes the loop.',
       'Ran the iterative water-bath validation campaign and assembled the bench prototype.',
     ],
-    differently: '[TODO: 1–2 lines]',
+    // REVIEW — from the old site's project write-up (no public repo): the closed-loop controller came after most of the water-bath tuning
+    differently:
+      'Build the closed-loop power controller and data logging before the parameter sweeps, not after. We tuned focal geometry, drive amplitude, and pulse duration over dozens of water-bath runs without steady acoustic output, so the early runs are not directly comparable to the later ones.',
   },
 ];
 

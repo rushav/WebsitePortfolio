@@ -77,10 +77,12 @@ const sizes = p.image.placeholder ? undefined : '(max-width: 720px) calc(100vw -
           {p.contribution.map((c) => <li>{c}</li>)}
         </ul>
       </div>
-      <div class="full">
-        <div class="label">What I'd do differently</div>
-        <p>{p.differently}</p>
-      </div>
+      {p.differently && (
+        <div class="full">
+          <div class="label">What I'd do differently</div>
+          <p>{p.differently}</p>
+        </div>
+      )}
     </div>
   </details>
 </article>

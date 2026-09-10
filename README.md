@@ -50,7 +50,7 @@ All copy lives in **`src/content/site.ts`**. Layout files never contain text.
   teamRole: '…',
   longDescription: '…',          // expanded "Description"
   contribution: ['…', '…', '…'], // exactly three bullets
-  differently: '…',              // "What I'd do differently"
+  differently: '…',              // "What I'd do differently" (optional; omit to hide the block)
 }
 ```
 
@@ -58,6 +58,7 @@ Markers to search for before publishing:
 
 - `[TODO: …]` — a fact only you can supply (metric, link, confirmation)
 - `// DRAFT` — prose drafted from repo READMEs or the old site; review the wording
+- `// REVIEW` — a "What I'd do differently" line drafted from the repo; check it reads as your own view
 
 ### Images and files
 
