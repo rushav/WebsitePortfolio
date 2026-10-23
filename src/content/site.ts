@@ -31,8 +31,8 @@ export const categories: Category[] = [
 
 /**
  * A sponsoring organisation. Project pages show `logo` (an SVG under
- * public/sponsors/) on a white tile; cards show `short` as a solid chip in the
- * brand colour (`color.bg`) with contrasting text (`color.text`).
+ * public/sponsors/) on a white tile; cards show `short` as a tinted chip:
+ * brand-coloured text on a pale tint of the same colour, like the category chips.
  */
 export interface Sponsor {
   name: string;
@@ -40,43 +40,43 @@ export interface Sponsor {
   short: string;
   logo: string;
   href: string;
-  /** Solid brand background and a text colour that passes 4.5:1 on it. */
-  color: { bg: string; text: string };
+  /** Brand text colour per theme; the chip background is a pale tint of it (color-mix in ProjectCard). */
+  color: { light: string; dark: string };
 }
 const UW: Sponsor = {
   name: 'University of Washington',
   short: 'UW',
   logo: '/sponsors/uw.svg',
   href: 'https://www.washington.edu/',
-  color: { bg: '#4b2e83', text: '#ffffff' },
+  color: { light: '#4b2e83', dark: '#b9a7e6' },
 };
 const GIX: Sponsor = {
   name: 'Global Innovation Exchange',
   short: 'GIX',
   logo: '/sponsors/gix.svg',
   href: 'https://gix.uw.edu/',
-  color: { bg: '#fac800', text: '#1a1a1a' },
+  color: { light: '#7a5c00', dark: '#fac800' },
 };
 const INTRINSIC: Sponsor = {
   name: 'Intrinsic',
   short: 'Intrinsic',
   logo: '/sponsors/intrinsic.svg',
   href: 'https://www.intrinsic.ai/',
-  color: { bg: '#00ffab', text: '#1a1a1a' },
+  color: { light: '#006b48', dark: '#00ffab' },
 };
 const GOOGLE: Sponsor = {
   name: 'Google',
   short: 'Google',
   logo: '/sponsors/google.svg',
   href: 'https://www.google.com/',
-  color: { bg: '#1967d2', text: '#ffffff' },
+  color: { light: '#1a5fc8', dark: '#8ab4f8' },
 };
 const TMOBILE: Sponsor = {
   name: 'T-Mobile',
   short: 'T-Mobile',
   logo: '/sponsors/tmobile.svg',
   href: 'https://www.t-mobile.com/',
-  color: { bg: '#e20074', text: '#ffffff' },
+  color: { light: '#b30060', dark: '#ff6fc0' },
 };
 
 export type SocialKind = 'github' | 'linkedin' | 'scholar' | 'mail';

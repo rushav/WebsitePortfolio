@@ -59,7 +59,7 @@ const sizes =
           {project.sponsors.map((s, i) => (
             <>
               {i > 0 && (i === project.sponsors.length - 1 ? ' and ' : ', ')}
-              <span class="pc__sponsor" style={`--sp-bg:${s.color.bg};--sp-text:${s.color.text}`} title={s.name}>
+              <span class="pc__sponsor" style={`--sp-light:${s.color.light};--sp-dark:${s.color.dark}`} title={s.name}>
                 {s.short}
               </span>
             </>
@@ -178,8 +178,8 @@ const sizes =
     line-height: 1.5;
   }
 
-  /* "Sponsored by [UW] and [GIX]": each name is a solid chip in the sponsor's
-     brand colour with contrasting text. Same in both themes: it is the brand. */
+  /* "Sponsored by [UW] and [GIX]": each name is a tinted chip, like the
+     category chips: brand-coloured text on a pale tint of the same colour. */
   .pc__sponsors {
     font-size: var(--fs-small);
     line-height: 1.9;
@@ -189,10 +189,15 @@ const sizes =
     display: inline-block;
     padding: 0 0.5rem;
     border-radius: var(--r-chip);
-    background: var(--sp-bg);
-    color: var(--sp-text);
+    background: color-mix(in srgb, var(--sp-light) 12%, var(--bg-frame));
+    color: var(--sp-light);
     font-weight: 600;
     line-height: 1.6;
+  }
+
+  :global([data-theme='dark']) .pc__sponsor {
+    background: color-mix(in srgb, var(--sp-dark) 18%, var(--bg-frame));
+    color: var(--sp-dark);
   }
 
   .pc__desc {
