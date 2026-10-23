@@ -59,7 +59,7 @@ const sizes =
           {project.sponsors.map((s, i) => (
             <>
               {i > 0 && (i === project.sponsors.length - 1 ? ' and ' : ', ')}
-              <span class="pc__sponsor" style={`--sp-light:${s.color.light};--sp-dark:${s.color.dark}`} title={s.name}>
+              <span class="pc__sponsor" style={`--sp-bg:${s.color.bg};--sp-text:${s.color.text}`} title={s.name}>
                 {s.short}
               </span>
             </>
@@ -178,19 +178,21 @@ const sizes =
     line-height: 1.5;
   }
 
-  /* "Sponsored by UW and GIX": names in the sponsor's brand colour, no logo. */
+  /* "Sponsored by [UW] and [GIX]": each name is a solid chip in the sponsor's
+     brand colour with contrasting text. Same in both themes: it is the brand. */
   .pc__sponsors {
     font-size: var(--fs-small);
-    line-height: 1.5;
+    line-height: 1.9;
   }
 
   .pc__sponsor {
+    display: inline-block;
+    padding: 0 0.5rem;
+    border-radius: var(--r-chip);
+    background: var(--sp-bg);
+    color: var(--sp-text);
     font-weight: 600;
-    color: var(--sp-light);
-  }
-
-  :global([data-theme='dark']) .pc__sponsor {
-    color: var(--sp-dark);
+    line-height: 1.6;
   }
 
   .pc__desc {
