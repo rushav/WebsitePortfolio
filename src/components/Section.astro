@@ -1,0 +1,52 @@
+---
+/**
+ * Section wrapper: quiet 28px heading, aria-labelledby, entrance reveal.
+ * Pass `empty` to hide the whole section when its list has no items.
+ */
+interface Props {
+  id: string;
+  title: string;
+  /** Optional link rendered at the right of the heading row. */
+  action?: { label: string; href: string };
+  empty?: boolean;
+  class?: string;
+}
+import Icon from './Icon.astro';
+const { id, title, action, empty = false, class: className } = Astro.props;
+const headingId = `${id}-title`;
+---
+
+{
+  !empty && (
+    <section id={id} class:list={['section', className]} aria-labelledby={headingId} data-reveal>
+      <div class="section__head">
+        <h2 id={headingId} class="h2">
+          {title}
+        </h2>
+        {action && (
+          <a class="section__action link" href={action.href}>
+            {action.label}
+            <Icon name="arrow-up-right" size={13} />
+          </a>
+        )}
+      </div>
+      <slot />
+    </section>
+  )
+}
+
+<style>
+  .section__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .section__action:hover {
+    color: var(--text);
+  }
+</style>

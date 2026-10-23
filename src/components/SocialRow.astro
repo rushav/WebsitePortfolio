@@ -1,0 +1,49 @@
+---
+import type { Social } from '../content/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  socials: Social[];
+  class?: string;
+}
+const { socials, class: className } = Astro.props;
+---
+
+{
+  socials.length > 0 && (
+    <ul class:list={['socials', className]}>
+      {socials.map((s) => (
+        <li>
+          <a class="socials__link" href={s.href} aria-label={s.label} title={s.label} target="_blank" rel="noopener me">
+            <Icon name={s.kind} size={16} />
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .socials {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: -0.5rem; /* optical alignment of the first icon */
+  }
+
+  .socials__link {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--text-muted);
+    transition:
+      background-color var(--t-fast) ease-out,
+      color var(--t-fast) ease-out;
+  }
+
+  .socials__link:hover {
+    background: var(--surface);
+    color: var(--text);
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+/** Thin row: accent status dot + mono availability + location. First thing a recruiter sees. */
+interface Props {
+  from: string;
+  location: string;
+}
+const { from, location } = Astro.props;
+---
+
+<p class="avail" data-reveal>
+  <span class="avail__dot" aria-hidden="true"></span>
+  <span class="avail__text">Available from {from}</span>
+  <span class="avail__sep" aria-hidden="true">·</span>
+  <span class="avail__loc">{location}</span>
+</p>
+
+<style>
+  .avail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: var(--sp-6);
+    font-family: var(--font-mono);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .avail__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .avail__text {
+    color: var(--text);
+  }
+
+  .avail__sep {
+    color: var(--text-faint);
+  }
+</style>

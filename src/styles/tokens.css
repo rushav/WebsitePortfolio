@@ -1,0 +1,117 @@
+/* ---------------------------------------------------------------------------
+   Design tokens. Light is the default; dark is a full second theme switched
+   by `data-theme="dark"` on <html> (set before paint by the inline script in
+   BaseLayout.astro, so there is no flash).
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Colour */
+  --bg-page: #f4f4f2;
+  --bg-frame: #ffffff;
+  --surface: #f1f1ef;
+  --surface-2: #e8e8e5;
+  --text: #111111;
+  --text-muted: #6e6e6b;
+  --text-faint: #a3a3a0;
+  --border: #e4e4e1;
+  --border-strong: #cfcfcb;
+  --accent: #e8541e;
+  --cta-bg: #1a1a1a;
+  --cta-text: #ffffff;
+
+  /* Category tints: one quiet family per content group. `bg` is for chip and
+     icon-tile fills, `text` for the chip text, eyebrows, rules and stat figures.
+     Every text/bg pair is >= 7:1 in both themes (see DECISIONS.md). */
+  --cat-autonomy-bg: #e6eef9;
+  --cat-autonomy-text: #27496d; /* blue */
+  --cat-manip-bg: #fbeee4;
+  --cat-manip-text: #7a3e13; /* warm amber */
+  --cat-perception-bg: #eee9f8;
+  --cat-perception-text: #4b3a7a; /* violet */
+  --cat-mech-bg: #e8f2ea;
+  --cat-mech-text: #2a5a38; /* green */
+  --cat-software-bg: #fbe9ee;
+  --cat-software-text: #7a2e44; /* rose */
+
+  /* Type */
+  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --fs-display: clamp(2.5rem, 1.6rem + 2.2vw, 3.25rem); /* 40 -> 52px */
+  --fs-h2: 1.75rem; /* 28px */
+  --fs-h3: 1.125rem; /* 18px */
+  --fs-body: 0.9375rem; /* 15px */
+  --fs-small: 0.8125rem; /* 13px */
+  --fs-label: 0.6875rem; /* 11px */
+
+  --ls-display: -0.03em;
+  --ls-tight: -0.02em;
+  --ls-label: 0.08em;
+
+  /* Radii */
+  --r-frame: 24px;
+  --r-card: 14px;
+  --r-chip: 999px;
+  --r-btn: 999px;
+
+  /* Shadow: frame only; cards have none. */
+  --shadow-frame: 0 1px 2px rgba(17, 17, 17, 0.04), 0 12px 40px -12px rgba(17, 17, 17, 0.08);
+
+  /* Spacing (8px base) */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2rem;
+  --sp-6: 3rem;
+  --sp-8: 4rem;
+  --sp-12: 6rem;
+
+  --section-gap: var(--sp-12); /* 96px desktop */
+  --frame-pad: var(--sp-6); /* 48px desktop */
+  --sidebar-w: 320px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 120ms;
+  --t-base: 150ms;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-page: #0b0d10;
+  --bg-frame: #121519;
+  --surface: #1a1e24;
+  --surface-2: #232830;
+  --text: #f2f2f0;
+  --text-muted: #9ba0a8;
+  --text-faint: #5f646c;
+  --border: #262b33;
+  --border-strong: #343a44;
+  --accent: #ff6a3d;
+  --cta-bg: #f2f2f0;
+  --cta-text: #111111;
+
+  /* Same hues as light; bg at 18% lightness, text at 75%. */
+  --cat-autonomy-bg: #202e3c;
+  --cat-autonomy-text: #a3bedc;
+  --cat-manip-bg: #3c2c20;
+  --cat-manip-text: #dcbba3;
+  --cat-perception-bg: #27203c;
+  --cat-perception-text: #b2a3dc;
+  --cat-mech-bg: #203c28;
+  --cat-mech-text: #a3dcb3;
+  --cat-software-bg: #3c2028;
+  --cat-software-text: #dca3b3;
+
+  --shadow-frame: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 40px -12px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 900px) {
+  :root {
+    --section-gap: var(--sp-8); /* 64px mobile */
+    --frame-pad: 1.25rem; /* 20px mobile */
+  }
+}

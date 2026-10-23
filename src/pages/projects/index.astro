@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site, categories } from '../../content/site';
+import { catKey } from '../../lib/category';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Section from '../../components/Section.astro';
+
+/* Only categories that at least one project uses (primary or secondary). */
+const used = new Set(site.projects.flatMap((p) => [p.category, p.secondaryCategory]).filter(Boolean));
+const filters = categories.filter((c) => used.has(c));
+---
+
+<BaseLayout title="Projects" headline={site.headline}>
+  <Section id="projects" title="Projects" empty={site.projects.length === 0}>
+    {
+      filters.length > 0 && (
+        <div class="filter" role="group" aria-label="Filter by category">
+          <button class="chip filter__chip is-active" type="button" data-filter="" aria-pressed="true">
+            All
+          </button>
+          {filters.map((c) => (
+            <button class="chip filter__chip" type="button" data-filter={c} data-cat={catKey(c)} aria-pressed="false">
+              {c}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="grid" data-project-grid>
+      {site.projects.map((p) => <ProjectCard project={p} variant="compact" />)}
+    </div>
+    <p class="empty mono muted" data-empty hidden>No projects in this category.</p>
+  </Section>
+
+  {
+    site.projects.length === 0 && (
+      <section class="section" aria-label="Projects">
+        <h2 class="h2">Projects</h2>
+        <p class="muted">Nothing here yet.</p>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: var(--sp-4);
+  }
+
+  .filter__chip {
+    color: var(--text-muted);
+    transition:
+      background-color var(--t-fast) ease-out,
+      color var(--t-fast) ease-out;
+  }
+
+  .filter__chip:hover {
+    color: var(--text);
+  }
+
+  /* Active: the category's tint. "All" has no category, so it falls back to black. */
+  .filter__chip.is-active {
+    background: var(--cat-bg, var(--cta-bg));
+    color: var(--cat-text, var(--cta-text));
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: var(--sp-4) var(--sp-3);
+  }
+
+  .empty {
+    margin-top: var(--sp-2);
+  }
+
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Category filter: show/hide cards by data-cats (primary|secondary). Client-side only, no routing.
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  if (grid) {
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-cats]'));
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        const cat = chip.dataset.filter ?? '';
+        for (const c of chips) {
+          const on = c === chip;
+          c.classList.toggle('is-active', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        }
+        let shown = 0;
+        for (const card of cards) {
+          const has = cat === '' || (card.dataset.cats ?? '').split('|').includes(cat);
+          card.hidden = !has;
+          if (has) shown++;
+        }
+        if (empty) empty.hidden = shown > 0;
+      });
+    }
+  }
+</script>

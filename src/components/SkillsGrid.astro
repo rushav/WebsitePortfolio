@@ -1,0 +1,85 @@
+---
+/**
+ * Categorized skills grid: 2x4 on desktop. Each cell = tinted icon tile +
+ * category name + tools. The cell background stays neutral; only the 36px
+ * icon tile carries the category colour.
+ */
+import type { SkillCategory } from '../content/site';
+import { catKey } from '../lib/category';
+import Icon from './Icon.astro';
+import type { IconName } from './Icon.astro';
+
+interface Props {
+  skills: SkillCategory[];
+}
+const { skills } = Astro.props;
+---
+
+{
+  skills.length > 0 && (
+    <ul class="skills">
+      {skills.map((s) => (
+        <li class="skills__cell card" data-cat={catKey(s.category)}>
+          <span class="skills__icon" aria-hidden="true">
+            <Icon name={s.icon as IconName} size={18} />
+          </span>
+          <div class="skills__text">
+            <h3 class="skills__name">{s.name}</h3>
+            <p class="skills__tools muted">{s.tools}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .skills__cell {
+    display: flex;
+    gap: 0.875rem;
+    padding: 1rem 1.125rem;
+    min-width: 0;
+  }
+
+  .skills__icon {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--cat-bg);
+    color: var(--cat-text);
+  }
+
+  .skills__text {
+    display: grid;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .skills__name {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: var(--ls-tight);
+    line-height: 1.4;
+  }
+
+  .skills__tools {
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 560px) {
+    .skills {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

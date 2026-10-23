@@ -1,278 +1,219 @@
 ---
+/**
+ * Project card.
+ *  - `hero`: full-width 16:9 media, used for the single featured project on the home page.
+ *  - `compact`: 2-up grid cell for the projects index and the home grid.
+ * Every card in a grid row is the same height: the card is a column flexbox,
+ * the title and description are clamped to two lines, the tag row is capped
+ * at two rows and pinned to the bottom.
+ */
 import type { Project } from '../content/site';
-import { withBase } from '../lib/url';
+import { url } from '../lib/url';
+import { catKey } from '../lib/category';
+import Media from './Media.astro';
+import Icon from './Icon.astro';
 
 interface Props {
   project: Project;
-  open?: boolean;
+  variant?: 'hero' | 'compact';
+  /** Load the cover eagerly (the one card above the fold). Defaults to true for the hero variant. */
   eager?: boolean;
 }
-const { project: p, open = false, eager = false } = Astro.props;
+const { project, variant = 'hero', eager = variant === 'hero' } = Astro.props;
+const href = url(`/projects/${project.slug}/`);
+const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'play', external: 'external' } as const;
 
-const chips = [
-  ['GitHub', p.links.github],
-  ['CAD', p.links.cad],
-  ['Video', p.links.video],
-  ['Report', p.links.report],
-].filter((c): c is [string, string] => typeof c[1] === 'string');
+/* At most 5 tags on a card; past that, the first 4 and a "+N" chip. */
+const MAX_TAGS = 5;
+const visibleTags = project.tags.length > MAX_TAGS ? project.tags.slice(0, MAX_TAGS - 1) : project.tags;
+const hiddenCount = project.tags.length - visibleTags.length;
 
-// Real heroes ship a 640w variant next to the 1280w file (see IMAGES_NEEDED.md).
-const src = withBase(p.image.src);
-const srcset = p.image.placeholder ? undefined : `${src.replace(/\.webp$/, '-640.webp')} 640w, ${src} 1280w`;
-const sizes = p.image.placeholder ? undefined : '(max-width: 720px) calc(100vw - 72px), 376px';
+const cats = [project.category, project.secondaryCategory].filter(Boolean).join('|');
+const sizes =
+  variant === 'hero'
+    ? '(min-width: 901px) min(880px, calc(100vw - 464px)), calc(100vw - 40px)'
+    : '(min-width: 901px) min(432px, calc(50vw - 232px)), (min-width: 641px) calc(50vw - 32px), calc(100vw - 40px)';
 ---
 
-<article class="card" id={p.slug} data-status={p.status}>
-  <div class="media">
-    <img
-      src={src}
-      srcset={srcset}
-      sizes={sizes}
-      alt={p.image.alt}
-      width="1280"
-      height="720"
-      loading={eager ? 'eager' : 'lazy'}
-      decoding="async"
-      fetchpriority={eager ? 'high' : 'auto'}
-    />
-  </div>
+<article class:list={['pc', `pc--${variant}`]} data-cats={cats} data-cat={catKey(project.category)}>
+  <a class="pc__media card" href={href} aria-label={`${project.title}: open project`} tabindex="-1">
+    <Media label={project.media.hero} src={project.media.cover} ratio="16x9" eager={eager} sizes={sizes} />
+  </a>
 
-  <div class="body">
-    <div class="head">
-      <h3>{p.name}</h3>
-      <span class="badge">{p.status === 'in-progress' ? 'In progress' : 'Completed'}</span>
-    </div>
-    <p class="desc">{p.description}</p>
-    <ul class="tags" aria-label="Technologies">
-      {p.tags.map((t) => <li class="tag">{t}</li>)}
-    </ul>
-    <div class="result mono">Result: <span>{p.result}</span></div>
-    {chips.length > 0 && (
-      <div class="chips">
-        {chips.map(([label, href]) => (
-          <a class="chip" href={href} target="_blank" rel="noopener">{label} ↗</a>
-        ))}
-      </div>
-    )}
-  </div>
+  <div class="pc__body">
+    <p class="pc__eyebrow">
+      <span class="chip chip--cat">{project.category}</span>
+      <span class="label pc__eyebrow-text">{project.eyebrow}</span>
+    </p>
+    <h3 class="h3 pc__title">
+      <a class="pc__title-link" href={href}>
+        {project.title}
+        <Icon name="arrow-up-right" size={14} class="pc__arrow" />
+      </a>
+    </h3>
+    <p class="pc__context muted mono">{project.context}</p>
+    <p class="pc__desc muted">{project.description}</p>
 
-  <details class="more" open={open}>
-    <summary>
-      <span class="when-closed">▼ more</span>
-      <span class="when-open">▲ less</span>
-      <span class="visually-hidden"> about {p.name}</span>
-    </summary>
-    <div class="expanded">
-      <div class="meta mono">
-        <span>Sponsor: <span class="val">{p.sponsor}</span></span>
-        <span>Team role: <span class="val">{p.teamRole}</span></span>
-      </div>
-      <div>
-        <div class="label">Description</div>
-        <p>{p.longDescription}</p>
-      </div>
-      <div>
-        <div class="label">My contribution</div>
-        <ul class="bullets">
-          {p.contribution.map((c) => <li>{c}</li>)}
+    {
+      project.tags.length > 0 && (
+        <ul class="chips pc__tags" aria-label="Tags">
+          {visibleTags.map((t) => (
+            <li class="chip chip--muted">{t}</li>
+          ))}
+          {hiddenCount > 0 && (
+            <li class="chip chip--muted pc__more" title={project.tags.slice(visibleTags.length).join(', ')}>
+              +{hiddenCount}
+            </li>
+          )}
         </ul>
-      </div>
-      {p.differently && (
-        <div class="full">
-          <div class="label">What I'd do differently</div>
-          <p>{p.differently}</p>
-        </div>
-      )}
-    </div>
-  </details>
+      )
+    }
+
+    {
+      variant === 'hero' && project.links.length > 0 && (
+        <ul class="pc__links" aria-label="Project links">
+          {project.links.map((l) => (
+            <li>
+              <a class="pc__link link" href={l.href} target="_blank" rel="noopener">
+                <Icon name={linkIcon[l.kind]} size={13} />
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
 </article>
 
 <style>
-  .card {
-    position: relative;
-    display: grid;
-    grid-template-columns: 40% 1fr;
-    gap: 32px;
-    border: 1px solid var(--line-card);
-    padding: 24px;
-    scroll-margin-top: 80px;
-  }
-  .card + .card { margin-top: 16px; }
-
-  .media {
-    aspect-ratio: 16 / 9;
-    background: var(--surface-img);
-    border: 1px solid var(--line-img);
-    overflow: hidden;
-    align-self: start;
-  }
-  .media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .body {
+  .pc {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: var(--sp-3);
     min-width: 0;
-    /* leave room for the absolutely positioned toggle */
-    padding-right: 72px;
+    height: 100%;
   }
-  .head {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
-  }
-  h3 {
-    font: 700 24px/1.2 var(--font-sans);
-    color: var(--fg);
-  }
-  .badge {
-    font: 500 10px/1 var(--font-mono);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 5px 8px;
-    color: var(--muted);
-    border: 1px solid var(--line-badge);
-    white-space: nowrap;
-  }
-  .card[data-status='in-progress'] .badge {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-  .desc {
-    font-size: 15px;
-    line-height: 1.55;
-  }
-  .result {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--mono);
-  }
-  .result span { color: var(--fg); }
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .chip {
-    font: 500 12px/1 var(--font-mono);
-    color: var(--body);
-    border: 1px solid var(--line-chip);
-    padding: 7px 10px;
-    text-decoration: none;
-    transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
-  }
-  .chip:hover { color: var(--fg); border-color: var(--fg); }
 
-  /* ── expand / collapse ── */
-  .more {
-    grid-column: 1 / -1;
+  /* The link owns the radius and clipping; Media sets the 16:9 box. */
+  .pc__media {
+    display: block;
+    flex: none;
+    overflow: hidden;
+    border-radius: var(--r-card);
   }
-  summary {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    list-style: none;
-    cursor: pointer;
-    font: 400 12px/1 var(--font-mono);
-    color: var(--muted);
-    padding: 6px 0 6px 12px;
-    user-select: none;
-    transition: color 0.15s var(--ease);
-  }
-  summary::-webkit-details-marker { display: none; }
-  summary:hover { color: var(--fg); }
-  .when-open { display: none; }
-  .more[open] .when-open { display: inline; }
-  .more[open] .when-closed { display: none; }
 
-  /* Spacing is all padding + a ::before rule (no margins) so nothing collapses
-     through the ::details-content box and gets clipped by overflow: clip. */
-  .expanded {
-    padding-top: 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px 48px;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  .expanded::before {
-    content: '';
-    grid-column: 1 / -1;
-    height: 1px;
-    background: var(--line);
-    margin-bottom: -4px; /* row gap is 28px; rule-to-content should be 24px */
-  }
-  .meta {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 32px;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--mono);
-  }
-  .meta .val { color: var(--fg); }
-  .full { grid-column: 1 / -1; }
-  .label {
-    font: 500 11px/1 var(--font-mono);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  .bullets {
-    padding-left: 18px;
+  .pc__body {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
   }
 
-  /* Height + fade transition on browsers that support ::details-content;
-     older browsers simply snap open/closed. */
-  .more::details-content {
-    height: 0;
-    opacity: 0;
-    overflow: clip;
+  .pc__eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.125rem;
+  }
+
+  .pc__eyebrow-text {
+    color: var(--cat-text, var(--text-muted));
+  }
+
+  .pc__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pc__title-link {
+    display: inline;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition: text-decoration-color var(--t-base) ease-out;
+  }
+
+  .pc__title-link:hover {
+    text-decoration-color: var(--accent);
+  }
+
+  /* The svg lives in Icon.astro, outside this component's scope, so it needs
+     :global(); global.css sets svg to display:block, which would wrap it. */
+  .pc__title-link :global(.pc__arrow) {
+    display: inline;
+    vertical-align: -0.1em;
+    margin-left: 0.25rem;
+    color: var(--text-faint);
     transition:
-      height 0.32s var(--ease),
-      opacity 0.28s var(--ease),
-      content-visibility 0.32s allow-discrete;
-  }
-  .more[open]::details-content {
-    height: auto;
-    opacity: 1;
+      transform var(--t-base) ease-out,
+      color var(--t-base) ease-out;
   }
 
-  @media (max-width: 720px) {
-    .card {
-      grid-template-columns: 1fr;
-      gap: 14px;
-      padding: 16px;
-    }
-    .body { padding-right: 0; }
-    h3 { font-size: 20px; }
-    .badge { padding: 4px 7px; }
-    .desc { font-size: 14px; }
-    .tag { font-size: 10px; padding: 4px 7px; }
-    .result { font-size: 12px; }
-    .chip { font-size: 11px; padding: 6px 9px; }
-    summary {
-      position: static;
-      padding: 4px 0;
-    }
-    .expanded {
-      grid-template-columns: 1fr;
-      gap: 16px;
-      padding-top: 16px;
-      font-size: 14px;
-    }
-    .expanded::before { margin-bottom: 0; }
-    .meta { flex-direction: column; gap: 0; font-size: 12px; line-height: 1.8; }
-    .label { font-size: 10px; margin-bottom: 6px; }
+  .pc__title-link:hover :global(.pc__arrow) {
+    color: var(--accent);
+    transform: translate(1px, -1px);
+  }
+
+  .pc__context {
+    line-height: 1.5;
+  }
+
+  .pc__desc {
+    max-width: 62ch;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Pinned to the bottom; at most two rows of chips (chip ≈ 24.5px + 6px gap). */
+  .pc__tags {
+    margin-top: auto;
+    padding-top: 0.25rem;
+    max-height: calc(2 * 1.55rem + 0.375rem + 0.25rem);
+    overflow: hidden;
+  }
+
+  .pc__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-top: 0.25rem;
+  }
+
+  .pc__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .pc__link:hover {
+    color: var(--text);
+  }
+
+  /* ---- Hero variant ---- */
+  .pc--hero .pc__title {
+    font-size: 1.375rem; /* 22px */
+  }
+
+  /* ---- Compact variant ---- */
+  .pc--compact {
+    gap: var(--sp-2);
+  }
+
+  .pc--compact .pc__desc {
+    font-size: var(--fs-small);
+  }
+
+  .pc--compact .pc__context {
+    font-size: var(--fs-label);
   }
 </style>

@@ -1,0 +1,29 @@
+---
+/** 40x40 grey tile with two initials in mono. Stands in for the avatar. */
+interface Props {
+  initials: string;
+  size?: number;
+}
+const { initials, size = 40 } = Astro.props;
+/* Placeholder initials arrive as `[[AB]]`; show just the letters inside. */
+const text = initials.replace(/^\[\[|\]\]$/g, '').slice(0, 2).toUpperCase();
+---
+
+<span class="monogram" style={`--size:${size}px`} aria-hidden="true">{text}</span>
+
+<style>
+  .monogram {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+</style>

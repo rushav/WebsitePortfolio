@@ -1,0 +1,57 @@
+---
+/** Near-black rounded block: large white headline + one white pill button. */
+import type { Link } from '../content/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  headline: string;
+  button: Link;
+}
+const { headline, button } = Astro.props;
+---
+
+<section class="cta section" aria-label="Get in touch" data-reveal>
+  <h2 class="cta__headline">{headline}</h2>
+  <a class="cta__btn btn" href={button.href}>
+    {button.label}
+    <Icon name="arrow-up-right" size={14} />
+  </a>
+</section>
+
+<style>
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    padding: clamp(2rem, 4vw, 3rem);
+    border-radius: var(--r-frame);
+    background: var(--cta-bg);
+    color: var(--cta-text);
+  }
+
+  .cta__headline {
+    font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: var(--ls-display);
+    line-height: 1.1;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+
+  .cta__btn {
+    background: var(--cta-text);
+    color: var(--cta-bg);
+    padding: 0.625rem 1.125rem;
+    font-size: var(--fs-body);
+  }
+
+  .cta__btn:hover {
+    opacity: 0.9;
+  }
+
+  .cta__btn:focus-visible {
+    outline-color: var(--cta-text);
+  }
+</style>

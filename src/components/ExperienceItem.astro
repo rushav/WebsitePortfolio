@@ -1,0 +1,94 @@
+---
+import type { Experience } from '../content/site';
+import { catKey } from '../lib/category';
+
+interface Props {
+  item: Experience;
+}
+const { item } = Astro.props;
+---
+
+<article class="xp" data-cat={catKey(item.category)}>
+  <div class="xp__head">
+    <div class="xp__titles">
+      <h3 class="xp__role">{item.role}</h3>
+      <p class="xp__org muted">
+        {item.org}
+        <span class="xp__sep" aria-hidden="true">·</span>
+        {item.location}
+      </p>
+    </div>
+    <p class="xp__dates mono muted">
+      {item.start} <span aria-hidden="true">–</span><span class="sr-only">to</span> {item.end}
+    </p>
+  </div>
+
+  {
+    item.bullets.length > 0 && (
+      <ul class="bullets xp__bullets">
+        {item.bullets.map((b) => (
+          <li>{b}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    item.tags.length > 0 && (
+      <ul class="chips xp__tags" aria-label="Skills used">
+        {item.tags.map((t) => (
+          <li class="chip chip--muted">{t}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .xp {
+    display: grid;
+    gap: var(--sp-2);
+    padding-block: var(--sp-3);
+    padding-left: var(--sp-2);
+    border-top: 1px solid var(--border);
+    /* 3px rule keyed to the item's dominant category. */
+    box-shadow: inset 3px 0 0 var(--cat-text);
+  }
+
+  .xp:last-child {
+    padding-bottom: 0;
+  }
+
+  .xp__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.25rem var(--sp-2);
+  }
+
+  .xp__role {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    letter-spacing: var(--ls-tight);
+    line-height: 1.4;
+  }
+
+  .xp__org {
+    font-size: var(--fs-small);
+  }
+
+  .xp__sep {
+    margin-inline: 0.375rem;
+    color: var(--text-faint);
+  }
+
+  .xp__dates {
+    font-size: var(--fs-label);
+    white-space: nowrap;
+  }
+
+  .xp__bullets {
+    max-width: 64ch;
+  }
+</style>

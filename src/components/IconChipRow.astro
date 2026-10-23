@@ -1,0 +1,54 @@
+---
+/**
+ * Wrapping row of tech chips, ordered by category family. The chip stays
+ * neutral; only the leading dot carries the category tint, plus a 1px tinted
+ * left rule on hover.
+ */
+import type { TechItem } from '../content/site';
+import { catKey } from '../lib/category';
+
+interface Props {
+  items: TechItem[];
+  label?: string;
+}
+const { items, label = 'Tech stack' } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <ul class="chips chips--icons" aria-label={label}>
+      {items.map((t) => (
+        <li class="chip chip--icon" data-cat={catKey(t.category)} title={t.category}>
+          <span class="chip__icon" aria-hidden="true" />
+          {t.name}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .chips--icons {
+    gap: 0.5rem;
+  }
+
+  .chip--icon {
+    padding: 0.375rem 0.75rem 0.375rem 0.5rem;
+    font-family: var(--font-sans);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    box-shadow: inset 1px 0 0 transparent;
+    transition: box-shadow var(--t-fast) ease-out;
+  }
+
+  .chip--icon:hover {
+    box-shadow: inset 1px 0 0 var(--cat-text);
+  }
+
+  .chip__icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--cat-text, var(--border-strong));
+  }
+</style>

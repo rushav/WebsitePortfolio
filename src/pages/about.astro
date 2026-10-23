@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../content/site';
+import Media from '../components/Media.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<BaseLayout title="About" headline={site.aboutHeadline} showAvatar={true}>
+  <section class="about section" aria-labelledby="about-title" data-reveal>
+    <h2 id="about-title" class="sr-only">About</h2>
+
+    {/* The only page where the photo appears. */}
+    <Media label={site.about.photo} ratio="4x3" class="about__photo" />
+
+    {
+      site.about.paragraphs.length > 0 && (
+        <div class="about__prose">
+          {site.about.paragraphs.map((p) => (
+            <p>
+              <strong class="about__lead">{p.lead}</strong> <span class="muted">{p.body}</span>
+            </p>
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  <CtaBand headline={site.cta.headline} button={site.cta.button} />
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .about__prose {
+    display: grid;
+    gap: var(--sp-3);
+    max-width: 62ch;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  .about__lead {
+    font-weight: 600;
+    color: var(--text);
+  }
+</style>

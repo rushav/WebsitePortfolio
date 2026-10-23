@@ -1,0 +1,283 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../content/site';
+import type { Project } from '../../content/site';
+import { url } from '../../lib/url';
+import Media from '../../components/Media.astro';
+import StatTiles from '../../components/StatTiles.astro';
+import Icon from '../../components/Icon.astro';
+
+export function getStaticPaths() {
+  return site.projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      prev: site.projects[i - 1] ?? null,
+      next: site.projects[i + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  project: Project;
+  prev: Project | null;
+  next: Project | null;
+}
+const { project, prev, next } = Astro.props;
+
+const meta = [
+  { label: 'Role', value: project.role },
+  { label: 'Team', value: project.team },
+  { label: 'Timeline', value: project.timeline },
+  { label: 'Stack', value: project.stack },
+];
+
+const blocks = [
+  { label: 'Problem', body: project.problem },
+  { label: 'Approach', body: project.approach },
+  { label: 'My contribution', body: project.contribution },
+];
+
+const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'play', external: 'external' } as const;
+---
+
+<BaseLayout title={project.title} description={project.summary} headline={site.headline}>
+  <StatTiles slot="sidebar" stats={project.stats} category={project.category} />
+
+  <article class="project">
+    <header class="project__head" data-reveal>
+      <p class="label">{project.eyebrow}</p>
+      <h2 class="project__title">{project.title}</h2>
+      <p class="project__summary muted">{project.summary}</p>
+    </header>
+
+    <div data-reveal>
+      <Media label={project.media.hero} src={project.media.cover} ratio="16x9" eager />
+    </div>
+
+    <dl class="project__meta" data-reveal>
+      {
+        meta.map((m) => (
+          <div class="meta">
+            <dt class="label">{m.label}</dt>
+            <dd class="project__meta-value">{m.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="project__blocks">
+      {
+        blocks.map((b) => (
+          <section class="meta project__block" aria-label={b.label} data-reveal>
+            <h3 class="label">{b.label}</h3>
+            <p class="project__body">{b.body}</p>
+          </section>
+        ))
+      }
+
+      {
+        project.results.length > 0 && (
+          <section class="meta project__block" aria-label="Results" data-reveal>
+            <h3 class="label">Results</h3>
+            <ul class="bullets">
+              {project.results.map((r) => (
+                <li>{r}</li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        project.links.length > 0 && (
+          <section class="meta project__block" aria-label="Links" data-reveal>
+            <h3 class="label">Links</h3>
+            <ul class="project__links">
+              {project.links.map((l) => (
+                <li>
+                  <a class="btn btn--surface" href={l.href} target="_blank" rel="noopener">
+                    <Icon name={linkIcon[l.kind]} size={14} />
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        project.media.gallery.length > 0 && (
+          <section class="meta project__block" aria-label="Gallery" data-reveal>
+            <h3 class="label">Gallery</h3>
+            <ul class="project__gallery">
+              {project.media.gallery.slice(0, 4).map((g) => (
+                <li>
+                  <Media label={g.alt} src={g.src} ratio="4x3" />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+
+    <nav class="pager" aria-label="Project navigation">
+      {
+        prev ? (
+          <a class="pager__link pager__link--prev card" href={url(`/projects/${prev.slug}/`)}>
+            <span class="label">
+              <Icon name="arrow-left" size={12} /> Previous
+            </span>
+            <span class="pager__title">{prev.title}</span>
+          </a>
+        ) : (
+          <a class="pager__link pager__link--prev card" href={url('/projects/')}>
+            <span class="label">
+              <Icon name="arrow-left" size={12} /> Back
+            </span>
+            <span class="pager__title">All projects</span>
+          </a>
+        )
+      }
+      {
+        next ? (
+          <a class="pager__link pager__link--next card" href={url(`/projects/${next.slug}/`)}>
+            <span class="label">
+              Next <Icon name="arrow-right" size={12} />
+            </span>
+            <span class="pager__title">{next.title}</span>
+          </a>
+        ) : (
+          <a class="pager__link pager__link--next card" href={url('/projects/')}>
+            <span class="label">
+              All <Icon name="arrow-right" size={12} />
+            </span>
+            <span class="pager__title">All projects</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .project {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .project__head {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .project__title {
+    font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.25rem);
+    font-weight: 500;
+    letter-spacing: var(--ls-display);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .project__summary {
+    max-width: 60ch;
+    font-size: 1.0625rem;
+  }
+
+  .project__meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--sp-3);
+    margin: 0;
+    padding-block: var(--sp-3);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project__meta-value {
+    margin: 0;
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .project__blocks {
+    display: grid;
+    gap: var(--sp-6);
+  }
+
+  .project__body {
+    max-width: 64ch;
+  }
+
+  .project__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: var(--sp-4);
+  }
+
+  .pager__link {
+    display: grid;
+    gap: 0.375rem;
+    padding: 1rem 1.125rem;
+    min-width: 0;
+  }
+
+  .pager__link .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .pager__link--next {
+    text-align: right;
+  }
+
+  .pager__link--next .label {
+    justify-content: flex-end;
+  }
+
+  .pager__title {
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: var(--ls-tight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .project__meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 420px) {
+    .pager {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pager__link--next {
+      text-align: left;
+    }
+
+    .pager__link--next .label {
+      justify-content: flex-start;
+    }
+  }
+</style>

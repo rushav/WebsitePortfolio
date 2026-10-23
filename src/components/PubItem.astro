@@ -1,0 +1,80 @@
+---
+import type { Publication } from '../content/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  item: Publication;
+}
+const { item } = Astro.props;
+---
+
+<article class="pub">
+  <span class="chip pub__badge">{item.badge}</span>
+  <div class="pub__text">
+    <h3 class="pub__title">
+      <a class="link" href={item.link.href} target="_blank" rel="noopener">{item.title}</a>
+    </h3>
+    <p class="pub__venue muted">
+      {item.venue}
+      <span class="pub__sep" aria-hidden="true">·</span>
+      <span class="mono">{item.year}</span>
+    </p>
+  </div>
+  <a class="pub__link btn btn--surface" href={item.link.href} target="_blank" rel="noopener">
+    {item.link.label}
+    <Icon name="arrow-up-right" size={13} />
+  </a>
+</article>
+
+<style>
+  .pub {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sp-2);
+    padding-block: var(--sp-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .pub:last-child {
+    padding-bottom: 0;
+  }
+
+  .pub__badge {
+    min-width: 4.5rem;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-label);
+  }
+
+  .pub__title {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    letter-spacing: var(--ls-tight);
+    line-height: 1.4;
+  }
+
+  .pub__venue {
+    font-size: var(--fs-small);
+  }
+
+  .pub__venue .mono {
+    font-size: var(--fs-label);
+  }
+
+  .pub__sep {
+    margin-inline: 0.375rem;
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 560px) {
+    .pub {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .pub__link {
+      grid-column: 2;
+      justify-self: start;
+    }
+  }
+</style>

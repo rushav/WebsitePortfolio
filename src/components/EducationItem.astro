@@ -1,0 +1,78 @@
+---
+import type { Education } from '../content/site';
+
+interface Props {
+  item: Education;
+}
+const { item } = Astro.props;
+---
+
+<article class="edu">
+  <div class="media media--1x1 edu__logo" role="img" aria-label={`Placeholder: ${item.logo}`}>
+    <span class="media__label edu__logo-label">{item.logo}</span>
+  </div>
+  <div class="edu__text">
+    <h3 class="edu__inst">{item.institution}</h3>
+    <p class="edu__degree muted">{item.degree}</p>
+  </div>
+  <p class="edu__years mono muted">
+    {item.start} <span aria-hidden="true">–</span><span class="sr-only">to</span> {item.end}
+  </p>
+</article>
+
+<style>
+  .edu {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sp-2);
+    padding-block: var(--sp-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .edu:last-child {
+    padding-bottom: 0;
+  }
+
+  .edu__logo {
+    width: 56px;
+    border-radius: 12px;
+  }
+
+  .edu__logo::before {
+    inset: 5px;
+    border-radius: 8px;
+  }
+
+  .edu__logo-label {
+    font-size: 8px;
+    padding: 0;
+    letter-spacing: 0.04em;
+  }
+
+  .edu__inst {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    letter-spacing: var(--ls-tight);
+    line-height: 1.4;
+  }
+
+  .edu__degree {
+    font-size: var(--fs-small);
+  }
+
+  .edu__years {
+    font-size: var(--fs-label);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .edu {
+      grid-template-columns: 56px minmax(0, 1fr);
+    }
+
+    .edu__years {
+      grid-column: 2;
+    }
+  }
+</style>

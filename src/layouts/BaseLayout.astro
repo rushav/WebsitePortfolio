@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import { site } from '../content/site';
+import Frame from '../components/Frame.astro';
+// Preload the three fonts used above the fold so text paints in the web font
+// on first render instead of swapping in later.
+import inter400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
+import inter500 from '@fontsource/inter/files/inter-latin-500-normal.woff2?url';
+import mono400 from '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url';
+
+interface Props {
+  /** Page <title>. The site name is appended automatically. */
+  title: string;
+  description?: string;
+  /** Sidebar headline lines (3 on most pages, 2 on About). */
+  headline: string[];
+  /** Enable the avatar slot in the sidebar identity block (About only). */
+  showAvatar?: boolean;
+}
+
+const { title, description = site.seo.description, headline, showAvatar = false } = Astro.props;
+const fullTitle = `${title} · ${site.name}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f4f4f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/favicon.svg`} type="image/svg+xml" />
+    <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter500} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={mono400} as="font" type="font/woff2" crossorigin />
+
+    {/* Set the theme before first paint so there is no flash on load. */}
+    <script is:inline>
+      (function () {
+        var t = null;
+        try {
+          t = localStorage.getItem('theme');
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Frame headline={headline} showAvatar={showAvatar}>
+      <slot name="sidebar" slot="sidebar" />
+      <slot />
+    </Frame>
+    <script>
+      import '../scripts/theme';
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+---
+/**
+ * Media slot at a fixed aspect ratio. The container owns the radius and
+ * overflow; the image is object-fit: cover, so the source's intrinsic size
+ * never sets the box (off-ratio sources are centre-cropped, not letterboxed).
+ *  - With `src`: an Astro <Image> with responsive WebP variants and `label` as alt.
+ *  - Without `src`: grey placeholder box, dashed inner outline, mono label.
+ */
+import { Image } from 'astro:assets';
+import { asset } from '../lib/covers';
+
+interface Props {
+  label: string;
+  /** Content path under src/assets/, e.g. `/projects/vespr/cover.jpg`. */
+  src?: string;
+  ratio?: '16x9' | '4x3' | '1x1';
+  class?: string;
+  /** Set on the single above-the-fold image so it is not lazy-loaded. */
+  eager?: boolean;
+  /** `sizes` attribute for the responsive srcset. */
+  sizes?: string;
+}
+const {
+  label,
+  src,
+  ratio = '16x9',
+  class: className,
+  eager = false,
+  sizes = '(min-width: 901px) min(880px, calc(100vw - 464px)), calc(100vw - 40px)',
+} = Astro.props;
+const image = src ? asset(src) : undefined;
+---
+
+{
+  image ? (
+    <div class:list={['media', `media--${ratio}`, 'media--img', className]}>
+      <Image
+        src={image}
+        alt={label}
+        widths={[480, 800, 1200, 1600]}
+        sizes={sizes}
+        format="webp"
+        quality={82}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    </div>
+  ) : (
+    <div class:list={['media', `media--${ratio}`, className]} role="img" aria-label={`Placeholder: ${label}`}>
+      <span class="media__label">{label}</span>
+    </div>
+  )
+}
+
+<style>
+  .media--img::before {
+    display: none;
+  }
+
+  .media--img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+</style>

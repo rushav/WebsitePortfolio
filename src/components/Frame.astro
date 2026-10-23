@@ -1,0 +1,83 @@
+---
+/**
+ * The rounded white frame + two-column grid.
+ * Desktop: sticky sidebar (left) + scrolling content (right).
+ * Below 900px: sidebar collapses to a top header (nav + headline) and the
+ * identity block moves into the footer.
+ */
+import Sidebar from './Sidebar.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  headline: string[];
+  showAvatar?: boolean;
+}
+
+const { headline, showAvatar = false } = Astro.props;
+---
+
+<div class="frame">
+  <div class="frame__grid">
+    <Sidebar headline={headline} showAvatar={showAvatar}>
+      <slot name="sidebar" />
+    </Sidebar>
+    <main id="main" class="frame__main" tabindex="-1">
+      <slot />
+    </main>
+  </div>
+  <Footer />
+</div>
+
+<style>
+  .frame {
+    max-width: 1280px;
+    margin: var(--sp-3) auto;
+    padding: var(--frame-pad);
+    background: var(--bg-frame);
+    border: 1px solid var(--border);
+    border-radius: var(--r-frame);
+    box-shadow: var(--shadow-frame);
+    transition:
+      background-color var(--t-base) ease-out,
+      border-color var(--t-base) ease-out;
+  }
+
+  .frame__grid {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+    column-gap: clamp(var(--sp-6), 6vw, 6rem);
+  }
+
+  .frame__main {
+    min-width: 0;
+    padding-top: 0.25rem;
+  }
+
+  .frame__main:focus {
+    outline: none;
+  }
+
+  @media (max-width: 1100px) {
+    .frame__grid {
+      column-gap: var(--sp-6);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .frame {
+      margin: var(--sp-2) var(--sp-1);
+    }
+
+    .frame__grid {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--sp-6);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .frame {
+      margin: var(--sp-1);
+      border-radius: 20px;
+    }
+  }
+</style>
