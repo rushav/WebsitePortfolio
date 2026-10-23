@@ -29,6 +29,18 @@ export const categories: Category[] = [
   'Software & AI',
 ];
 
+/** A sponsoring organisation shown on the project page. `logo` is an SVG under public/sponsors/. */
+export interface Sponsor {
+  name: string;
+  logo: string;
+  href: string;
+}
+const UW: Sponsor = { name: 'University of Washington', logo: '/sponsors/uw.svg', href: 'https://www.washington.edu/' };
+const GIX: Sponsor = { name: 'Global Innovation Exchange', logo: '/sponsors/gix.svg', href: 'https://gix.uw.edu/' };
+const INTRINSIC: Sponsor = { name: 'Intrinsic', logo: '/sponsors/intrinsic.svg', href: 'https://www.intrinsic.ai/' };
+const GOOGLE: Sponsor = { name: 'Google', logo: '/sponsors/google.svg', href: 'https://www.google.com/' };
+const TMOBILE: Sponsor = { name: 'T-Mobile', logo: '/sponsors/tmobile.svg', href: 'https://www.t-mobile.com/' };
+
 export type SocialKind = 'github' | 'linkedin' | 'scholar' | 'mail';
 export type LinkKind = 'github' | 'paper' | 'demo' | 'video' | 'external';
 
@@ -68,6 +80,8 @@ export interface Project {
   /** Category eyebrow shown above the title, e.g. "Manipulation", "Perception". */
   eyebrow: string;
   title: string;
+  /** Sponsoring organisations, shown as logo tiles in the project page header. */
+  sponsors: Sponsor[];
   /** Primary filter category; drives the card tint and the /projects filter. */
   category: Category;
   /** Optional second category so the project also appears under that filter. */
@@ -255,6 +269,7 @@ export const site: Site = {
   projects: [
     {
       slug: 'vespr',
+      sponsors: [UW, GIX],
       eyebrow: 'GIX Capstone · In progress',
       title: 'VESPR — Bio-Inspired Autonomous Perching Drone',
       context: 'Project lead, team of 4 · 2026–27 · Vision-Enabled System for Perching and Reconnaissance',
@@ -286,6 +301,7 @@ export const site: Site = {
     },
     {
       slug: 'panoptes',
+      sponsors: [UW, GIX],
       eyebrow: 'Tooling · In progress',
       title: 'PANOPTES — Open-Source Linux Motion Capture',
       context: 'GIX · 2026 · OptiTrack Prime 13W',
@@ -320,6 +336,7 @@ export const site: Site = {
     },
     {
       slug: 'intrinsic-aic',
+      sponsors: [INTRINSIC, GOOGLE],
       eyebrow: 'Competition · Solo entry',
       title: 'Intrinsic AI Challenge — Fiber-Optic Connector Insertion',
       context: 'Intrinsic / Google DeepMind · Mar–May 2026 · UR5e in simulation',
@@ -358,6 +375,7 @@ export const site: Site = {
     },
     {
       slug: 'drunky',
+      sponsors: [UW, GIX],
       eyebrow: 'Course project · Team of 3',
       title: 'Drunky — Bimanual Vision-Servo Robot Bartender',
       context: 'GIX · Spring 2026 · Dual SO-101 arms',
@@ -394,6 +412,7 @@ export const site: Site = {
     },
     {
       slug: 'shoehugger',
+      sponsors: [UW, GIX],
       eyebrow: 'Course project · Team of 3',
       title: 'ShoeHugger — Autonomous Person-Following Robot',
       context: 'GIX TECHIN 516 · 2025 · TurtleBot3 Waffle',
@@ -422,6 +441,7 @@ export const site: Site = {
     },
     {
       slug: 'vitreaclear',
+      sponsors: [UW],
       eyebrow: 'B.S. Capstone · Patent pending',
       title: 'VitreaClear — Non-Invasive Ultrasound for Eye Floaters',
       context: 'UW Mechanical Engineering · 2025 · Project lead, team of 4',
@@ -451,6 +471,7 @@ export const site: Site = {
     },
     {
       slug: 'thoth',
+      sponsors: [TMOBILE],
       eyebrow: 'Hackathon · GIX × T-Mobile',
       title: 'Project Thoth — Multi-Agent SME Knowledge Capture',
       context: '2026 · Team of 4 · Selected to present to T-Mobile leadership',

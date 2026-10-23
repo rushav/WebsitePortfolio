@@ -93,3 +93,9 @@ Judgment calls made while filling the seven projects. Copy is from the project b
 - **Contrast check (WCAG, computed):** every text/bg pair is ≥ 7.0:1 in light and ≥ 6.75:1 in dark; tinted text on the page/card surfaces is ≥ 7.1:1 light and ≥ 7.3:1 dark. No pair needed adjusting. Lowest pairs: light `mech` text/bg 7.00:1; dark `perception` text/bg 6.75:1.
 - **Experience rule uses the category text colour** (not the bg tint) at 3px via an inset box-shadow so the border does not shift layout; the bg tints are too faint to read as a rule on the light surface.
 - **CTA headline is shared** by the home and About pages (one `site.cta`), so the new "flies, grips, or perches" line appears on both.
+
+## Project links and sponsor logos (2026-10-22)
+
+- **Links moved into the project header**, directly under the summary, as pill buttons. They used to sit in a "Links" block after Results, roughly 70% down the page, which read as missing.
+- **Sponsors** are a `sponsors: Sponsor[]` field per project rendered as white logo tiles (white in both themes, since the marks are drawn for white backgrounds) under a "Sponsored by" label in the header. Mapping: VESPR, PANOPTES, Drunky, ShoeHugger → UW + GIX; Intrinsic AI Challenge → Intrinsic + Google; VitreaClear → UW; Thoth → T-Mobile.
+- **Logo sources** (`public/sponsors/`): UW signature and T-Mobile 2022 mark from Wikimedia Commons; Google 2015 wordmark from Wikimedia Commons; Intrinsic wordmark from intrinsic.ai's site header; GIX wordmark cropped (viewBox only, no redraw) from the official UW+GIX primary lockup on gix.uw.edu, so the UW tile and the GIX tile don't both carry the UW signature. All are trademarks of their owners, used here to credit project sponsors.

@@ -49,6 +49,38 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
       <p class="label">{project.eyebrow}</p>
       <h2 class="project__title">{project.title}</h2>
       <p class="project__summary muted">{project.summary}</p>
+
+      {
+        project.links.length > 0 && (
+          <ul class="project__links" aria-label="Project links">
+            {project.links.map((l) => (
+              <li>
+                <a class="btn btn--surface" href={l.href} target="_blank" rel="noopener">
+                  <Icon name={linkIcon[l.kind]} size={14} />
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      {
+        project.sponsors.length > 0 && (
+          <div class="sponsors">
+            <span class="label">Sponsored by</span>
+            <ul class="sponsors__list">
+              {project.sponsors.map((s) => (
+                <li>
+                  <a class="sponsor" href={s.href} target="_blank" rel="noopener" title={s.name}>
+                    <img src={url(s.logo)} alt={s.name} loading="lazy" decoding="async" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
     </header>
 
     <div data-reveal>
@@ -83,24 +115,6 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
             <ul class="bullets">
               {project.results.map((r) => (
                 <li>{r}</li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
-
-      {
-        project.links.length > 0 && (
-          <section class="meta project__block" aria-label="Links" data-reveal>
-            <h3 class="label">Links</h3>
-            <ul class="project__links">
-              {project.links.map((l) => (
-                <li>
-                  <a class="btn btn--surface" href={l.href} target="_blank" rel="noopener">
-                    <Icon name={linkIcon[l.kind]} size={14} />
-                    {l.label}
-                  </a>
-                </li>
               ))}
             </ul>
           </section>
@@ -216,6 +230,41 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Sponsor logos sit on white tiles in both themes; the marks are drawn for white. */
+  .sponsors {
+    display: grid;
+    gap: 0.625rem;
+    margin-top: 0.75rem;
+  }
+
+  .sponsors__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sponsor {
+    display: inline-flex;
+    align-items: center;
+    height: 56px;
+    padding: 0 1.125rem;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--r-card);
+    transition: border-color var(--t-base) ease-out;
+  }
+
+  .sponsor:hover {
+    border-color: var(--border-strong);
+  }
+
+  .sponsor img {
+    height: 28px;
+    width: auto;
+    max-width: 200px;
   }
 
   .project__gallery {
