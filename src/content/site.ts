@@ -265,7 +265,7 @@ export const site: Site = {
       category: 'Mechanical Design',
       secondaryCategory: 'Autonomy & Navigation',
       tags: ['Mechanical Design', 'Onboard Autonomy', 'Computer Vision', 'ROS 2', 'Bio-Inspired', 'Pixhawk', 'Jetson'],
-      links: [],
+      links: [{ kind: 'github', label: 'GitHub', href: 'https://github.com/cidneyho/vespr' }],
       featured: true,
       media: {
         hero: 'VESPR perching drone with its bird-inspired perching leg',
@@ -295,7 +295,7 @@ export const site: Site = {
         'A Linux-native motion-capture pipeline on four OptiTrack Prime 13W cameras, built because the vendor software is Windows-only and closed. Hardware-synced 120 Hz capture with intrinsic calibration at 0.32–0.39 px RMS and bundle-adjusted extrinsics at 0.45 px RMS, used as ground truth for VESPR perch trajectories.',
       category: 'Perception',
       tags: ['Computer Vision', 'Calibration', 'OpenCV', 'Python', 'Linux', 'Ground Truth'],
-      links: [],
+      links: [{ kind: 'github', label: 'GitHub', href: 'https://github.com/rushav/Panoptes' }],
       featured: false,
       media: {
         hero: 'OptiTrack Prime 13W motion-capture cameras and the PANOPTES capture pipeline',
@@ -367,7 +367,7 @@ export const site: Site = {
         'Two 5-DoF SO-101 arms that find, grasp, and pour from miniature bottles on a shelf using a wrist-camera YOLO detector and a visual-servo alignment loop. Validated across a 480-trial grid at 62.7% success, with approach angle and occlusion isolated as the dominant failure drivers.',
       category: 'Manipulation',
       tags: ['Manipulation', 'Visual Servoing', 'ROS 2', 'MoveIt 2', 'YOLO', 'RealSense'],
-      links: [{ kind: 'github', label: 'GitHub', href: 'https://github.com/tonyechen/drunky_ros' }],
+      links: [{ kind: 'github', label: 'GitHub', href: 'https://github.com/tonyechen/drunky_ros#project-evolution--from-a-learned-policy-to-a-vision-servo-pipeline' }],
       featured: false,
       media: {
         hero: 'Two SO-101 robot arms grasping miniature bottles on a shelf',
