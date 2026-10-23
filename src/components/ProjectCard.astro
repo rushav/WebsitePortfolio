@@ -52,6 +52,21 @@ const sizes =
       </a>
     </h3>
     <p class="pc__context muted mono">{project.context}</p>
+    {
+      project.sponsors.length > 0 && (
+        <p class="pc__sponsors muted">
+          Sponsored by{' '}
+          {project.sponsors.map((s, i) => (
+            <>
+              {i > 0 && (i === project.sponsors.length - 1 ? ' and ' : ', ')}
+              <span class="pc__sponsor" style={`--sp-light:${s.color.light};--sp-dark:${s.color.dark}`} title={s.name}>
+                {s.short}
+              </span>
+            </>
+          ))}
+        </p>
+      )
+    }
     <p class="pc__desc muted">{project.description}</p>
 
     {
@@ -161,6 +176,21 @@ const sizes =
 
   .pc__context {
     line-height: 1.5;
+  }
+
+  /* "Sponsored by UW and GIX": names in the sponsor's brand colour, no logo. */
+  .pc__sponsors {
+    font-size: var(--fs-small);
+    line-height: 1.5;
+  }
+
+  .pc__sponsor {
+    font-weight: 600;
+    color: var(--sp-light);
+  }
+
+  :global([data-theme='dark']) .pc__sponsor {
+    color: var(--sp-dark);
   }
 
   .pc__desc {

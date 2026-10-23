@@ -29,17 +29,54 @@ export const categories: Category[] = [
   'Software & AI',
 ];
 
-/** A sponsoring organisation shown on the project page. `logo` is an SVG under public/sponsors/. */
+/**
+ * A sponsoring organisation. Project pages show `logo` (an SVG under
+ * public/sponsors/) on a white tile; cards show `short` in the brand `color`
+ * (a light-theme and a dark-theme value, each >= 4.5:1 on its surfaces).
+ */
 export interface Sponsor {
   name: string;
+  /** Short name for the "Sponsored by" line on cards. */
+  short: string;
   logo: string;
   href: string;
+  color: { light: string; dark: string };
 }
-const UW: Sponsor = { name: 'University of Washington', logo: '/sponsors/uw.svg', href: 'https://www.washington.edu/' };
-const GIX: Sponsor = { name: 'Global Innovation Exchange', logo: '/sponsors/gix.svg', href: 'https://gix.uw.edu/' };
-const INTRINSIC: Sponsor = { name: 'Intrinsic', logo: '/sponsors/intrinsic.svg', href: 'https://www.intrinsic.ai/' };
-const GOOGLE: Sponsor = { name: 'Google', logo: '/sponsors/google.svg', href: 'https://www.google.com/' };
-const TMOBILE: Sponsor = { name: 'T-Mobile', logo: '/sponsors/tmobile.svg', href: 'https://www.t-mobile.com/' };
+const UW: Sponsor = {
+  name: 'University of Washington',
+  short: 'UW',
+  logo: '/sponsors/uw.svg',
+  href: 'https://www.washington.edu/',
+  color: { light: '#4b2e83', dark: '#b9a7e6' },
+};
+const GIX: Sponsor = {
+  name: 'Global Innovation Exchange',
+  short: 'GIX',
+  logo: '/sponsors/gix.svg',
+  href: 'https://gix.uw.edu/',
+  color: { light: '#7a5c00', dark: '#fac800' },
+};
+const INTRINSIC: Sponsor = {
+  name: 'Intrinsic',
+  short: 'Intrinsic',
+  logo: '/sponsors/intrinsic.svg',
+  href: 'https://www.intrinsic.ai/',
+  color: { light: '#007a52', dark: '#00ffab' },
+};
+const GOOGLE: Sponsor = {
+  name: 'Google',
+  short: 'Google',
+  logo: '/sponsors/google.svg',
+  href: 'https://www.google.com/',
+  color: { light: '#1a5fc8', dark: '#8ab4f8' },
+};
+const TMOBILE: Sponsor = {
+  name: 'T-Mobile',
+  short: 'T-Mobile',
+  logo: '/sponsors/tmobile.svg',
+  href: 'https://www.t-mobile.com/',
+  color: { light: '#d1006b', dark: '#ff6fc0' },
+};
 
 export type SocialKind = 'github' | 'linkedin' | 'scholar' | 'mail';
 export type LinkKind = 'github' | 'paper' | 'demo' | 'video' | 'external';
