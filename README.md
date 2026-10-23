@@ -44,7 +44,7 @@ The projects index, filter chips, prev/next links and the home hero all update f
 
 Experience, education, skills, tech stack and publications are plain arrays in the same file. Add or remove entries; an empty array hides that section.
 
-Project covers live at `src/assets/projects/<slug>/cover.jpg` and gallery images at `gallery-01.jpg`, `gallery-02.jpg`, …; point `media.cover` and `media.gallery[].src` at them as `/projects/<slug>/<file>`. Astro generates responsive WebP variants at build time. Any media slot without a `src` (the About photo, avatar, education logos) still renders a dashed placeholder label such as `[[LOGO 1:1]]`.
+Project covers live at `src/assets/projects/<slug>/cover.jpg` and gallery images at `gallery-01.jpg`, `gallery-02.jpg`, …; point `media.cover` and `media.gallery[].src` at them as `/projects/<slug>/<file>`. Astro generates responsive WebP variants at build time. Education logos are SVGs under `public/sponsors/` referenced by `education[].logo`. The About photo and avatar slots still render a dashed placeholder label until a `src` is supplied.
 
 ## Publishing to GitHub Pages
 

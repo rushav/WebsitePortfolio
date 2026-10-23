@@ -1,5 +1,6 @@
 ---
 import type { Education } from '../content/site';
+import { url } from '../lib/url';
 
 interface Props {
   item: Education;
@@ -8,9 +9,10 @@ const { item } = Astro.props;
 ---
 
 <article class="edu">
-  <div class="media media--1x1 edu__logo" role="img" aria-label={`Placeholder: ${item.logo}`}>
-    <span class="media__label edu__logo-label">{item.logo}</span>
-  </div>
+  {/* White tile in both themes: institution marks are drawn for white. */}
+  <span class="edu__logo">
+    <img src={url(item.logo)} alt={item.institution} loading="lazy" decoding="async" />
+  </span>
   <div class="edu__text">
     <h3 class="edu__inst">{item.institution}</h3>
     <p class="edu__degree muted">{item.degree}</p>
@@ -35,19 +37,19 @@ const { item } = Astro.props;
   }
 
   .edu__logo {
+    display: grid;
+    place-items: center;
     width: 56px;
+    height: 56px;
+    background: #ffffff;
+    border: 1px solid var(--border);
     border-radius: 12px;
   }
 
-  .edu__logo::before {
-    inset: 5px;
-    border-radius: 8px;
-  }
-
-  .edu__logo-label {
-    font-size: 8px;
-    padding: 0;
-    letter-spacing: 0.04em;
+  .edu__logo img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
   }
 
   .edu__inst {

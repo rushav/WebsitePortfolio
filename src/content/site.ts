@@ -9,7 +9,7 @@
 // Dates are written `MMM YYYY`. Anything NOT in brackets (e.g. link
 // `kind`, `featured: true`) is configuration, not content.
 //
-// Status: everything is filled except the photo, avatar and education-logo
+// Status: everything is filled except the About photo and avatar media slots.
 // media slots.
 //
 // To add a project, copy one of the objects in `projects` below, change its
@@ -136,7 +136,7 @@ export interface Education {
   degree: string;
   start: string;
   end: string;
-  /** Media placeholder label for the 56x56 logo tile. */
+  /** Logo SVG under public/, e.g. `/sponsors/uw-w.svg`, shown on a white 56x56 tile. */
   logo: string;
 }
 
@@ -563,14 +563,14 @@ export const site: Site = {
       degree: 'M.S. Technology Innovation (Robotics) · Global Innovation Exchange',
       start: '2025',
       end: '2027',
-      logo: '[[LOGO 1:1]]',
+      logo: '/sponsors/uw-w.svg',
     },
     {
       institution: 'University of Washington',
       degree: 'B.S. Mechanical Engineering',
       start: '2021',
       end: '2025',
-      logo: '[[LOGO 1:1]]',
+      logo: '/sponsors/uw-w.svg',
     },
   ],
 
