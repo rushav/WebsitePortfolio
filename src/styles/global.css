@@ -185,31 +185,11 @@ a {
   margin-bottom: var(--sp-4);
 }
 
-/* ---------- Entrance motion ----------
-   Sections fade + rise 8px on first intersection (src/scripts/reveal.ts).
-   `.reveal` is only applied when JS runs, so no-JS users see everything. */
-.reveal {
-  opacity: 0;
-  transform: translateY(8px);
-  transition:
-    opacity 500ms var(--ease-out),
-    transform 500ms var(--ease-out);
-}
-
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
+/* Entrance motion lives in the "Motion pass" block at the end of this file. */
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
 
   *,
@@ -436,4 +416,352 @@ a.card:hover,
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* =========================================================================
+   Motion pass. Transforms and opacity only; everything below is gated by JS
+   (classes/attributes it adds) or the reduced-motion block at the end.
+   ========================================================================= */
+
+/* ---------- Flock canvas ----------
+   Fixed, full viewport, behind the content: the frame's content layers get
+   z-index 1 so agents fly over the page background and the frame surface but
+   under cards and text. */
+.flock {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.frame__grid,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Hero entrance (first load of the session, home only) ----------
+   `html.enter` is set by the inline script in BaseLayout before paint. */
+@keyframes headline-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+html.enter .headline__line {
+  animation: headline-in 600ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+/* Availability dot: one soft ring after the headline, then a very slow
+   ambient pulse every ~4s. */
+@keyframes avail-ring {
+  from {
+    opacity: 0.8;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes avail-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  18% {
+    opacity: 0.45;
+  }
+  45%,
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+/* ---------- Scroll reveals ----------
+   `.reveal` is only applied by JS (src/scripts/reveal.ts), so no-JS users
+   see everything. Items that enter together get `--d` for the stagger. The
+   classes are removed after the entrance so hover transitions take over. */
+.reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 500ms var(--ease-out) var(--d, 0ms),
+    transform 600ms var(--ease-out) var(--d, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Project covers settle from 1.04 to 1 inside their clipped media box. */
+.reveal .media--img img {
+  transform: scale(1.04);
+  transition: transform 900ms var(--ease-out) var(--d, 0ms);
+}
+
+.reveal.is-visible .media--img img {
+  transform: none;
+}
+
+/* ---------- Experience timeline ----------
+   A 1px rule in the gutter left of the list; the accent rule draws down over
+   it from scroll progress (`--tl`, set by src/scripts/timeline.ts). */
+[data-timeline] {
+  position: relative;
+}
+
+[data-timeline]::before,
+[data-timeline]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1rem;
+  width: 1px;
+  pointer-events: none;
+}
+
+[data-timeline]::before {
+  background: var(--border-strong);
+}
+
+[data-timeline]::after {
+  background: var(--accent);
+  transform-origin: top;
+  transform: scaleY(var(--tl, 0));
+}
+
+/* ---------- Nav pill ----------
+   One pill (created by src/scripts/nav.ts) slides between links; the links
+   themselves drop their own active background once it exists. */
+.nav__pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--r-chip);
+  background: var(--surface);
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    transform 300ms var(--ease-out),
+    width 300ms var(--ease-out),
+    height 300ms var(--ease-out),
+    background-color var(--t-fast) ease-out;
+}
+
+.nav__pill.no-anim {
+  transition: none;
+}
+
+.nav__list.has-pill .nav__link {
+  position: relative;
+  z-index: 1;
+}
+
+.nav__list.has-pill .nav__link.is-active {
+  background: transparent;
+}
+
+/* ---------- Tech-stack marquee ----------
+   Built by src/scripts/marquee.ts only when the chips wrap past one line. */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  gap: 0.5rem;
+  width: max-content;
+  animation: marquee var(--marquee-t, 40s) linear infinite;
+}
+
+.marquee__track > .chips {
+  flex: none;
+  flex-wrap: nowrap;
+}
+
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track,
+.marquee.is-off .marquee__track,
+.marquee.is-paused .marquee__track {
+  animation-play-state: paused;
+}
+
+/* Temporary state while JS re-measures the plain list on resize. */
+.marquee.is-measuring {
+  overflow: visible;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.marquee.is-measuring .marquee__track {
+  display: block;
+  animation: none;
+}
+
+.marquee.is-measuring .chips {
+  flex-wrap: wrap;
+}
+
+.marquee.is-measuring .chips[aria-hidden] {
+  display: none;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(calc(-50% - 0.25rem));
+  }
+}
+
+/* ---------- /projects filter (View Transitions) ----------
+   Leaving cards fade and scale to 0.96; staying cards slide to their slot. */
+.pc {
+  view-transition-class: pc;
+}
+
+@keyframes vt-card-out {
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes vt-card-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+html.vt-filter::view-transition-old(.pc):only-child {
+  animation: vt-card-out 200ms var(--ease-hover) both;
+}
+
+html.vt-filter::view-transition-new(.pc):only-child {
+  animation: vt-card-in 250ms var(--ease-out) both;
+}
+
+html.vt-filter::view-transition-group(.pc) {
+  animation-duration: 300ms;
+  animation-timing-function: var(--ease-out);
+}
+
+html.vt-filter::view-transition-old(root),
+html.vt-filter::view-transition-new(root) {
+  animation: none;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .flock {
+    display: none;
+  }
+
+  .reveal,
+  .reveal .media--img img {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  html.enter .headline__line,
+  .avail__dot::before,
+  .avail__dot::after,
+  .marquee__track {
+    animation: none !important;
+  }
+
+  .nav__pill {
+    transition: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ---------- Build sequence (src/scripts/build.ts) ----------
+   `html.is-building` is set before paint on the session's first load.
+   Buildable content keeps its layout but is held at opacity 0 until an agent
+   has drawn its box (`.is-built`). Containers that hold other targets (a card
+   with its image) hide only their own content. Without the class nothing here
+   applies, so no-JS users and repeat visits see everything. */
+.build-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+html.is-building [data-build]:not(.is-built):not(:has([data-build])),
+html.is-building [data-build]:has([data-build]):not(.is-built) > :not([data-build]) {
+  opacity: 0;
+}
+
+@keyframes build-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes build-wipe {
+  from {
+    clip-path: var(--wipe, inset(0 100% 0 0));
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+html.is-building [data-build].is-built:not(:has([data-build])),
+html.is-building [data-build]:has([data-build]).is-built > :not([data-build]) {
+  animation: build-in var(--build-ms, 350ms) var(--ease-out) both;
+}
+
+/* Images wipe in from the side the agent arrived from; text wipes top-down. */
+html.is-building [data-build^="img"].is-built:not(:has([data-build])) {
+  animation: build-wipe 450ms var(--ease-out) both;
+}
+
+html.is-building [data-build].build-text.is-built:not(:has([data-build])) {
+  animation: build-wipe var(--build-ms, 400ms) var(--ease-out) both;
+}
+
+/* While building, the agents draw the headline instead of the entrance
+   animation, and the availability ring waits for its strip to exist. */
+html.is-building .headline__line {
+  animation: none;
+}
+
+html.is-building.enter .avail__dot::after {
+  animation-delay: 1.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .build-canvas {
+    display: none;
+  }
+
+  html.is-building [data-build],
+  html.is-building [data-build] > * {
+    opacity: 1 !important;
+    animation: none !important;
+  }
 }

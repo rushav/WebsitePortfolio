@@ -29,15 +29,34 @@ const visibleTags = project.tags.length > MAX_TAGS ? project.tags.slice(0, MAX_T
 const hiddenCount = project.tags.length - visibleTags.length;
 
 const cats = [project.category, project.secondaryCategory].filter(Boolean).join('|');
+
+/* Optional hover loop: public/projects/<slug>/loop.mp4 (or .webm). The glob is
+   only used to learn which files exist at build time (nothing is imported);
+   when absent no <video> is rendered and hover does nothing extra. */
+const loops = import.meta.glob('/public/projects/*/loop.{mp4,webm}');
+const loopKey = Object.keys(loops).find((k) => k.startsWith(`/public/projects/${project.slug}/`));
+const loop = loopKey ? url(loopKey.replace(/^\/public/, '')) : undefined;
+
 const sizes =
   variant === 'hero'
     ? '(min-width: 901px) min(880px, calc(100vw - 464px)), calc(100vw - 40px)'
     : '(min-width: 901px) min(432px, calc(50vw - 232px)), (min-width: 641px) calc(50vw - 32px), calc(100vw - 40px)';
 ---
 
-<article class:list={['pc', `pc--${variant}`]} data-cats={cats} data-cat={catKey(project.category)}>
-  <a class="pc__media card" href={href} aria-label={`${project.title}: open project`} tabindex="-1">
+<article class:list={["pc", `pc--${variant}`]} data-cats={cats} data-cat={catKey(project.category)} data-card data-slug={project.slug} data-build="card">
+  {/* data-perch: flock agents may land on this top edge. transition:name: the cover morphs into the project page hero. */}
+  <a
+    class="pc__media card"
+    href={href}
+    aria-label={`${project.title}: open project`}
+    tabindex="-1"
+    data-card-media
+    data-perch
+    data-build="img 16:9"
+    transition:name={`cover-${project.slug}`}
+  >
     <Media label={project.media.hero} src={project.media.cover} ratio="16x9" eager={eager} sizes={sizes} />
+    {loop && <video class="pc__loop" data-card-loop src={loop} muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" />}
   </a>
 
   <div class="pc__body">
@@ -110,12 +129,53 @@ const sizes =
     height: 100%;
   }
 
-  /* The link owns the radius and clipping; Media sets the 16:9 box. */
+  /* The /projects filter toggles `hidden`; author `display: flex` would otherwise override it. */
+  .pc[hidden] {
+    display: none;
+  }
+
+  /* The link owns the radius and clipping; Media sets the 16:9 box.
+     Hover (whole card): the box lifts 2px (and tilts up to 2° toward a fine
+     pointer, src/scripts/cards.ts), the cover scales to 1.03 and the title
+     arrow nudges up-right. */
   .pc__media {
+    position: relative;
     display: block;
     flex: none;
     overflow: hidden;
     border-radius: var(--r-card);
+    transform-style: preserve-3d;
+    transition:
+      background-color var(--t-base) ease-out,
+      transform 400ms var(--ease-hover);
+  }
+
+  .pc:hover .pc__media {
+    transform: translateY(-2px);
+  }
+
+  .pc__media :global(img) {
+    transition: transform 400ms var(--ease-hover);
+  }
+
+  .pc:hover .pc__media :global(img) {
+    transform: scale(1.03);
+  }
+
+  /* Optional hover loop, crossfaded over the cover once it is really playing. */
+  .pc__loop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms var(--ease-hover);
+  }
+
+  .pc.is-playing .pc__loop {
+    opacity: 1;
   }
 
   .pc__body {
@@ -169,9 +229,9 @@ const sizes =
       color var(--t-base) ease-out;
   }
 
-  .pc__title-link:hover :global(.pc__arrow) {
+  .pc:hover :global(.pc__arrow) {
     color: var(--accent);
-    transform: translate(1px, -1px);
+    transform: translate(2px, -2px);
   }
 
   .pc__context {

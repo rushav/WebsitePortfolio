@@ -21,6 +21,10 @@
   --cta-bg: #1a1a1a;
   --cta-text: #ffffff;
 
+  /* Blueprint overlay drawn by the build sequence (src/scripts/build.ts). */
+  --build-line: rgba(47, 111, 235, 0.7);
+  --build-fill: rgba(47, 111, 235, 0.08);
+
   /* Category tints: one quiet family per content group. `bg` is for chip and
      icon-tile fills, `text` for the chip text, eyebrows, rules and stat figures.
      Every text/bg pair is >= 7:1 in both themes (see DECISIONS.md). */
@@ -73,7 +77,8 @@
   --sidebar-w: 320px;
 
   /* Motion */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* entrances */
+  --ease-hover: cubic-bezier(0.4, 0, 0.2, 1); /* hovers */
   --t-fast: 120ms;
   --t-base: 150ms;
 }
@@ -93,6 +98,8 @@
   --accent: #ff6a3d;
   --cta-bg: #f2f2f0;
   --cta-text: #111111;
+  --build-line: rgba(91, 141, 255, 0.7);
+  --build-fill: rgba(91, 141, 255, 0.08);
 
   /* Same hues as light; bg at 18% lightness, text at 75%. */
   --cat-autonomy-bg: #202e3c;

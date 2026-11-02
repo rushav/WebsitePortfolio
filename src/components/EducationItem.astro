@@ -8,7 +8,7 @@ interface Props {
 const { item } = Astro.props;
 ---
 
-<article class="edu">
+<article class="edu" data-build="item">
   {/* White tile in both themes: institution marks are drawn for white. */}
   <span class="edu__logo">
     <img src={url(item.logo)} alt={item.institution} loading="lazy" decoding="async" />

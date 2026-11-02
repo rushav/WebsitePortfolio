@@ -14,7 +14,7 @@ import CtaBand from '../components/CtaBand.astro';
 
     {
       site.about.paragraphs.length > 0 && (
-        <div class="about__prose">
+        <div class="about__prose" data-build="text">
           {site.about.paragraphs.map((p) => (
             <p>
               <strong class="about__lead">{p.lead}</strong> <span class="muted">{p.body}</span>

@@ -8,7 +8,7 @@ interface Props {
 const { item } = Astro.props;
 ---
 
-<article class="pub">
+<article class="pub" data-build="item">
   <span class="chip pub__badge">{item.badge}</span>
   <div class="pub__text">
     <h3 class="pub__title">

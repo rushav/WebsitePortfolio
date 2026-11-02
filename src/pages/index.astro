@@ -25,12 +25,13 @@ const rest = site.projects.filter((p) => !featured.includes(p));
     empty={featured.length === 0}
     action={site.projects.length > 1 ? { label: 'All projects', href: url('/projects/') } : undefined}
   >
-    <div class="featured">
+    {/* data-reveal-group: direct children reveal with a 60ms stagger (src/scripts/reveal.ts). */}
+    <div class="featured" data-reveal-group data-build-group>
       {featured.map((p) => <ProjectCard project={p} variant="hero" />)}
     </div>
     {
       rest.length > 0 && (
-        <div class="grid">
+        <div class="grid" data-reveal-group data-build-group>
           {rest.map((p) => (
             <ProjectCard project={p} variant="compact" />
           ))}
@@ -40,27 +41,32 @@ const rest = site.projects.filter((p) => !featured.includes(p));
   </Section>
 
   <Section id="experience" title="Experience" empty={site.experience.length === 0}>
-    <div class="list">
+    {/* data-timeline: gutter rule + scroll-drawn accent line (src/scripts/timeline.ts). */}
+    <div class="list" data-reveal-group data-timeline data-build-group>
       {site.experience.map((item) => <ExperienceItem item={item} />)}
     </div>
   </Section>
 
   <Section id="education" title="Education" empty={site.education.length === 0}>
-    <div class="list">
+    <div class="list" data-reveal-group data-build-group>
       {site.education.map((item) => <EducationItem item={item} />)}
     </div>
   </Section>
 
   <Section id="skills" title="Skills" empty={site.skills.length === 0}>
-    <SkillsGrid skills={site.skills} />
+    <div data-reveal>
+      <SkillsGrid skills={site.skills} />
+    </div>
   </Section>
 
   <Section id="stack" title="Tech stack" empty={site.tech.length === 0}>
-    <IconChipRow items={site.tech} />
+    <div data-reveal>
+      <IconChipRow items={site.tech} />
+    </div>
   </Section>
 
   <Section id="publications" title="Publications & talks" empty={site.publications.length === 0}>
-    <div class="list">
+    <div class="list" data-reveal-group data-build-group>
       {site.publications.map((item) => <PubItem item={item} />)}
     </div>
   </Section>

@@ -8,7 +8,7 @@ interface Props {
 const { item } = Astro.props;
 ---
 
-<article class="xp" data-cat={catKey(item.category)}>
+<article class="xp" data-cat={catKey(item.category)} data-build="item">
   <div class="xp__head">
     <div class="xp__titles">
       <h3 class="xp__role">{item.role}</h3>
@@ -46,13 +46,43 @@ const { item } = Astro.props;
 
 <style>
   .xp {
+    position: relative;
     display: grid;
     gap: var(--sp-2);
     padding-block: var(--sp-3);
     padding-left: var(--sp-2);
     border-top: 1px solid var(--border);
-    /* 3px rule keyed to the item's dominant category. */
-    box-shadow: inset 3px 0 0 var(--cat-text);
+  }
+
+  /* 3px rule keyed to the item's dominant category. A pseudo-element rather
+     than an inset shadow so the timeline can fade it in (opacity only). */
+  .xp::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--cat-text);
+    transition: opacity 400ms var(--ease-out);
+  }
+
+  /* Timeline (src/scripts/timeline.ts): until the progress line reaches the
+     item, its date and rule are held back; both tick in together. Only when
+     the list has `.tl-ready` (JS, not reduced motion), so no-JS users see all. */
+  :global(.tl-ready) > .xp:not(.is-lit)::before {
+    opacity: 0;
+  }
+
+  .xp__dates {
+    transition:
+      opacity 300ms var(--ease-out),
+      transform 300ms var(--ease-out);
+  }
+
+  :global(.tl-ready) > .xp:not(.is-lit) .xp__dates {
+    opacity: 0;
+    transform: translateY(4px);
   }
 
   .xp:last-child {

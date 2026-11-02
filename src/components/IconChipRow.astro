@@ -2,7 +2,8 @@
 /**
  * Wrapping row of tech chips, ordered by category family. The chip stays
  * neutral; only the leading dot carries the category tint, plus a 1px tinted
- * left rule on hover.
+ * left rule on hover. `data-marquee`: becomes a slow marquee only if the chips
+ * wrap past one line on the current viewport (src/scripts/marquee.ts).
  */
 import type { TechItem } from '../content/site';
 import { catKey } from '../lib/category';
@@ -16,7 +17,7 @@ const { items, label = 'Tech stack' } = Astro.props;
 
 {
   items.length > 0 && (
-    <ul class="chips chips--icons" aria-label={label}>
+    <ul class="chips chips--icons" aria-label={label} data-marquee data-build="chips">
       {items.map((t) => (
         <li class="chip chip--icon" data-cat={catKey(t.category)} title={t.category}>
           <span class="chip__icon" aria-hidden="true" />

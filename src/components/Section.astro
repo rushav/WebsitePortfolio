@@ -18,8 +18,9 @@ const headingId = `${id}-title`;
 
 {
   !empty && (
-    <section id={id} class:list={['section', className]} aria-labelledby={headingId} data-reveal>
-      <div class="section__head">
+    <section id={id} class:list={['section', className]} aria-labelledby={headingId}>
+      {/* The heading reveals on its own; the section's content handles its own reveal/stagger. */}
+      <div class="section__head" data-reveal data-build="h2">
         <h2 id={headingId} class="h2">
           {title}
         </h2>

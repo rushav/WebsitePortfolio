@@ -10,7 +10,8 @@ interface Props {
 const { headline, button } = Astro.props;
 ---
 
-<section class="cta section" aria-label="Get in touch" data-reveal>
+{/* data-perch="cta": the flock gathers into a slow orbit around this band while it is on screen. */}
+<section class="cta section" aria-label="Get in touch" data-reveal data-perch="cta" data-build="cta">
   <h2 class="cta__headline">{headline}</h2>
   <a class="cta__btn btn" href={button.href}>
     {button.label}

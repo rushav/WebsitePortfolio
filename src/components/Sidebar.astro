@@ -18,8 +18,9 @@ const pathname = Astro.url.pathname;
 
 <aside class="sidebar">
   <div class="sidebar__sticky">
-    <nav class="nav" aria-label="Primary">
-      <ul class="nav__list">
+    {/* Persisted across page navigations so the active pill can slide (src/scripts/nav.ts). */}
+    <nav class="nav" aria-label="Primary" transition:persist transition:name="nav" transition:animate="none" data-build="nav">
+      <ul class="nav__list" data-nav-list>
         {
           site.nav.map((item) => {
             const active = isActive(pathname, item.href);
@@ -42,15 +43,15 @@ const pathname = Astro.url.pathname;
       </div>
     </nav>
 
-    <h1 class="headline">
-      {headline.map((line, i) => <span class="headline__line" data-line={i + 1}>{line}</span>)}
+    <h1 class="headline" data-build-group>
+      {headline.map((line, i) => <span class="headline__line" data-line={i + 1} style={`--i:${i}`} data-build="h1">{line}</span>)}
     </h1>
 
     <div class="sidebar__extra">
       <slot />
     </div>
 
-    <div class="identity">
+    <div class="identity" data-build="identity">
       <SocialRow socials={site.socials} />
       <div class="identity__row">
         {
@@ -96,6 +97,7 @@ const pathname = Astro.url.pathname;
   }
 
   .nav__list {
+    position: relative; /* the sliding pill is positioned against this */
     display: flex;
     flex-wrap: wrap;
     gap: 0.125rem;

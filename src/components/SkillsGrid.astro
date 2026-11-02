@@ -17,9 +17,9 @@ const { skills } = Astro.props;
 
 {
   skills.length > 0 && (
-    <ul class="skills">
+    <ul class="skills" data-build-group>
       {skills.map((s) => (
-        <li class="skills__cell card" data-cat={catKey(s.category)}>
+        <li class="skills__cell card" data-cat={catKey(s.category)} data-build="cell">
           <span class="skills__icon" aria-hidden="true">
             <Icon name={s.icon as IconName} size={18} />
           </span>
@@ -56,6 +56,15 @@ const { skills } = Astro.props;
     border-radius: 10px;
     background: var(--cat-bg);
     color: var(--cat-text);
+    transition:
+      transform 200ms var(--ease-hover),
+      background-color 200ms var(--ease-hover);
+  }
+
+  /* Hover: the tile's tint deepens a touch and the icon rotates 6°. */
+  .skills__cell:hover .skills__icon {
+    transform: rotate(6deg);
+    background: color-mix(in srgb, var(--cat-bg) 88%, var(--cat-text));
   }
 
   .skills__text {

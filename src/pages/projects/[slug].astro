@@ -45,7 +45,7 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
   <StatTiles slot="sidebar" stats={project.stats} category={project.category} />
 
   <article class="project">
-    <header class="project__head" data-reveal>
+    <header class="project__head" data-reveal data-build="text">
       <p class="label">{project.eyebrow}</p>
       <h2 class="project__title">{project.title}</h2>
       <p class="project__summary muted">{project.summary}</p>
@@ -83,11 +83,12 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
       }
     </header>
 
-    <div data-reveal>
+    {/* Same transition:name as the card's media box, so the cover morphs from the card into this hero. */}
+    <div data-reveal transition:name={`cover-${project.slug}`} data-build="img 16:9">
       <Media label={project.media.hero} src={project.media.cover} ratio="16x9" eager />
     </div>
 
-    <dl class="project__meta" data-reveal>
+    <dl class="project__meta" data-reveal data-build="meta">
       {
         meta.map((m) => (
           <div class="meta">
@@ -101,7 +102,7 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
     <div class="project__blocks">
       {
         blocks.map((b) => (
-          <section class="meta project__block" aria-label={b.label} data-reveal>
+          <section class="meta project__block" aria-label={b.label} data-reveal data-build="text">
             <h3 class="label">{b.label}</h3>
             <p class="project__body">{b.body}</p>
           </section>
@@ -110,7 +111,7 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
 
       {
         project.results.length > 0 && (
-          <section class="meta project__block" aria-label="Results" data-reveal>
+          <section class="meta project__block" aria-label="Results" data-reveal data-build="text">
             <h3 class="label">Results</h3>
             <ul class="bullets">
               {project.results.map((r) => (

@@ -7,7 +7,7 @@ interface Props {
 const { from, location } = Astro.props;
 ---
 
-<p class="avail" data-reveal>
+<p class="avail" data-reveal data-build="status">
   <span class="avail__dot" aria-hidden="true"></span>
   <span class="avail__text">Available from {from}</span>
   <span class="avail__sep" aria-hidden="true">·</span>
@@ -30,11 +30,33 @@ const { from, location } = Astro.props;
   }
 
   .avail__dot {
+    position: relative;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--accent);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  /* Pulse rings (keyframes in global.css): one soft ring on the session's
+     first load (html.enter), then a very slow ambient pulse every ~4s. */
+  .avail__dot::before,
+  .avail__dot::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .avail__dot::before {
+    animation: avail-pulse 4s ease-in-out 2.4s infinite;
+  }
+
+  :global(html.enter) .avail__dot::after {
+    animation: avail-ring 900ms var(--ease-out) 600ms both;
   }
 
   .avail__text {

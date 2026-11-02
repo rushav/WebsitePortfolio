@@ -27,7 +27,7 @@ const filters = categories.filter((c) => used.has(c));
       )
     }
 
-    <div class="grid" data-project-grid>
+    <div class="grid" data-project-grid data-reveal-group data-build-group>
       {site.projects.map((p) => <ProjectCard project={p} variant="compact" />)}
     </div>
     <p class="empty mono muted" data-empty hidden>No projects in this category.</p>
@@ -86,30 +86,4 @@ const filters = categories.filter((c) => used.has(c));
   }
 </style>
 
-<script>
-  // Category filter: show/hide cards by data-cats (primary|secondary). Client-side only, no routing.
-  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
-  const grid = document.querySelector<HTMLElement>('[data-project-grid]');
-  const empty = document.querySelector<HTMLElement>('[data-empty]');
-
-  if (grid) {
-    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-cats]'));
-    for (const chip of chips) {
-      chip.addEventListener('click', () => {
-        const cat = chip.dataset.filter ?? '';
-        for (const c of chips) {
-          const on = c === chip;
-          c.classList.toggle('is-active', on);
-          c.setAttribute('aria-pressed', on ? 'true' : 'false');
-        }
-        let shown = 0;
-        for (const card of cards) {
-          const has = cat === '' || (card.dataset.cats ?? '').split('|').includes(cat);
-          card.hidden = !has;
-          if (has) shown++;
-        }
-        if (empty) empty.hidden = shown > 0;
-      });
-    }
-  }
-</script>
+{/* The category filter lives in src/scripts/filter.ts (loaded by BaseLayout) so it re-binds after client-side navigation. */}

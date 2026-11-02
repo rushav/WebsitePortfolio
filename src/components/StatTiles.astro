@@ -15,10 +15,16 @@ const { stats = [], category } = Astro.props;
 
 {
   stats.length > 0 && (
-    <dl class="stats" aria-label="Key results" data-cat={category ? catKey(category) : undefined}>
+    <dl class="stats" aria-label="Key results" data-cat={category ? catKey(category) : undefined} data-build-group>
       {stats.map((s) => (
-        <div class="stats__tile card">
-          <dd class="stats__value">{s.value}</dd>
+        <div class="stats__tile card" data-perch data-build="stat">
+          {/* Final value in the HTML for no-JS and screen readers; the visible copy counts up (src/scripts/counters.ts). */}
+          <dd class="stats__value">
+            <span class="sr-only">{s.value}</span>
+            <span aria-hidden="true" data-count-num>
+              {s.value}
+            </span>
+          </dd>
           <dt class="stats__label muted">
             <span>{s.label[0]}</span>
             <span>{s.label[1]}</span>

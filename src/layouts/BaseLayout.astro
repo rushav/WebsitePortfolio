@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import { site } from '../content/site';
 import Frame from '../components/Frame.astro';
 // Preload the three fonts used above the fold so text paints in the web font
@@ -51,16 +52,48 @@ const fullTitle = `${title} · ${site.name}`;
         document.documentElement.dataset.theme = t;
       })();
     </script>
+
+    {/* First load of the session, decided before paint so nothing flashes:
+        `enter` plays the hero entrance, `is-building` hides [data-build] content
+        until the flock has built it (src/scripts/build.ts). If that module never
+        reports in (`build-ok`) the hidden state is dropped after 3s. If
+        sessionStorage is unavailable the sequence simply plays. */}
+    <script is:inline>
+      (function () {
+        var h = document.documentElement;
+        try {
+          if (sessionStorage.getItem('entered')) return;
+          sessionStorage.setItem('entered', '1');
+        } catch (e) {}
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        h.classList.add('enter', 'is-building');
+        setTimeout(function () {
+          if (!h.classList.contains('build-ok')) h.classList.remove('is-building');
+        }, 3000);
+      })();
+    </script>
+
+    <ClientRouter />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    {/* Ambient flock (src/scripts/flock.ts). Persisted across page navigations so the agents keep flying. */}
+    <canvas class="flock" data-flock aria-hidden="true" transition:persist transition:name="flock" transition:animate="none"></canvas>
     <Frame headline={headline} showAvatar={showAvatar}>
       <slot name="sidebar" slot="sidebar" />
       <slot />
     </Frame>
     <script>
       import '../scripts/theme';
+      import '../scripts/nav';
+      import '../scripts/build'; // before reveal: it marks which elements the agents build
       import '../scripts/reveal';
+      import '../scripts/counters';
+      import '../scripts/timeline';
+      import '../scripts/cards';
+      import '../scripts/marquee';
+      import '../scripts/filter';
+      import '../scripts/flock';
     </script>
   </body>
 </html>
