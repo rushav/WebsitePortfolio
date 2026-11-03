@@ -1,6 +1,7 @@
 /**
- * Theme toggle. The initial theme is applied before paint by the inline
- * script in BaseLayout.astro; this module wires the button(s) by delegation
+ * Theme toggle. Light is the default for everyone; a saved choice (from this
+ * toggle, in localStorage) wins. The initial theme is applied before paint by
+ * the inline script in BaseLayout.astro; this module wires the button(s) by delegation
  * (the nav persists across view transitions, so no per-page re-binding) and
  * re-applies the stored theme after each client-side swap, because the router
  * replaces the <html> attributes with the new document's.
@@ -48,15 +49,9 @@ export function initTheme() {
     if ((e.target as Element).closest('[data-theme-toggle]')) apply(current() === 'dark' ? 'light' : 'dark', true);
   });
 
-  // Follow the OS if the user has never chosen explicitly.
-  const mq = window.matchMedia('(prefers-color-scheme: dark)');
-  mq.addEventListener('change', (e) => {
-    if (!stored()) apply(e.matches ? 'dark' : 'light', false);
-  });
-
   // The router swaps <html> attributes; put the theme back before paint.
   document.addEventListener('astro:after-swap', () => {
-    apply(stored() ?? (mq.matches ? 'dark' : 'light'), false);
+    apply(stored() ?? 'light', false);
   });
   document.addEventListener('astro:page-load', () => reflect(current()));
 }

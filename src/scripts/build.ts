@@ -70,6 +70,9 @@ let firstPending = 0;
 let io: IntersectionObserver | null = null;
 let startScroll = 0;
 let cleanups: (() => void)[] = [];
+let laterLeft = 0; // later-section elements not yet handed to the queue
+let lastDraw = 0; // performance.now() of the last overlay paint
+let watchdog = 0;
 
 const mobile = () => window.innerWidth < 768;
 
@@ -104,6 +107,7 @@ function refresh() {
   const f = document.querySelector('.frame');
   frame = f ? rectOf(f) : { x: 0, y: 0, w: vw, h: vh };
   for (const j of active) j.r = rectOf(j.el);
+  for (const j of queue) j.r = rectOf(j.el);
 }
 
 /** Point and edge direction at fraction q (0..1) clockwise from the top-left. */
@@ -157,8 +161,9 @@ function materialize(j: Job, side: Side) {
     el.style.setProperty('--wipe', wipe);
   } else if (j.kind === 'text') {
     // Line-by-line reads as a top-down wipe paced by the number of lines.
-    const lines = Math.max(1, Math.round(j.r.h / 24));
-    el.style.setProperty('--wipe', 'inset(0 0 100% 0)');
+    // Height is re-read here, after fonts, rather than trusted from enqueue time.
+    const lines = Math.max(1, Math.round(el.getBoundingClientRect().height / 24));
+    el.style.setProperty('--wipe', 'inset(-0.3em -0.3em 100% -0.3em)');
     el.style.setProperty('--build-ms', `${Math.min(900, 300 + lines * 110)}ms`);
     el.classList.add('build-text');
   }
@@ -303,6 +308,7 @@ function tick(dt: number, now: number) {
     }
   }
   for (const j of [...queue]) if (now > j.deadline) force(j);
+  if (!queue.length && !active.length && firstPending === 0 && laterLeft === 0) retire();
 }
 
 /* ---------- Drawing ---------- */
@@ -412,10 +418,14 @@ function drawWire(j: Job, now: number) {
 }
 
 function draw() {
-  if (!ctx) return;
+  if (!ctx || !canvas) return;
+  lastDraw = performance.now();
   ctx.clearRect(0, 0, vw, vh);
+  // Every wireframe, guide and label belongs to an active job; with none, the
+  // overlay is empty and faded out.
+  canvas.classList.toggle('is-idle', active.length === 0);
   if (active.length === 0) return;
-  const now = performance.now();
+  const now = lastDraw;
   for (const j of active) drawWire(j, now);
   for (const j of active) {
     if (!j.agent) continue;
@@ -455,11 +465,48 @@ function teardown() {
   ctx = null;
   queue = [];
   active = [];
+  laterLeft = 0;
+  clearInterval(watchdog);
+  watchdog = 0;
+}
+
+/** Everything on the page is built: fade the overlay out and remove it. */
+function retire() {
+  const c = canvas;
+  setPlugin(null);
+  io?.disconnect();
+  io = null;
+  clearInterval(watchdog);
+  watchdog = 0;
+  canvas = null;
+  ctx = null;
+  if (!c) return;
+  c.classList.add('is-idle');
+  setTimeout(() => c.remove(), 300);
+}
+
+/**
+ * The overlay is painted from the flock's frame loop. If that loop stops
+ * (tab hidden, reduced motion switched on mid-build), the last painted frame
+ * would stay on screen, so anything pending is finished and the overlay is
+ * cleared when no paint has happened for a while.
+ */
+function watch() {
+  watchdog = window.setInterval(() => {
+    if (!ctx || !canvas) return;
+    if (performance.now() - lastDraw < 500) return;
+    skipPending();
+    active = [];
+    ctx.clearRect(0, 0, vw, vh);
+    canvas.classList.add('is-idle');
+  }, 250);
 }
 
 async function start(firstEls: HTMLElement[], laterEls: HTMLElement[], budgetMs: number) {
-  // Rects are measured after the fonts are in, so no box is drawn at a stale size.
-  await Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, 400))]);
+  // Rects are measured after the fonts are in, so no box is drawn at a stale
+  // size; a face that lands later marks every rect for re-measurement.
+  await Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, 1200))]);
+  document.fonts?.addEventListener?.('loadingdone', () => (dirty = true));
   if (!isRunning()) {
     // No flock (no canvas / rAF): everything simply fades in.
     for (const el of [...firstEls, ...laterEls]) showNow(el);
@@ -476,6 +523,8 @@ async function start(firstEls: HTMLElement[], laterEls: HTMLElement[], budgetMs:
   }
   readColors();
   resize();
+  lastDraw = performance.now();
+  watch();
   window.addEventListener('resize', resize, { passive: true });
   window.addEventListener('scroll', () => (dirty = true), { passive: true });
   new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -504,6 +553,7 @@ async function start(firstEls: HTMLElement[], laterEls: HTMLElement[], budgetMs:
   // Later sections: built the first time they enter the viewport.
   if (laterEls.length && 'IntersectionObserver' in window) {
     const waiting = new Set(laterEls);
+    laterLeft = waiting.size;
     io = new IntersectionObserver(
       (entries) => {
         const batch = entries
@@ -514,6 +564,7 @@ async function start(firstEls: HTMLElement[], laterEls: HTMLElement[], budgetMs:
           io?.unobserve(el);
           waiting.delete(el);
         }
+        laterLeft = waiting.size;
         if (batch.length) enqueue(batch, performance.now() + SECTION_BUDGET_MS, false);
       },
       { threshold: 0.05 },
@@ -533,6 +584,7 @@ async function start(firstEls: HTMLElement[], laterEls: HTMLElement[], budgetMs:
           showNow(el);
         }
       }
+      laterLeft = waiting.size;
       if (waiting.size === 0) window.removeEventListener('scroll', onPass);
     };
     const onPass = () => {

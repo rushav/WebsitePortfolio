@@ -10,10 +10,11 @@ Judgment calls made while building the skeleton, plus notes for a recruiter-mind
 
 ## Layout
 
-- **Sidebar is 320px**, the top of the spec's 300–320 range, so `Home · Projects · About · Resume · toggle` fits on one row. At 300px the row wrapped.
+- **Sidebar is `clamp(260px, 22vw, 360px)`** (was a fixed 320px). Below ~1455px wide it is under 320px, so `Home · Projects · About · Resume · toggle` wraps to two rows; the headline scales with the sidebar (`min(--fs-display, sidebar / 6)`) so "Bio-inspired," stays on one line.
 - **No hamburger menu.** The nav is three short links, a Resume button and a toggle. Below 900px it stays as a wrapping row at the top of the page rather than collapsing behind a button. A recruiter on a phone sees "Resume" without tapping anything. If more links are added later, a disclosure button can be dropped into `Sidebar.astro`.
 - **Sticky sidebar height** is `100vh` minus frame padding, with the identity block pinned to the bottom with `margin-top: auto`. This matches Reference A's "identity at the bottom" feel without absolute positioning.
-- **Frame max width is 1280px.** Wider than that, the content column's line length gets uncomfortable.
+- **Frame fills the viewport** minus a `clamp(12px, 2vw, 32px)` gutter, with no max-width (was 1280px). Line length is held instead by capping running text at `--measure` (70ch); cards, grids and images use the full width. Project grids go to 3 columns at ≥1600px.
+- **Light theme by default for every visitor.** The OS `prefers-color-scheme` is not consulted; a choice made with the toggle is saved in `localStorage` and wins on later visits.
 - **Footer carries the identity block on mobile only.** On desktop it's hidden (it's in the sidebar); below 900px it shows. Social icons appear in both places on desktop by design: once near the name, once at the end of the page.
 - **Headline placeholders are deliberately short** (`[[What you build]]` etc.). The spec's longer descriptive placeholders wrapped to three lines *each* at 52px in a 320px column, which made the skeleton look broken. The guidance for each line is in a comment above the `headline` field in `site.ts`. Real lines should be roughly 12 characters.
 

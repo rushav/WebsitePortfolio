@@ -74,7 +74,9 @@
 
   --section-gap: var(--sp-12); /* 96px desktop */
   --frame-pad: var(--sp-6); /* 48px desktop */
-  --sidebar-w: 320px;
+  --sidebar-w: clamp(260px, 22vw, 360px);
+  --page-gutter: clamp(12px, 2vw, 32px); /* space between the frame and the viewport edge */
+  --measure: 70ch; /* max line length for running text inside the wide column */
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* entrances */

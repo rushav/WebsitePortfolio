@@ -78,6 +78,13 @@ video {
   max-width: 100%;
 }
 
+/* The content column is full width; running text keeps a readable measure.
+   Cards, grids and images are not capped, nor are one-line strips (the
+   availability line, mono metadata, labels, eyebrows). */
+.frame__main p:not(.avail, .mono, .label, .pc__eyebrow) {
+  max-width: var(--measure);
+}
+
 button {
   font: inherit;
   color: inherit;
@@ -707,6 +714,12 @@ html.vt-filter::view-transition-new(root) {
   width: 100%;
   height: 100%;
   pointer-events: none;
+  transition: opacity 250ms ease-out;
+}
+
+/* Nothing being built: the overlay fades out (build.ts toggles this). */
+.build-canvas.is-idle {
+  opacity: 0;
 }
 
 html.is-building [data-build]:not(.is-built):not(:has([data-build])),
@@ -730,6 +743,17 @@ html.is-building [data-build]:has([data-build]):not(.is-built) > :not([data-buil
   }
 }
 
+/* Text ends on a negative inset: glyphs (descenders, the display headline's
+   ink) overflow their line box, and an inset(0) end would crop them. */
+@keyframes build-wipe-text {
+  from {
+    clip-path: var(--wipe, inset(-0.3em -0.3em 100% -0.3em));
+  }
+  to {
+    clip-path: inset(-0.3em);
+  }
+}
+
 html.is-building [data-build].is-built:not(:has([data-build])),
 html.is-building [data-build]:has([data-build]).is-built > :not([data-build]) {
   animation: build-in var(--build-ms, 350ms) var(--ease-out) both;
@@ -737,11 +761,11 @@ html.is-building [data-build]:has([data-build]).is-built > :not([data-build]) {
 
 /* Images wipe in from the side the agent arrived from; text wipes top-down. */
 html.is-building [data-build^="img"].is-built:not(:has([data-build])) {
-  animation: build-wipe 450ms var(--ease-out) both;
+  animation: build-wipe 450ms var(--ease-out) backwards;
 }
 
 html.is-building [data-build].build-text.is-built:not(:has([data-build])) {
-  animation: build-wipe var(--build-ms, 400ms) var(--ease-out) both;
+  animation: build-wipe-text var(--build-ms, 400ms) var(--ease-out) backwards;
 }
 
 /* While building, the agents draw the headline instead of the entrance

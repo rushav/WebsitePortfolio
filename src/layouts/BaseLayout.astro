@@ -32,24 +32,23 @@ const fullTitle = `${title} · ${site.name}`;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f4f4f2" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)" />
+    {/* Light page background (--bg-page): every visitor opens in light. */}
+    <meta name="theme-color" content="#f4f4f2" />
     <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/favicon.svg`} type="image/svg+xml" />
     <link rel="preload" href={inter400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={inter500} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={mono400} as="font" type="font/woff2" crossorigin />
 
-    {/* Set the theme before first paint so there is no flash on load. */}
+    {/* Set the theme before first paint so there is no flash on load: the
+        visitor's saved choice if there is one, otherwise light. The OS
+        preference is deliberately not consulted. */}
     <script is:inline>
       (function () {
         var t = null;
         try {
           t = localStorage.getItem('theme');
         } catch (e) {}
-        if (t !== 'light' && t !== 'dark') {
-          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        document.documentElement.dataset.theme = t;
+        document.documentElement.dataset.theme = t === 'dark' ? 'dark' : 'light';
       })();
     </script>
 

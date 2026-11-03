@@ -84,7 +84,7 @@ const pathname = Astro.url.pathname;
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
-    min-height: calc(100vh - (var(--frame-pad) * 2) - (var(--sp-3) * 2));
+    min-height: calc(100vh - (var(--frame-pad) * 2) - (var(--page-gutter) * 2));
   }
 
   /* ---- Nav ---- */
@@ -137,7 +137,9 @@ const pathname = Astro.url.pathname;
 
   /* ---- Headline ---- */
   .headline {
-    font-size: var(--fs-display);
+    /* Scales down with the sidebar (min 260px) so "Bio-inspired," keeps to one
+       line instead of breaking at its hyphen; 52px from a ~312px sidebar up. */
+    font-size: min(var(--fs-display), calc(var(--sidebar-w) / 6));
     font-weight: 500;
     letter-spacing: var(--ls-display);
     line-height: 1.05;

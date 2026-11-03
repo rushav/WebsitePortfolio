@@ -30,8 +30,9 @@ const { headline, showAvatar = false } = Astro.props;
 
 <style>
   .frame {
-    max-width: 1280px;
-    margin: var(--sp-3) auto;
+    /* Full width: the viewport minus the page gutter on each side. No max-width;
+       running text is capped at var(--measure) instead (global.css). */
+    margin: var(--page-gutter);
     padding: var(--frame-pad);
     background: var(--bg-frame);
     border: 1px solid var(--border);
@@ -64,10 +65,6 @@ const { headline, showAvatar = false } = Astro.props;
   }
 
   @media (max-width: 900px) {
-    .frame {
-      margin: var(--sp-2) var(--sp-1);
-    }
-
     .frame__grid {
       grid-template-columns: minmax(0, 1fr);
       row-gap: var(--sp-6);
@@ -76,7 +73,6 @@ const { headline, showAvatar = false } = Astro.props;
 
   @media (max-width: 480px) {
     .frame {
-      margin: var(--sp-1);
       border-radius: 20px;
     }
   }

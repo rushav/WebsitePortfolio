@@ -26,7 +26,7 @@ const {
   ratio = '16x9',
   class: className,
   eager = false,
-  sizes = '(min-width: 901px) min(880px, calc(100vw - 464px)), calc(100vw - 40px)',
+  sizes = '(min-width: 901px) calc(72vw - 96px), calc(100vw - 64px)',
 } = Astro.props;
 const image = src ? asset(src) : undefined;
 ---
@@ -57,10 +57,14 @@ const image = src ? asset(src) : undefined;
     display: none;
   }
 
-  .media--img img {
+  /* :global so the rule doesn't depend on Astro's scope attribute reaching the
+     <img> that <Image> renders; max-width/height override the global img reset
+     and the width/height attributes, so the cover always fills its box. */
+  .media--img > :global(img) {
     position: absolute;
     inset: 0;
     width: 100%;
+    max-width: none;
     height: 100%;
     object-fit: cover;
     object-position: center;
