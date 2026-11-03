@@ -310,66 +310,133 @@ export const site: Site = {
       sponsors: [UW, GIX],
       eyebrow: 'GIX Capstone · In progress',
       title: 'VESPR — Bio-Inspired Autonomous Perching Drone',
-      context: 'Project lead, team of 4 · 2026–27 · Vision-Enabled System for Perching and Reconnaissance',
+      context: 'Team of 4 · 2026–27 · Vision-Enabled System for Perching and Reconnaissance',
+      // source: vespr/src/perch_eval/results/RESULTS.md:29 (8 h overnight run)
       description:
-        'A quadrotor with a bird-inspired, energy-storing perching leg that lets it land on branches and poles and hold position for hours without burning battery, aimed at wildfire reconnaissance for the WA Department of Natural Resources. I lead the mechanical design of the slow-charge / rapid-release claw and the onboard autonomy stack for vision-guided perching.',
+        'A quadrotor that has to find a branch, land on it and lock on with a non-backdrivable claw that holds at zero power, using only its own camera and computer: motion capture may grade the flight but is never allowed to steer it. I own the mechanical design, motion capture and evaluation, and so far have characterised the onboard D435i IMU from an 8-hour overnight Allan-variance run and built PANOPTES, the mocap system that will measure it.',
+      // source: vespr/src/perch_eval/results/RESULTS.md:29 (8 h overnight run)
       summary:
-        'A quadrotor with a bird-inspired, energy-storing perching leg that lets it land on branches and poles and hold position for hours without burning battery, aimed at wildfire reconnaissance for the WA Department of Natural Resources. I lead the mechanical design of the slow-charge / rapid-release claw and the onboard autonomy stack for vision-guided perching.',
+        'A quadrotor that has to find a branch, land on it and lock on with a non-backdrivable claw that holds at zero power, using only its own camera and computer: motion capture may grade the flight but is never allowed to steer it. I own the mechanical design, motion capture and evaluation, and so far have characterised the onboard D435i IMU from an 8-hour overnight Allan-variance run and built PANOPTES, the mocap system that will measure it.',
       category: 'Mechanical Design',
       secondaryCategory: 'Autonomy & Navigation',
-      tags: ['Mechanical Design', 'Onboard Autonomy', 'Computer Vision', 'ROS 2', 'Bio-Inspired', 'Pixhawk', 'Jetson'],
-      links: [{ kind: 'github', label: 'GitHub', href: 'https://github.com/cidneyho/vespr' }],
+      tags: ['Mechanical Design', 'ROS 2', 'PX4', 'State Estimation', 'Onboard Autonomy', 'Bio-Inspired', 'Jetson'],
+      links: [
+        { kind: 'github', label: 'GitHub (team repo)', href: 'https://github.com/cidneyho/vespr' },
+        // Absolute URL: links are rendered with the raw href (no base prefix), so a relative path would break under /WebsitePortfolio/.
+        { kind: 'external', label: 'Related: PANOPTES', href: 'https://rushav.github.io/WebsitePortfolio/projects/panoptes/' },
+      ],
       featured: true,
       media: {
         hero: 'VESPR perching drone with its bird-inspired perching leg',
         cover: '/projects/vespr/cover.jpg',
-        gallery: [],
+        gallery: [
+          {
+            src: '/projects/vespr/gallery-01.png',
+            alt: 'Allan deviation of the RealSense D435i gyroscope (x, y, z) from the 8-hour overnight run, measured curves with the fitted noise model',
+          },
+          {
+            src: '/projects/vespr/gallery-02.png',
+            alt: 'Allan deviation of the RealSense D435i accelerometer (x, y, z) from the 8-hour overnight run, measured curves with the fitted noise model',
+          },
+        ],
       },
-      role: 'Project lead · Mechanical lead · Motion-capture lead',
+      // VERIFY: "Project lead" not in repo; docs/system-map/README.md:27 lists Rushav as owner of mechanical, mocap, eval
+      role: 'Project lead · Mechanical, motion capture & evaluation',
       team: '4 (Rushav Dash, Cidney Ho, John Huang, Keochonodom Taing)',
+      // VERIFY: not found in repo (first commit 2026-10-08)
       timeline: 'Sep 2026 – Jun 2027',
-      stack: 'Holybro X500 V2, Pixhawk, NVIDIA Jetson, RealSense D435i, ROS 2, Onshape, FDM printing',
+      stack: 'Holybro X500 V2, Pixhawk 6C (PX4), Jetson Orin Nano, RealSense D435i, ESP32, ROS 2 Jazzy, Gazebo Harmonic, Onshape, FDM printing',
       problem:
-        "Fixed-position cameras and loitering drones both fail at long-duration wildfire watch: one can't move, the other can't stay up. No existing platform combines onboard vision-based perching with a passive, zero-power hold.",
+        // VERIFY: wildfire / WA DNR use case not found in repo (kept from the previous copy)
+        "Long-duration wildfire watch needs a camera that can both move and stay put: fixed cameras can't relocate and loitering drones can't stay up. VESPR's answer is to perch, which means finding and landing on a branch using only onboard sensing, and proving the onboard estimate is accurate against an independent measurement that never touches the flight loop.",
       approach:
-        'Elastic slow-charge / rapid-release perching leg (worm-gearmotor spring winding, two-pawl offset ratchet, Dynamixel hip) on a Holybro X500 V2 frame; vision-guided approach and perch sequence runs onboard.',
+        // VERIFY: repo (docs/system-map, synced 2026-10-19) describes an N20 lead-screw "handcuff" claw on an ESP32; the previous copy described a spring/ratchet/Dynamixel leg. Confirm which is current.
+        'Three computers split by timing: a Pixhawk 6C running PX4 flies; a Jetson Orin Nano running ROS 2 Jazzy sees the branch through a RealSense D435i and runs a 13-state perch cycle (search, approach, align, touchdown, grasp, motors off, release, climb out); an ESP32 drives N20 gearmotors that close a top-mounted, non-backdrivable claw with zero holding power. Motion capture feeds only an evaluator, and is phased out in stages so every reported result comes from vision-only flight.',
       contribution:
-        'Claw and leg mechanism design in parametric CAD (~90% finalized), flight platform build-up, custom prop guards, and the ground-truth motion-capture system used to validate perch trajectories (see PANOPTES).',
-      results: ['Flight platform built up.', 'Claw design ~90% finalized.', 'First perch tests scheduled.'],
+        // VERIFY: claw CAD, flight-platform build-up and prop guards are not in the repo; owner table lists Rushav for mechanical (docs/system-map/README.md:27)
+        'Mechanical design of the claw and leg, and the build-up of the flight platform. In the team repo I wrote the perch_eval package: a D435i IMU logger that timestamps every sample on the camera clock and catches counter wraps, silently dropped samples and clock jumps, plus an Allan-variance analysis that produced the noise parameters for the state estimator. I also built PANOPTES, the ground-truth mocap system, and own the planned vision-vs-mocap evaluator.',
+      results: [
+        // source: vespr/src/perch_eval/results/RESULTS.md:29-30
+        'Done: 8-hour overnight IMU characterisation on the Jetson (5,827,479 accel and 5,772,490 gyro samples), giving measured noise density, bias instability and random walk per axis.',
+        // source: vespr/src/perch_eval/results/RESULTS.md:46 and :49
+        'Done: found the IMU actually runs at 202.31 Hz (accel) against 200 Hz requested, and that 15 samples were lost inside the camera where frame counters cannot see them.',
+        'Done (team): PX4 SITL + Gazebo perch worlds, Jetson ↔ Pixhawk link over uXRCE-DDS, RealSense capture pipeline.',
+        // VERIFY: not found in repo (kept from the previous copy)
+        'Claw design ~90% finalized.',
+        'Planned: vision-guided perch flights, and the vision-vs-mocap accuracy, success-rate, energy and endurance numbers.',
+      ],
     },
     {
       slug: 'panoptes',
       sponsors: [UW, GIX],
       eyebrow: 'Tooling · In progress',
       title: 'PANOPTES — Open-Source Linux Motion Capture',
-      context: 'GIX · 2026 · OptiTrack Prime 13W',
+      // source: Panoptes/README.md:37 (10 cameras)
+      context: 'GIX · 2026 · 10× OptiTrack Prime 13W · Kinova Gen3',
+      // source: Panoptes/README.md:3 (ten cameras); Panoptes/docs/FINDINGS.md:33 (0.172 px RMS, 80 views, cx range 1.03 px over 3 sessions)
       description:
-        'A Linux-native motion-capture pipeline on four OptiTrack Prime 13W cameras, built because the vendor software is Windows-only and closed. Hardware-synced 120 Hz capture with intrinsic calibration at 0.32–0.39 px RMS and bundle-adjusted extrinsics at 0.45 px RMS, used as ground truth for VESPR perch trajectories.',
+        "A motion-capture system built from scratch for Linux on ten OptiTrack Prime 13W cameras, because the vendor's software is Windows-only and its Linux SDK stops at 2D blob centroids, leaving calibration, triangulation and pose to build on thinly documented hardware. I built all of it, including robot-arm-driven calibration on a Kinova Gen3 that fits a camera's intrinsics at 0.172 px RMS over 80 views, with the principal point repeating to 1.03 px across three sessions.",
+      // source: Panoptes/README.md:3 (ten cameras); Panoptes/docs/FINDINGS.md:33 (0.172 px RMS, 80 views, cx range 1.03 px over 3 sessions)
       summary:
-        'A Linux-native motion-capture pipeline on four OptiTrack Prime 13W cameras, built because the vendor software is Windows-only and closed. Hardware-synced 120 Hz capture with intrinsic calibration at 0.32–0.39 px RMS and bundle-adjusted extrinsics at 0.45 px RMS, used as ground truth for VESPR perch trajectories.',
+        "A motion-capture system built from scratch for Linux on ten OptiTrack Prime 13W cameras, because the vendor's software is Windows-only and its Linux SDK stops at 2D blob centroids, leaving calibration, triangulation and pose to build on thinly documented hardware. I built all of it, including robot-arm-driven calibration on a Kinova Gen3 that fits a camera's intrinsics at 0.172 px RMS over 80 views, with the principal point repeating to 1.03 px across three sessions.",
       category: 'Perception',
-      tags: ['Computer Vision', 'Calibration', 'OpenCV', 'Python', 'Linux', 'Ground Truth'],
+      tags: ['Calibration', 'Computer Vision', 'C++', 'OpenCV', 'Python', 'Linux', 'Ground Truth', 'Kinova Gen3'],
       links: [{ kind: 'github', label: 'GitHub', href: 'https://github.com/rushav/Panoptes' }],
       featured: false,
       media: {
         hero: 'OptiTrack Prime 13W motion-capture cameras and the PANOPTES capture pipeline',
         cover: '/projects/panoptes/cover.jpg',
-        gallery: [],
+        gallery: [
+          {
+            src: '/projects/panoptes/gallery-01.jpg',
+            alt: 'Kinova Gen3 arm holding a Prime 13W camera in front of the ChArUco board during an arm-driven intrinsics session, with the ceiling-mounted mocap cameras overhead',
+          },
+          {
+            src: '/projects/panoptes/gallery-02.jpg',
+            alt: 'Infrared grayscale frame from a Prime 13W camera showing the 12 × 9 ChArUco calibration board on an easel',
+          },
+          {
+            src: '/projects/panoptes/gallery-03.png',
+            alt: 'Predicted triangulation error map at perch height (z = 51.5 in) across the capture volume, with the perch box outlined',
+          },
+        ],
       },
       role: 'Sole developer',
+      // source: git shortlog -sn on rushav/Panoptes (all 16 commits by Rushav)
       team: 'Solo (within the VESPR team)',
-      timeline: '2026',
-      stack: 'Python, OpenCV, OptiTrack Prime 13W ×4, Linux',
-      problem: "Ground-truth drone trajectories for perch testing without the vendor's Windows-only, licensed software.",
+      // source: git log on rushav/Panoptes (first commit 2026-08-24)
+      timeline: 'Aug 2026 – present',
+      stack: 'C++17, Python, OpenCV 4.6 / 5.x, OptiTrack Camera SDK, Kinova Kortex API, CMake, Ubuntu 24.04',
+      problem:
+        "VESPR has to prove its onboard state estimate is accurate, which needs an independent ground truth that never enters the drone's control loop. OptiTrack's Motive only runs on Windows, and the Linux Camera SDK provides camera control, hardware frame sync and 2D blob centroids, nothing above that, with behaviour that has to be measured rather than read from docs.",
       approach:
-        'Direct camera capture over the network, hardware sync, OpenCV intrinsic calibration per camera, bundle-adjusted multi-camera extrinsics, marker triangulation.',
-      contribution: 'All of it.',
-      results: ['4 cameras synced at 120 Hz.', '0.32–0.39 px RMS intrinsics.', '0.45 px RMS extrinsics.'],
+        'A C++ library wraps every SDK quirk once, with one small tool per stage: discovery, streaming, ChArUco detection, capture and IR masking. Python (OpenCV 5) solves intrinsics and runs a DLT + Levenberg-Marquardt triangulator. A calibration is accepted on zero empty cells in a coverage grid rather than on RMS, and a Kinova Gen3 arm carries the camera through taught viewpoints so sessions repeat. A synthetic accuracy study checks the mounted layout before extrinsics exist.',
+      // source: git shortlog -sn on rushav/Panoptes
+      contribution: 'All of it: every commit in the repo is mine, from measuring the SDK’s undocumented behaviour through the arm-driven calibration.',
+      results: [
+        // source: Panoptes/docs/FINDINGS.md:38 (IR masks on all ten cameras, 0 residual sources)
+        'All ten cameras discovered and streaming blob centroids at once, with IR blocking masks learned on every camera (0 residual sources).',
+        // source: Panoptes/docs/FINDINGS.md:33 (0.172 px, 80 views; cx range 1.03 px; 2.4× tighter than hand-held)
+        'Arm-driven intrinsics: 0.172 px RMS over 80 views; principal point repeats to 1.03 px across 3 sessions, 2.4× tighter than hand-held.',
+        // source: Panoptes/docs/FINDINGS.md:40 (0.077 mm median perch box; 19% untriangulable)
+        'Synthetic accuracy study: 0.077 mm median triangulation floor at the perch, and 19% of the volume (top of the room) found untriangulable with the current aim.',
+        // VERIFY: not found in repo; hand-held sessions in Panoptes/docs/FINDINGS.md:494-496 are 0.359–0.383 px RMS
+        'Hand-held intrinsics: 0.32–0.39 px RMS.',
+        'Next: frame sync across cameras, extrinsics (wand + L-frame), marker labeling, rigid-body pose and streaming.',
+        // VERIFY: removed, contradicted by Panoptes/README.md:83 ("Not built yet": frame sync, extrinsics). Previous lines were:
+        //   '4 cameras synced at 120 Hz.'  (repo: 10 cameras; 120 Hz is the imager maximum, README.md:38)
+        //   '0.45 px RMS extrinsics.'
+      ],
       stats: [
-        { value: '120 Hz', label: ['hardware-synced', 'capture'] },
-        { value: '0.45 px', label: ['extrinsic RMS', 'reprojection'] },
-        { value: '4', label: ['Prime 13W', 'cameras'] },
-        { value: '0.32 px', label: ['best intrinsic', 'RMS'] },
+        { value: '10', label: ['Prime 13W', 'cameras'] }, // source: Panoptes/README.md:37
+        { value: '0.172 px', label: ['intrinsic RMS', '80 views'] }, // source: Panoptes/docs/FINDINGS.md:33
+        { value: '1.03 px', label: ['principal-point', 'repeatability'] }, // source: Panoptes/docs/FINDINGS.md:33
+        { value: '0.077 mm', label: ['synthetic triang.', 'floor at perch'] }, // source: Panoptes/docs/FINDINGS.md:40
+        // VERIFY: removed, contradicted by Panoptes/README.md:83 (sync and extrinsics not built):
+        //   { value: '120 Hz', label: ['hardware-synced', 'capture'] },
+        //   { value: '0.45 px', label: ['extrinsic RMS', 'reprojection'] },
+        //   { value: '4', label: ['Prime 13W', 'cameras'] },  (repo: 10)
+        //   { value: '0.32 px', label: ['best intrinsic', 'RMS'] },  (not found in repo)
       ],
     },
     {
