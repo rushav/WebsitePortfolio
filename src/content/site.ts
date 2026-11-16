@@ -232,6 +232,10 @@ export interface Site {
   seo: {
     description: string;
   };
+  analytics: {
+    /** Microsoft Clarity project ID. Loaded in production builds only (src/components/Analytics.astro). */
+    clarityId: string;
+  };
   cta: {
     headline: string;
     button: Link;
@@ -276,6 +280,9 @@ export const site: Site = {
   seo: {
     description:
       'Rushav Dash is a robotics and mechatronics engineer in Seattle focused on biomimicry and on-board autonomy. M.S. Technology Innovation (Robotics) and B.S. Mechanical Engineering, University of Washington.',
+  },
+  analytics: {
+    clarityId: 'zesfrgji1i',
   },
   cta: {
     headline: "Let's build something that flies, grips, or perches.",

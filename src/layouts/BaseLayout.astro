@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import { site } from '../content/site';
 import Frame from '../components/Frame.astro';
+import Analytics from '../components/Analytics.astro';
 // Preload the three fonts used above the fold so text paints in the web font
 // on first render instead of swapping in later.
 import inter400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
@@ -73,6 +74,7 @@ const fullTitle = `${title} · ${site.name}`;
     </script>
 
     <ClientRouter />
+    <Analytics />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

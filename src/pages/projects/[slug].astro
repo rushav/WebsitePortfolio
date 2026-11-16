@@ -52,7 +52,7 @@ const linkIcon = { github: 'github', paper: 'paper', demo: 'external', video: 'p
 
       {
         project.links.length > 0 && (
-          <ul class="project__links" aria-label="Project links">
+          <ul class="project__links" aria-label="Project links" data-slug={project.slug}>
             {project.links.map((l) => (
               <li>
                 <a class="btn btn--surface" href={l.href} target="_blank" rel="noopener">
